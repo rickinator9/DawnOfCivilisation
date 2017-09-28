@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Assets.Source.Model;
 using UnityEngine;
 
 namespace Assets.Source.Hex
@@ -19,7 +20,7 @@ namespace Assets.Source.Hex
             _mesh.name = "Hex Mesh";
         }
 
-        public void Triangulate(HexTile[] tiles)
+        public void Triangulate(IHexTile[] tiles)
         {
             foreach (var hexTile in tiles)
             {
@@ -35,14 +36,14 @@ namespace Assets.Source.Hex
             _colors.Clear();
         }
 
-        private void Triangulate(HexTile tile)
+        private void Triangulate(IHexTile tile)
         {
             var indexOffset = _vertices.Count;
 
             foreach (var corner in HexMetrics.Corners)
             {
-                _vertices.Add(corner + tile.Position);
-                _colors.Add(Color.blue);
+                _vertices.Add(corner + tile.Center);
+                _colors.Add(tile.Color);
             }
 
             _indices.Add(indexOffset + 0); _indices.Add(indexOffset + 1); _indices.Add(indexOffset + 2);

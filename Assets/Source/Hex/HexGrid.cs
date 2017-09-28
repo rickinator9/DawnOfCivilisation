@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Assets.Source.Model;
+using UnityEngine;
 
 namespace Assets.Source.Hex
 {
@@ -7,14 +8,12 @@ namespace Assets.Source.Hex
         public int Width, Height;
         public HexMesh Mesh;
 
-        public HexTile TilePrefab;
-
-        private HexTile[] _hexTiles;
+        private IHexTile[] _hexTiles;
         private Vector3[] _hexCorners;
 
         void Start()
         {
-            _hexTiles = new HexTile[Width * Height];
+            _hexTiles = new IHexTile[Width * Height];
             _hexCorners = new Vector3[Width * Height];
 
             for (var z = 0; z < Height; z++)
@@ -31,19 +30,16 @@ namespace Assets.Source.Hex
             Mesh.Triangulate(_hexTiles);
         }
 
-        private HexTile CreateTile(int x, int z)
+        private IHexTile CreateTile(int x, int z)
         {
-            var tile = Instantiate(TilePrefab);
-            tile.X = x;
-            tile.Z = z;
-            tile.Position = new Vector3(GetTileRealXIndex(x, z) * HexMetrics.InnerRadius*2, 0, z * HexMetrics.OuterRadius*1.5f); // TODO: Add Z offset.
+            var tile = new HexTile
+            {
+                TerrainType = HexTerrainType.Desert,
+                X = x,
+                Z = z
+            };
 
             return tile;
-        }
-
-        private float GetTileRealXIndex(int x, int z)
-        {
-            return z%2 == 0 ? x : x + 0.5f;
         }
     }
 }
