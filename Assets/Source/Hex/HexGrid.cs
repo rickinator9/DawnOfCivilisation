@@ -59,6 +59,23 @@ namespace Assets.Source.Hex
             Mesh.Triangulate(_hexTiles, this);
         }
 
+        void Update()
+        {
+            if (Input.GetMouseButtonDown(0))
+            {
+                var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+
+                RaycastHit rayHit;
+                if (Physics.Raycast(ray, out rayHit))
+                {
+                    var hitPosition = rayHit.point;
+
+                    var hexWidth = HexMetrics.InnerRadius*2;
+                    var hexHeight = HexMetrics.OuterRadius*1.5;
+                }
+            }
+        }
+
         public float[] GetElevationForTile(IHexTile tile)
         {
             var elevations = new float[HexMetrics.Corners.Length];

@@ -12,6 +12,7 @@ namespace Assets.Source.Hex
         public Texture2D Heightmap;
 
         private Mesh _mesh;
+        private MeshCollider _collider;
 
         private static IList<Vector3> _vertices = new List<Vector3>();
         private static IList<int> _indices = new List<int>(); 
@@ -22,6 +23,8 @@ namespace Assets.Source.Hex
         {
             _mesh = GetComponent<MeshFilter>().mesh = new Mesh();
             _mesh.name = "Hex Mesh";
+
+            _collider = gameObject.AddComponent<MeshCollider>();
         }
 
         public void Triangulate(IHexTile[] tiles, HexGrid grid)
@@ -34,6 +37,8 @@ namespace Assets.Source.Hex
             _mesh.vertices = _vertices.ToArray();
             _mesh.triangles = _indices.ToArray();
             _mesh.colors = _colors.ToArray();
+
+            _collider.sharedMesh = _mesh;
 
             _vertices.Clear();
             _indices.Clear();
@@ -52,7 +57,7 @@ namespace Assets.Source.Hex
                 var position = (HexVertexPosition) i;
                 var corner = HexMetrics.Corners[i];
                 var vertex = corner + tile.Center;
-                vertex.y = elevations[i];
+                //vertex.y = elevations[i];
 
                 _vertices.Add(vertex);
                 _colors.Add(tile.Color);
