@@ -10,7 +10,7 @@ namespace Assets.Source.Model
         public int Z { get; set; }
 
         private bool _centerInitialised = false;
-        private Vector3 _center = Vector3.zero;
+        private Vector3 _center;
         public Vector3 Center
         {
             get
@@ -33,5 +33,10 @@ namespace Assets.Source.Model
         }
 
         public HexTerrainType TerrainType { get; set; }
+
+        public override string ToString()
+        {
+            return string.Format("HexTile(X: {0}, Z: {1}): terrain: {2}.", X, Z, TerrainType);
+        }
     }
 }

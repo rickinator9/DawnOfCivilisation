@@ -226,6 +226,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad8edd13e4ad7e34d90f7a91bf2f563e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Heightmap: {fileID: 2800000, guid: 732f2a1b079885a4c88573664c1241d7, type: 3}
 --- !u!23 &1568940610
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -305,11 +306,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f9b134e7e4d65db47afdbd7cbc74bdea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Width: 2
-  Height: 3
+  Width: 1
+  Height: 2
   Mesh: {fileID: 1568940609}
-  TilePrefab: {fileID: 114720320613889654, guid: 42bdb6b06ef268d469f0f1abc1f79192,
-    type: 2}
+  Heightmap: {fileID: 2800000, guid: 732f2a1b079885a4c88573664c1241d7, type: 3}
 --- !u!4 &1767587869
 Transform:
   m_ObjectHideFlags: 0
