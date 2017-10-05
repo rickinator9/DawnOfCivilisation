@@ -69,9 +69,10 @@ namespace Assets.Source.Hex
                 if (Physics.Raycast(ray, out rayHit))
                 {
                     var hitPosition = rayHit.point;
+                    var coords = HexCoordinates.FromPosition(hitPosition).ToOffsetCoordinates();
 
-                    var hexWidth = HexMetrics.InnerRadius*2;
-                    var hexHeight = HexMetrics.OuterRadius*1.5;
+                    var tile = GetTileAtPosition(coords.X, coords.Z);
+                    Debug.Log("Hit HexTile " + tile);
                 }
             }
         }
@@ -97,14 +98,19 @@ namespace Assets.Source.Hex
             return elevations;
         }
 
+        private IHexTile GetTileAtPosition(int x, int z)
+        {
+            var index = z*Width + x;
+            return _hexTiles[index];
+        }
+
         private IHexTile CreateTile(int x, int z)
         {
             var terrain = EnumUtils.GetRandomValue<HexTerrainType>();
             var tile = new HexTile
             {
                 TerrainType = terrain,
-                X = x,
-                Z = z
+                Coordinates = HexCoordinates.FromOffsetCoordinates(x, z)
             };
 
             Debug.Log(tile);
@@ -135,7 +141,8 @@ namespace Assets.Source.Hex
             AddLeftColumn(tiles, vertices);
             foreach (var tile in tiles)
             {
-                if (!tile.Z.IsEven()) continue;
+                var coords = tile.Coordinates.ToOffsetCoordinates();
+                if (!coords.Z.IsEven()) continue;
                 AddTileVerticesToArray(tile, vertices);
             }
 
@@ -208,10 +215,12 @@ namespace Assets.Source.Hex
 
         private int GetStartIndexForTile(IHexTile tile)
         {
-            var x = tile.X;
-            var z = tile.Z.IsEven() ? tile.Z/2 : tile.Z;
+            var coords = tile.Coordinates.ToOffsetCoordinates();
 
-            var offset = !tile.Z.IsEven() ? -2 : 0;
+            var x = coords.X;
+            var z = coords.Z.IsEven() ? coords.Z/2 : coords.Z;
+
+            var offset = !coords.Z.IsEven() ? -2 : 0;
             return RowVertexCount*z + x + offset;
         }
     }

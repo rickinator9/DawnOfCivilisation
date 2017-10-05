@@ -4,9 +4,7 @@ namespace Assets.Source.Model
 {
     public interface IHexTile
     {
-        int X { get; set; }
-
-        int Z { get; set; }
+        HexCoordinates Coordinates { get; set; }
 
         Vector3 Center { get; }
 
