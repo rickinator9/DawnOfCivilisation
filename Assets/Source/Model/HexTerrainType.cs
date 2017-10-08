@@ -19,11 +19,11 @@ namespace Assets.Source.Model
             switch (type)
             {
                 case HexTerrainType.Desert:
-                    return Color.white;
+                    return new Color(1f, 1f, 0f); // Yellow
                 case HexTerrainType.Plain:
                     return Color.green;
                 case HexTerrainType.Mountain:
-                    return Color.grey;
+                    return new Color(139f / 255f, 69f / 255f, 19f / 255f); // Brown
                 case HexTerrainType.Water:
                     return Color.blue;
                 default:

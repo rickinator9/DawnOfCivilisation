@@ -1,4 +1,6 @@
 ﻿using Assets.Source.Model;
+using Assets.Source.UI;
+using Assets.Source.UI.Controllers;
 using Assets.Source.Utils;
 using UnityEngine;
 
@@ -9,6 +11,7 @@ namespace Assets.Source.Hex
         public int Width, Height;
         public HexMesh Mesh;
         public Texture2D Heightmap;
+        public IHexPanel HexPanel;
 
         public int TopBottomRowVertexCount
         {
@@ -38,6 +41,9 @@ namespace Assets.Source.Hex
 
         void Start()
         {
+            HexPanel = GameObject.Find("HexPanel").GetComponent<HexPanelController>();
+            HexPanel.Hide();
+
             HexMetrics.Width = Width;
             HexMetrics.Height = Height;
 
@@ -54,7 +60,7 @@ namespace Assets.Source.Hex
                 }
             }
 
-            _hexElevations = SampleHeights(_hexTiles);
+            //_hexElevations = SampleHeights(_hexTiles);
 
             Mesh.Triangulate(_hexTiles, this);
         }
@@ -63,16 +69,22 @@ namespace Assets.Source.Hex
         {
             if (Input.GetMouseButtonDown(0))
             {
-                var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-
-                RaycastHit rayHit;
-                if (Physics.Raycast(ray, out rayHit))
+                var tile = FindTileWithRayCast();
+                if (tile != null)
                 {
-                    var hitPosition = rayHit.point;
-                    var coords = HexCoordinates.FromPosition(hitPosition).ToOffsetCoordinates();
-
-                    var tile = GetTileAtPosition(coords.X, coords.Z);
+                    HexPanel.ShowForHexTile(tile);
                     Debug.Log("Hit HexTile " + tile);
+                }
+            }
+            else if (Input.GetMouseButtonDown(1))
+            {
+                var tile = FindTileWithRayCast();
+                if (tile != null)
+                {
+                    foreach (var army in Armies.Instance.AllArmies)
+                    {
+                        army.Location = tile;
+                    }
                 }
             }
         }
@@ -222,6 +234,21 @@ namespace Assets.Source.Hex
 
             var offset = !coords.Z.IsEven() ? -2 : 0;
             return RowVertexCount*z + x + offset;
+        }
+
+        private IHexTile FindTileWithRayCast()
+        {
+            var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+
+            RaycastHit rayHit;
+            if (Physics.Raycast(ray, out rayHit))
+            {
+                var hitPosition = rayHit.point;
+                var coords = HexCoordinates.FromPosition(hitPosition).ToOffsetCoordinates();
+
+                return GetTileAtPosition(coords.X, coords.Z);
+            }
+            return null;
         }
     }
 }

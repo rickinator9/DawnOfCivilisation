@@ -31,7 +31,7 @@ namespace Assets.Source.Hex
         {
             foreach (var hexTile in tiles)
             {
-                Triangulate(hexTile, grid.GetElevationForTile(hexTile));
+                Triangulate(hexTile /*, grid.GetElevationForTile(hexTile)*/);
             }
 
             _mesh.vertices = _vertices.ToArray();
@@ -45,7 +45,7 @@ namespace Assets.Source.Hex
             _colors.Clear();
         }
 
-        private void Triangulate(IHexTile tile, float[] elevations)
+        private void Triangulate(IHexTile tile /*, float[] elevations*/)
         {
             _elevations.Clear();
             SampleElevations(tile.Center);
