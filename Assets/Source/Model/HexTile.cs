@@ -33,7 +33,12 @@ namespace Assets.Source.Model
 
         public Color Color
         {
-            get { return TerrainType.GetColor(); }
+            get
+            {
+                if(Country == null) return TerrainType.GetColor();
+
+                return Country.Color;
+            }
         }
 
         public HexTerrainType TerrainType { get; set; }
@@ -43,6 +48,20 @@ namespace Assets.Source.Model
         {
             get { return _neighbors.ToArray(); }
         }
+
+        private ICountry _country;
+
+        public ICountry Country
+        {
+            get { return _country; }
+            set
+            {
+                _country = value;
+                HexGridView.Refresh();
+            }
+        }
+
+        public IHexGridView HexGridView { get; set; }
 
         public void AddNeighbor(IHexTile tile, HexDirection direction)
         {

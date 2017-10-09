@@ -51,6 +51,9 @@ namespace Assets.Source.UI.Controllers
             Debug.Log("Raising Army...");
             _army = Armies.Instance.CreateArmy();
             _army.Location = Tile;
+            _army.Country = new Country();
+
+            Tile.Country = _army.Country;
         }
     }
 }

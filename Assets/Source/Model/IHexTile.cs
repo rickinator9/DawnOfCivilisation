@@ -15,6 +15,10 @@ namespace Assets.Source.Model
 
         IHexTile[] Neighbors { get; }
 
+        ICountry Country { get; set; }
+
+        IHexGridView HexGridView { get; set; }
+
         void AddNeighbor(IHexTile tile, HexDirection direction);
 
         bool HasNeighbor(IHexTile tile);

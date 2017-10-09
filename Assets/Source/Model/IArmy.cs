@@ -12,5 +12,7 @@ namespace Assets.Source.Model
         IArmyView View { get; set; }
 
         bool HasView { get; }
+
+        ICountry Country { get; set; }
     }
 }

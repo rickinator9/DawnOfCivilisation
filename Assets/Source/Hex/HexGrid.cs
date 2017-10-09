@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace Assets.Source.Hex
 {
-    public class HexGrid : MonoBehaviour
+    public class HexGrid : MonoBehaviour, IHexGridView
     {
         public int Width, Height;
         public HexMesh Mesh;
@@ -112,7 +112,11 @@ namespace Assets.Source.Hex
                 {
                     foreach (var army in Armies.Instance.AllArmies)
                     {
-                        if(army.Location != tile && army.Location.HasNeighbor(tile)) army.Location = tile;
+                        if (army.Location != tile && army.Location.HasNeighbor(tile))
+                        {
+                            army.Location = tile;
+                            tile.Country = army.Country;
+                        }
                     }
                 }
             }
@@ -153,6 +157,7 @@ namespace Assets.Source.Hex
                 TerrainType = terrain,
                 Coordinates = HexCoordinates.FromOffsetCoordinates(x, z)
             };
+            tile.HexGridView = this;
 
             Debug.Log(tile);
 
@@ -284,6 +289,11 @@ namespace Assets.Source.Hex
         {
             tile1.AddNeighbor(tile2, direction);
             tile2.AddNeighbor(tile1, direction.Opposite());
+        }
+
+        public void Refresh()
+        {
+            Mesh.Triangulate(_hexTiles, this);
         }
     }
 }

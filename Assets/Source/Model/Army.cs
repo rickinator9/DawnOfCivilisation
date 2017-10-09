@@ -42,5 +42,7 @@ namespace Assets.Source.Model
         {
             get { return View != null; }
         }
+
+        public ICountry Country { get; set; }
     }
 }
