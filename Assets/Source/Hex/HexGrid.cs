@@ -57,6 +57,35 @@ namespace Assets.Source.Hex
                     var tile = CreateTile(x, z);
 
                     _hexTiles[i] = tile;
+
+                    if (x > 0)
+                    {
+                        var leftTile = _hexTiles[i - 1];
+                        AddAdjacency(leftTile, tile, HexDirection.East);
+                    }
+                    if (z > 0)
+                    {
+                        if (z.IsEven())
+                        {
+                            var northWestTile = _hexTiles[i - Width];
+                            AddAdjacency(northWestTile, tile, HexDirection.SouthEast);
+                            if (x > 0)
+                            {
+                                var northEastTile = _hexTiles[i - Width + 1];
+                                AddAdjacency(northEastTile, tile, HexDirection.SouthWest);
+                            }
+                        }
+                        else
+                        {
+                            var northEastTile = _hexTiles[i - Width];
+                            AddAdjacency(northEastTile, tile, HexDirection.SouthWest);
+                            if (x < Width - 1)
+                            {
+                                var northWestTile = _hexTiles[i - Width + 1];
+                                AddAdjacency(northWestTile, tile, HexDirection.SouthEast);
+                            }
+                        }
+                    }
                 }
             }
 
@@ -79,11 +108,11 @@ namespace Assets.Source.Hex
             else if (Input.GetMouseButtonDown(1))
             {
                 var tile = FindTileWithRayCast();
-                if (tile != null)
+                if (tile != null && tile.TerrainType != HexTerrainType.Water)
                 {
                     foreach (var army in Armies.Instance.AllArmies)
                     {
-                        army.Location = tile;
+                        if(army.Location != tile && army.Location.HasNeighbor(tile)) army.Location = tile;
                     }
                 }
             }
@@ -249,6 +278,12 @@ namespace Assets.Source.Hex
                 return GetTileAtPosition(coords.X, coords.Z);
             }
             return null;
+        }
+
+        private void AddAdjacency(IHexTile tile1, IHexTile tile2, HexDirection direction)
+        {
+            tile1.AddNeighbor(tile2, direction);
+            tile2.AddNeighbor(tile1, direction.Opposite());
         }
     }
 }

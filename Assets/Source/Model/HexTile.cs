@@ -1,4 +1,6 @@
-﻿using Assets.Source.Hex;
+﻿using System.Collections.Generic;
+using System.Linq;
+using Assets.Source.Hex;
 using UnityEngine;
 
 namespace Assets.Source.Model
@@ -35,6 +37,23 @@ namespace Assets.Source.Model
         }
 
         public HexTerrainType TerrainType { get; set; }
+
+        private IHexTile[] _neighbors = new IHexTile[6];
+        public IHexTile[] Neighbors
+        {
+            get { return _neighbors.ToArray(); }
+        }
+
+        public void AddNeighbor(IHexTile tile, HexDirection direction)
+        {
+            var i = (int) direction;
+            _neighbors[i] = tile;
+        }
+
+        public bool HasNeighbor(IHexTile tile)
+        {
+            return Neighbors.Any(neighbor => tile == neighbor);
+        }
 
         public override string ToString()
         {

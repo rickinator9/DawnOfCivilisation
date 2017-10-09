@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Assets.Source.Hex;
+using UnityEngine;
 
 namespace Assets.Source.Model
 {
@@ -11,5 +12,11 @@ namespace Assets.Source.Model
         Color Color { get; }
 
         HexTerrainType TerrainType { get; set; }
+
+        IHexTile[] Neighbors { get; }
+
+        void AddNeighbor(IHexTile tile, HexDirection direction);
+
+        bool HasNeighbor(IHexTile tile);
     }
 }
