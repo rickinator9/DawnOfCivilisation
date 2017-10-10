@@ -138,10 +138,10 @@ RectTransform:
   m_Father: {fileID: 652511846}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 0, y: -135}
+  m_SizeDelta: {x: 115.520004, y: 45}
   m_Pivot: {x: 0, y: 0}
 --- !u!1 &164934680
 GameObject:
@@ -247,10 +247,10 @@ RectTransform:
   m_Father: {fileID: 1901413150}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 57.760002, y: -67.5}
+  m_SizeDelta: {x: 115.520004, y: 135}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &390720574
 GameObject:
@@ -853,7 +853,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1312775141
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1197,7 +1197,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1498052109
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1451,10 +1451,10 @@ RectTransform:
   m_Father: {fileID: 652511846}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 0, y: -90}
+  m_SizeDelta: {x: 115.520004, y: 45}
   m_Pivot: {x: 0, y: 0}
 --- !u!1 &1630649638
 GameObject:
@@ -1486,10 +1486,10 @@ RectTransform:
   m_Father: {fileID: 652511846}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 0, y: -45}
+  m_SizeDelta: {x: 115.520004, y: 45}
   m_Pivot: {x: 0, y: 0}
 --- !u!1 &1671792339
 GameObject:
@@ -1638,6 +1638,8 @@ MonoBehaviour:
   Height: 10
   Mesh: {fileID: 1568940609}
   Heightmap: {fileID: 2800000, guid: 732f2a1b079885a4c88573664c1241d7, type: 3}
+  HexPanelController: {fileID: 1312775144}
+  ArmyPanelController: {fileID: 1498052110}
 --- !u!4 &1767587869
 Transform:
   m_ObjectHideFlags: 0

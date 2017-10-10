@@ -9,11 +9,14 @@ namespace Assets.Source.Hex
 {
     public class HexGrid : MonoBehaviour, IHexGridView
     {
+        private IHexPanel HexPanel { get; set; }
+        private IArmyPanel ArmyPanel { get; set; }
+
         public int Width, Height;
         public HexMesh Mesh;
         public Texture2D Heightmap;
-        public IHexPanel HexPanel;
-        public IArmyPanel ArmyPanel;
+        public HexPanelController HexPanelController;
+        public ArmyPanelController ArmyPanelController;
 
         public int TopBottomRowVertexCount
         {
@@ -47,11 +50,8 @@ namespace Assets.Source.Hex
             var player = new Player {Country = new Country("Sumeria")};
             players.CurrentPlayer = player;
 
-            HexPanel = GameObject.Find("HexPanel").GetComponent<HexPanelController>();
-            HexPanel.Hide();
-
-            ArmyPanel = GameObject.Find("ArmyPanel").GetComponent<ArmyPanelController>();
-            ArmyPanel.Hide();
+            HexPanel = HexPanelController;
+            ArmyPanel = ArmyPanelController;
 
             HexMetrics.Width = Width;
             HexMetrics.Height = Height;
