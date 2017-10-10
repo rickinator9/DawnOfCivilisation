@@ -1,4 +1,5 @@
 ﻿using Assets.Source.Model;
+using Assets.Source.Model.Impl;
 using Assets.Source.UI;
 using Assets.Source.UI.Controllers;
 using Assets.Source.Utils;
@@ -12,6 +13,7 @@ namespace Assets.Source.Hex
         public HexMesh Mesh;
         public Texture2D Heightmap;
         public IHexPanel HexPanel;
+        public IArmyPanel ArmyPanel;
 
         public int TopBottomRowVertexCount
         {
@@ -41,8 +43,15 @@ namespace Assets.Source.Hex
 
         void Start()
         {
+            var players = Players.Instance;
+            var player = new Player {Country = new Country("Sumeria")};
+            players.CurrentPlayer = player;
+
             HexPanel = GameObject.Find("HexPanel").GetComponent<HexPanelController>();
             HexPanel.Hide();
+
+            ArmyPanel = GameObject.Find("ArmyPanel").GetComponent<ArmyPanelController>();
+            ArmyPanel.Hide();
 
             HexMetrics.Width = Width;
             HexMetrics.Height = Height;
@@ -98,17 +107,33 @@ namespace Assets.Source.Hex
         {
             if (Input.GetMouseButtonDown(0))
             {
-                var tile = FindTileWithRayCast();
-                if (tile != null)
+                IHexTile tile;
+                RaycastHit hit;
+
+                var foundTile = FindTileWithRayCast(out tile, out hit);
+                if (foundTile)
                 {
-                    HexPanel.ShowForHexTile(tile);
-                    Debug.Log("Hit HexTile " + tile);
+                    if (hit.transform.gameObject.tag.Equals("HexGrid"))
+                    {
+                        HexPanel.ShowForHexTile(tile);
+                        ArmyPanel.Hide();
+                    }
+                    else if (hit.transform.gameObject.tag.Equals("Army"))
+                    {
+                        var army = tile.Armies[0];
+
+                        ArmyPanel.ShowForArmy(army);
+                        HexPanel.Hide();
+                    }
                 }
             }
             else if (Input.GetMouseButtonDown(1))
             {
-                var tile = FindTileWithRayCast();
-                if (tile != null && tile.TerrainType != HexTerrainType.Water)
+                RaycastHit hit;
+                IHexTile tile;
+
+                var foundTile = FindTileWithRayCast(out tile, out hit);
+                if (foundTile && tile.TerrainType != HexTerrainType.Water)
                 {
                     foreach (var army in Armies.Instance.AllArmies)
                     {
@@ -270,19 +295,20 @@ namespace Assets.Source.Hex
             return RowVertexCount*z + x + offset;
         }
 
-        private IHexTile FindTileWithRayCast()
+        private bool FindTileWithRayCast(out IHexTile tile, out RaycastHit hit)
         {
+            tile = null;
             var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
-            RaycastHit rayHit;
-            if (Physics.Raycast(ray, out rayHit))
+            if (Physics.Raycast(ray, out hit))
             {
-                var hitPosition = rayHit.point;
+                var hitPosition = hit.point;
                 var coords = HexCoordinates.FromPosition(hitPosition).ToOffsetCoordinates();
 
-                return GetTileAtPosition(coords.X, coords.Z);
+                tile = GetTileAtPosition(coords.X, coords.Z);
+                return true;
             }
-            return null;
+            return false;
         }
 
         private void AddAdjacency(IHexTile tile1, IHexTile tile2, HexDirection direction)

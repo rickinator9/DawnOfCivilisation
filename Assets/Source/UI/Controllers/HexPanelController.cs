@@ -1,4 +1,5 @@
 ﻿using Assets.Source.Model;
+using Assets.Source.Model.Impl;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -51,7 +52,7 @@ namespace Assets.Source.UI.Controllers
             Debug.Log("Raising Army...");
             _army = Armies.Instance.CreateArmy();
             _army.Location = Tile;
-            _army.Country = new Country();
+            _army.Country = Players.Instance.CurrentPlayer.Country;
 
             Tile.Country = _army.Country;
         }

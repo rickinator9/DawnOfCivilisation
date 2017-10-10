@@ -17,10 +17,16 @@ namespace Assets.Source.Model
 
         ICountry Country { get; set; }
 
+        IArmy[] Armies { get; }
+
         IHexGridView HexGridView { get; set; }
 
         void AddNeighbor(IHexTile tile, HexDirection direction);
 
         bool HasNeighbor(IHexTile tile);
+
+        void AddArmy(IArmy army);
+
+        void RemoveArmy(IArmy army);
     }
 }

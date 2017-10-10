@@ -1,13 +1,12 @@
 ﻿using Assets.Source.Model;
-using UnityEditor;
 
 namespace Assets.Source.UI
 {
-    public interface IHexPanel
+    public interface IArmyPanel
     {
         void Show();
 
-        void ShowForHexTile(IHexTile tile);
+        void ShowForArmy(IArmy army);
 
         void Hide();
     }

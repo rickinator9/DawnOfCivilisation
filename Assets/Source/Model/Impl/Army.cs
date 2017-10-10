@@ -12,7 +12,11 @@ namespace Assets.Source.Model
             get { return _location; }
             set
             {
+                if(_location != null) _location.RemoveArmy(this);
+                value.AddArmy(this);
+
                 _location = value;
+                
                 if(HasView) View.Refresh();
             }
         }

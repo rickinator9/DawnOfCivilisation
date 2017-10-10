@@ -4,9 +4,10 @@ namespace Assets.Source.Model
 {
     public class Country : ICountry
     {
+        public string Name { get; set; }
+
         private bool _colorInitialised = false;
         private Color _color;
-
         public Color Color
         {
             get
@@ -19,6 +20,11 @@ namespace Assets.Source.Model
 
                 return _color;
             }
+        }
+
+        public Country(string name)
+        {
+            Name = name;
         }
     }
 }

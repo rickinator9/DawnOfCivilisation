@@ -61,6 +61,13 @@ namespace Assets.Source.Model
             }
         }
 
+        private IList<IArmy> _armies = new List<IArmy>();
+
+        public IArmy[] Armies
+        {
+            get { return _armies.ToArray(); }
+        }
+
         public IHexGridView HexGridView { get; set; }
 
         public void AddNeighbor(IHexTile tile, HexDirection direction)
@@ -72,6 +79,16 @@ namespace Assets.Source.Model
         public bool HasNeighbor(IHexTile tile)
         {
             return Neighbors.Any(neighbor => tile == neighbor);
+        }
+
+        public void AddArmy(IArmy army)
+        {
+            _armies.Add(army);
+        }
+
+        public void RemoveArmy(IArmy army)
+        {
+            _armies.Remove(army);
         }
 
         public override string ToString()
