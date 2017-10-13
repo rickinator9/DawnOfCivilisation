@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using Assets.Source.Model.Background;
+using Assets.Source.Model.Background.Impl;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -47,6 +45,7 @@ namespace Assets.Source.UI.Controllers
         public Text ButtonText;
 
         private float NextTickTime { get; set; }
+        private IBackgroundTaskManager TaskManager { get; set; }
 
         private bool HasTimeSurpassedTickTime
         {
@@ -56,11 +55,12 @@ namespace Assets.Source.UI.Controllers
         void Start()
         {
             IsPlaying = false;
+            TaskManager = BackgroundTaskManager.Instance;
         }
 
         void Update()
         {
-            if (IsPlaying && HasTimeSurpassedTickTime)
+            if (IsPlaying && TaskManager.AreTasksComplete && HasTimeSurpassedTickTime)
             {
                 Tick++;
                 RefreshTickTime();
@@ -87,6 +87,8 @@ namespace Assets.Source.UI.Controllers
         private void OnTickChange()
         {
             TimerText.text = Tick.ToString();
+            TaskManager.SubmitTask(new TestTask());
+            TaskManager.ExecuteTasks();
         }
 
         private void RefreshTickTime()
