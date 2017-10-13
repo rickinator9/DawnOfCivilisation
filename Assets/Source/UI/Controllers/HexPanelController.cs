@@ -8,6 +8,7 @@ namespace Assets.Source.UI.Controllers
     public class HexPanelController : MonoBehaviour, IHexPanel
     {
         public Text XValue, ZValue, TerrainValue;
+        public Button RaiseArmyButton;
 
         private IHexTile _activeTile;
         private IHexTile Tile
@@ -20,6 +21,8 @@ namespace Assets.Source.UI.Controllers
                 XValue.text = coords.X.ToString();
                 ZValue.text = coords.Z.ToString();
                 TerrainValue.text = _activeTile.TerrainType.ToString();
+
+                RaiseArmyButton.gameObject.SetActive(_activeTile.TerrainType != HexTerrainType.Water);
             }
             get { return _activeTile; }
         }
