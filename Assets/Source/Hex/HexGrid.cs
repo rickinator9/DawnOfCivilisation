@@ -182,8 +182,6 @@ namespace Assets.Source.Hex
             };
             tile.HexGridView = this;
 
-            Debug.Log(tile);
-
             return tile;
         }
 
