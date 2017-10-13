@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Assets.Source.Model
+namespace Assets.Source.Model.Impl
 {
     public class Country : ICountry
     {

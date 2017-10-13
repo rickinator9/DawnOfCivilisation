@@ -1,9 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using UnityEngine;
-using UnityEngine.VR.WSA.Persistence;
 
-namespace Assets.Source.Model
+namespace Assets.Source.Model.Impl
 {
     public class Armies : IArmies
     {

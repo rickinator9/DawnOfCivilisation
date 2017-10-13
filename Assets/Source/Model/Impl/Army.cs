@@ -1,7 +1,7 @@
 ﻿using Assets.Source.Views;
 using UnityEngine;
 
-namespace Assets.Source.Model
+namespace Assets.Source.Model.Impl
 {
     public class Army : IArmy
     {

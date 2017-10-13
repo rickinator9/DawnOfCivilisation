@@ -1,4 +1,5 @@
 ﻿using Assets.Source.Model;
+using Assets.Source.Model.Impl;
 using UnityEngine;
 
 namespace Assets.Source.Views.Scripts

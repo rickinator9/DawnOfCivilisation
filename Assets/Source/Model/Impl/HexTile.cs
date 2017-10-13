@@ -3,7 +3,7 @@ using System.Linq;
 using Assets.Source.Hex;
 using UnityEngine;
 
-namespace Assets.Source.Model
+namespace Assets.Source.Model.Impl
 {
     public class HexTile : IHexTile
     {
