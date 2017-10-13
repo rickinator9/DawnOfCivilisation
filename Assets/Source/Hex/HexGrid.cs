@@ -89,7 +89,7 @@ namespace Assets.Source.Hex
                         {
                             var northWestTile = _hexTiles[i - Width + 1];
                             AddAdjacency(northWestTile, tile, HexDirection.SouthEast);
-                            if (x < Width - 1)
+                            if (x <= Width - 1)
                             {
                                 var northEastTile = _hexTiles[i - Width];
                                 AddAdjacency(northEastTile, tile, HexDirection.SouthWest);
