@@ -11,6 +11,7 @@ namespace Assets.Source.UI.Controllers
     {
         private const char PlaySymbol = '►';
         private const char PauseSymbol = '║';
+        private const float SecondsPerTick = 1.0f;
 
         private bool _isPlaying;
         public bool IsPlaying
@@ -22,28 +23,35 @@ namespace Assets.Source.UI.Controllers
                 switch (_isPlaying)
                 {
                     case true:
-                        ButtonText.text = PlaySymbol.ToString();
+                        OnPlay();
                         break;
                     default:
-                        ButtonText.text = PauseSymbol.ToString();
+                        OnPause();
                         break;
                 }
             }
         }
 
-        private int _time;
-        public int Time
+        private int _tick;
+        public int Tick
         {
-            get { return _time; }
+            get { return _tick; }
             set
             {
-                _time = value;
-                TimerText.text = _time.ToString();
+                _tick = value;
+                OnTickChange();
             }
         }
 
         public Text TimerText;
         public Text ButtonText;
+
+        private float NextTickTime { get; set; }
+
+        private bool HasTimeSurpassedTickTime
+        {
+            get { return Time.time > NextTickTime; }
+        }
 
         void Start()
         {
@@ -52,12 +60,38 @@ namespace Assets.Source.UI.Controllers
 
         void Update()
         {
-            if (IsPlaying) Time++;
+            if (IsPlaying && HasTimeSurpassedTickTime)
+            {
+                Tick++;
+                RefreshTickTime();
+            }
         }
 
+        // Event listener for the buttons.
         public void OnPlayButtonPressed()
         {
             IsPlaying = !IsPlaying;
+        }
+
+        private void OnPlay()
+        {
+            ButtonText.text = PlaySymbol.ToString();
+            RefreshTickTime();
+        }
+
+        private void OnPause()
+        {
+            ButtonText.text = PauseSymbol.ToString();
+        }
+
+        private void OnTickChange()
+        {
+            TimerText.text = Tick.ToString();
+        }
+
+        private void RefreshTickTime()
+        {
+            NextTickTime = Time.time + SecondsPerTick;
         }
     }
 }
