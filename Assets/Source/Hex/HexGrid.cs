@@ -4,6 +4,7 @@ using Assets.Source.UI;
 using Assets.Source.UI.Controllers;
 using Assets.Source.Utils;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 namespace Assets.Source.Hex
 {
@@ -105,6 +106,8 @@ namespace Assets.Source.Hex
 
         void Update()
         {
+            if (EventSystem.current.IsPointerOverGameObject()) return;
+
             if (Input.GetMouseButtonDown(0))
             {
                 IHexTile tile;
