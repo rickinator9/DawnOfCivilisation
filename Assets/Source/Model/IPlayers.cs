@@ -2,6 +2,6 @@
 {
     public interface IPlayers
     {
-        IPlayer CurrentPlayer { get; set; } 
+        ILocalPlayer LocalPlayer { get; set; }
     }
 }

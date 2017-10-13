@@ -48,5 +48,14 @@ namespace Assets.Source.Model.Impl
         }
 
         public ICountry Country { get; set; }
+
+        public void OnRightClickOnTile(IHexTile tile)
+        {
+            if (Location != tile && Location.HasNeighbor(tile))
+            {
+                Location = tile;
+                tile.Country = Country;
+            }
+        }
     }
 }

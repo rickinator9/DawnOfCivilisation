@@ -48,8 +48,8 @@ namespace Assets.Source.Hex
         void Start()
         {
             var players = Players.Instance;
-            var player = new Player {Country = new Country("Sumeria")};
-            players.CurrentPlayer = player;
+            var player = new LocalPlayer {Country = new Country("Sumeria")};
+            players.LocalPlayer = player;
 
             HexPanel = HexPanelController;
             ArmyPanel = ArmyPanelController;
@@ -124,6 +124,7 @@ namespace Assets.Source.Hex
                     else if (hit.transform.gameObject.tag.Equals("Army"))
                     {
                         var army = tile.Armies[0];
+                        Players.Instance.LocalPlayer.SelectedObject = army;
 
                         ArmyPanel.ShowForArmy(army);
                         HexPanel.Hide();
@@ -138,14 +139,8 @@ namespace Assets.Source.Hex
                 var foundTile = FindTileWithRayCast(out tile, out hit);
                 if (foundTile && tile.TerrainType != HexTerrainType.Water)
                 {
-                    foreach (var army in Armies.Instance.AllArmies)
-                    {
-                        if (army.Location != tile && army.Location.HasNeighbor(tile))
-                        {
-                            army.Location = tile;
-                            tile.Country = army.Country;
-                        }
-                    }
+                    var selectedObject = Players.Instance.LocalPlayer.SelectedObject;
+                    if(selectedObject != null) selectedObject.OnRightClickOnTile(tile);
                 }
             }
         }

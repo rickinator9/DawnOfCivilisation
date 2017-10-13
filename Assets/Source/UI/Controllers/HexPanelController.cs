@@ -27,8 +27,6 @@ namespace Assets.Source.UI.Controllers
             get { return _activeTile; }
         }
 
-        private IArmy _army;
-
         public void Show()
         {
             gameObject.SetActive(true);
@@ -50,14 +48,14 @@ namespace Assets.Source.UI.Controllers
 
         public void ButtonRaiseArmy()
         {
-            if (_army != null) return;
+            if (Tile.Armies.Length > 0) return;
 
             Debug.Log("Raising Army...");
-            _army = Armies.Instance.CreateArmy();
-            _army.Location = Tile;
-            _army.Country = Players.Instance.CurrentPlayer.Country;
+            var army = Armies.Instance.CreateArmy();
+            army.Location = Tile;
+            army.Country = Players.Instance.LocalPlayer.Country;
 
-            Tile.Country = _army.Country;
+            Tile.Country = army.Country;
         }
     }
 }

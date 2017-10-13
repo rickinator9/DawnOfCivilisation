@@ -8,7 +8,7 @@
             get { return _instance ?? (_instance = new Players()); }
         }
 
-        public IPlayer CurrentPlayer { get; set; }
+        public ILocalPlayer LocalPlayer { get; set; }
 
         private Players()
         {

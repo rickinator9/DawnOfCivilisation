@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Assets.Source.Model
 {
-    public interface IArmy
+    public interface IArmy : ISelectable
     {
         IHexTile Location { get; set; }
 

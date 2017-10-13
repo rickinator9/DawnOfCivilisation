@@ -2,6 +2,6 @@
 {
     public interface IPlayer
     {
-        ICountry Country { get; set; } 
+        ICountry Country { get; set; }
     }
 }
