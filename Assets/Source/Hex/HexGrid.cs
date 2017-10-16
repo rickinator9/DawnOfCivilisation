@@ -10,14 +10,9 @@ namespace Assets.Source.Hex
 {
     public class HexGrid : MonoBehaviour, IHexGridView
     {
-        private IHexPanel HexPanel { get; set; }
-        private IArmyPanel ArmyPanel { get; set; }
-
         public int Width, Height;
         public HexMesh Mesh;
         public Texture2D Heightmap;
-        public HexPanelController HexPanelController;
-        public ArmyPanelController ArmyPanelController;
 
         public int TopBottomRowVertexCount
         {
@@ -44,6 +39,7 @@ namespace Assets.Source.Hex
 
         private IHexTile[] _hexTiles;
         private float[] _hexElevations;
+        private IPanels _panels;
 
         void Start()
         {
@@ -51,13 +47,11 @@ namespace Assets.Source.Hex
             var player = new LocalPlayer {Country = new Country("Sumeria")};
             players.LocalPlayer = player;
 
-            HexPanel = HexPanelController;
-            ArmyPanel = ArmyPanelController;
-
             HexMetrics.Width = Width;
             HexMetrics.Height = Height;
 
             _hexTiles = new IHexTile[Width * Height];
+            _panels = PanelsController.Instance;
 
             for (var z = 0; z < Height; z++)
             {
@@ -118,16 +112,16 @@ namespace Assets.Source.Hex
                 {
                     if (hit.transform.gameObject.tag.Equals("HexGrid"))
                     {
-                        HexPanel.ShowForHexTile(tile);
-                        ArmyPanel.Hide();
+                        _panels.HideAll();
+                        _panels.HexPanel.ShowForHexTile(tile);
                     }
                     else if (hit.transform.gameObject.tag.Equals("Army"))
                     {
                         var army = tile.Armies[0];
                         Players.Instance.LocalPlayer.SelectedObject = army;
 
-                        ArmyPanel.ShowForArmy(army);
-                        HexPanel.Hide();
+                        _panels.HideAll();
+                        _panels.ArmyPanel.ShowForArmy(army);
                     }
                 }
             }

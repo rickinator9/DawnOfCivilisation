@@ -2,12 +2,8 @@
 
 namespace Assets.Source.UI
 {
-    public interface IArmyPanel
+    public interface IArmyPanel : IPanel
     {
-        void Show();
-
         void ShowForArmy(IArmy army);
-
-        void Hide();
     }
 }

@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace Assets.Source.Model
+﻿namespace Assets.Source.Model
 {
     public interface IArmies
     {

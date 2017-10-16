@@ -3,12 +3,8 @@ using UnityEditor;
 
 namespace Assets.Source.UI
 {
-    public interface IHexPanel
+    public interface IHexPanel : IPanel
     {
-        void Show();
-
         void ShowForHexTile(IHexTile tile);
-
-        void Hide();
     }
 }
