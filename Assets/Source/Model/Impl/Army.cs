@@ -51,10 +51,15 @@ namespace Assets.Source.Model.Impl
 
         public void OnRightClickOnTile(IHexTile tile)
         {
-            if (Location != tile && Location.HasNeighbor(tile))
+            if (Location != tile)
             {
-                Location = tile;
-                tile.Country = Country;
+                var grid = HexGrid.Instance;
+                var tilePath = grid.FindPath(Location, tile);
+                foreach (var hexTile in tilePath)
+                {
+                    Location = hexTile;
+                    hexTile.Country = Country;
+                }
             }
         }
     }
