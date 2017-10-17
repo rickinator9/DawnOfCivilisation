@@ -16,22 +16,30 @@ namespace Assets.Source.Model.Background.Impl
         }
 
         private IBackgroundTaskLoop Loop { get; set; }
-        private IList<IBackgroundTask> Tasks { get; set; } 
+        private IDictionary<IDate, IList<IBackgroundTask>> TasksByDate { get; set; }
 
         private BackgroundTaskManager()
         {
             Loop = new BackgroundTaskLoop();
-            Tasks = new List<IBackgroundTask>();
+            TasksByDate = new Dictionary<IDate, IList<IBackgroundTask>>();
         }
 
         public void SubmitTask(IBackgroundTask task)
         {
-            Tasks.Add(task);
+            var tasks = GetOrCreateTaskList(task.ExecutionDate);
+            tasks.Add(task);
         }
 
-        public void ExecuteTasks()
+        public void ExecuteTasks(IDate date)
         {
-            Loop.ProcessTasks(Tasks);
+            var tasks = GetOrCreateTaskList(date);
+            Loop.ProcessTasks(tasks);
+        }
+
+        private IList<IBackgroundTask> GetOrCreateTaskList(IDate date)
+        {
+            if(!TasksByDate.ContainsKey(date)) TasksByDate[date] = new List<IBackgroundTask>();
+            return TasksByDate[date];
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using Assets.Source.Views;
+﻿using Assets.Source.Model.Background.Impl;
+using Assets.Source.Views;
 using UnityEngine;
 
 namespace Assets.Source.Model.Impl
@@ -55,10 +56,18 @@ namespace Assets.Source.Model.Impl
             {
                 var grid = HexGrid.Instance;
                 var tilePath = grid.FindPath(Location, tile);
-                foreach (var hexTile in tilePath)
+
+                var dateManager = DateManager.Instance;
+                var backgroundTaskManager = BackgroundTaskManager.Instance;
+
+                var arrivalDate = dateManager.CurrentDate;
+                for (var i = 1; i < tilePath.Count; i++)
                 {
-                    Location = hexTile;
-                    hexTile.Country = Country;
+                    arrivalDate = dateManager.AddDays(arrivalDate, 1);
+                    var destination = tilePath[i];
+                    var task = new MoveArmyTask(arrivalDate, this, destination);
+
+                    backgroundTaskManager.SubmitTask(task);
                 }
             }
         }

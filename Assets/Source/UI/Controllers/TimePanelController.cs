@@ -39,14 +39,14 @@ namespace Assets.Source.UI.Controllers
         private IBackgroundTaskManager TaskManager { get; set; }
         private IDateManager DatesManager { get; set; }
 
-        private IDate _currentDate;
-        private IDate CurrentDate
+        private IDate _date;
+        private IDate Date
         {
-            get { return _currentDate; }
+            get { return _date; }
             set
             {
-                _currentDate = value;
-                TimerText.text = CurrentDate.ToString();
+                _date = value;
+                TimerText.text = Date.ToString();
             }
         }
 
@@ -60,13 +60,13 @@ namespace Assets.Source.UI.Controllers
             IsPlaying = false;
             TaskManager = BackgroundTaskManager.Instance;
             DatesManager = DateManager.Instance;
-
-            CurrentDate = DatesManager.GetDate(1, 1, 1);
+            var startDate = DatesManager.GetDate(1, 1, 1);
+            DatesManager.Initialise(startDate);
         }
 
         void Update()
         {
-            if (IsPlaying && TaskManager.AreTasksComplete/* && HasTimeSurpassedTickTime*/)
+            if (IsPlaying && TaskManager.AreTasksComplete && HasTimeSurpassedTickTime)
             {
                 OnTickChange();
                 RefreshTickTime();
@@ -92,10 +92,10 @@ namespace Assets.Source.UI.Controllers
 
         private void OnTickChange()
         {
-            CurrentDate = DatesManager.AddDays(CurrentDate, 1);
+            DatesManager.OnTick();
+            Date = DatesManager.CurrentDate;
 
-            TaskManager.SubmitTask(new TestTask());
-            TaskManager.ExecuteTasks();
+            TaskManager.ExecuteTasks(Date);
         }
 
         private void RefreshTickTime()

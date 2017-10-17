@@ -30,5 +30,22 @@ namespace Assets.Source.Model
                     throw new ArgumentOutOfRangeException("type", type, null);
             }
         }
+
+        public static float GetCost(this HexTerrainType type)
+        {
+            switch (type)
+            {
+                case HexTerrainType.Desert:
+                    return 2f;
+                case HexTerrainType.Plain:
+                    return 1f;
+                case HexTerrainType.Mountain:
+                    return 5f;
+                case HexTerrainType.Water:
+                    return float.MaxValue;
+                default:
+                    throw new ArgumentOutOfRangeException("type", type, null);
+            }
+        }
     }
 }

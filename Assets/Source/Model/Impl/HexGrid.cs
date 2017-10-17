@@ -9,7 +9,7 @@ namespace Assets.Source.Model.Impl
         {
             public IHexTile Tile { get; set; }
 
-            public int Cost { get; set; }
+            public float Cost { get; set; }
 
             public Node Parent { get; set; }
         }
@@ -41,7 +41,12 @@ namespace Assets.Source.Model.Impl
                 {
                     if (neighbor == null || neighbor.TerrainType == HexTerrainType.Water || nodeByTile.ContainsKey(neighbor)) continue; // This tile has already been reached by the algorithm.
 
-                    var node = new Node() {Cost = closestNode.Cost + 1, Parent = closestNode, Tile = neighbor};
+                    var node = new Node()
+                    {
+                        Cost = closestNode.Cost + neighbor.TerrainType.GetCost(),
+                        Parent = closestNode,
+                        Tile = neighbor
+                    };
                     unvisitedNodes.Add(node);
                     nodeByTile[neighbor] = node;
                 }

@@ -2,6 +2,8 @@
 {
     public interface IBackgroundTask
     {
+        IDate ExecutionDate { get; }
+
         void Execute();
     }
 }

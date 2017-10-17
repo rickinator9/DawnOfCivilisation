@@ -4,8 +4,8 @@
     {
         bool AreTasksComplete { get; }
 
-        void SubmitTask(IBackgroundTask task); // TODO: Add date.
+        void SubmitTask(IBackgroundTask task);
 
-        void ExecuteTasks(); // TODO: Add date.
+        void ExecuteTasks(IDate date);
     }
 }

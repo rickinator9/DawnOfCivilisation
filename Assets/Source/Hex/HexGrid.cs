@@ -36,6 +36,7 @@ namespace Assets.Source.Hex
                 return TopBottomRowVertexCount + (MiddleRowVertexCount * 2 + TopBottomRowVertexCount)* Height;
             }
         }
+        private bool NeedsRefresh { get; set; }
 
         private IHexTile[] _hexTiles;
         private float[] _hexElevations;
@@ -100,6 +101,8 @@ namespace Assets.Source.Hex
 
         void Update()
         {
+            if(NeedsRefresh) OnRefresh();
+
             if (EventSystem.current.IsPointerOverGameObject()) return;
 
             if (Input.GetMouseButtonDown(0))
@@ -309,7 +312,15 @@ namespace Assets.Source.Hex
 
         public void Refresh()
         {
+            NeedsRefresh = true;
+        }
+
+
+        private void OnRefresh()
+        {
             Mesh.Triangulate(_hexTiles, this);
+
+            NeedsRefresh = false;
         }
     }
 }
