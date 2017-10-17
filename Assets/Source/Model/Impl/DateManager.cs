@@ -21,13 +21,6 @@ namespace Assets.Source.Model.Impl
             DatesByString = new Dictionary<string, IDate>();
         }
 
-        public IDate CurrentDate { get; private set; }
-
-        public void Initialise(IDate startDate)
-        {
-            CurrentDate = startDate;
-        }
-
         public IDate GetDate(byte day, byte month, short year)
         {
             return GetOrCreateDate(day, month, year);
@@ -97,11 +90,6 @@ namespace Assets.Source.Model.Impl
         public IDate RemoveYears(IDate date, short years)
         {
             return AddYears(date, (short)(years*-1));
-        }
-
-        public void OnTick()
-        {
-            CurrentDate = AddDays(CurrentDate, 1);
         }
 
         private IDate GetOrCreateDate(byte day, byte month, short year)

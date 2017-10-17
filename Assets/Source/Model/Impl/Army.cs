@@ -58,9 +58,10 @@ namespace Assets.Source.Model.Impl
                 var tilePath = grid.FindPath(Location, tile);
 
                 var dateManager = DateManager.Instance;
+                var timeManager = TimeManager.Instance;
                 var backgroundTaskManager = BackgroundTaskManager.Instance;
 
-                var arrivalDate = dateManager.CurrentDate;
+                var arrivalDate = timeManager.CurrentDate;
                 for (var i = 1; i < tilePath.Count; i++)
                 {
                     arrivalDate = dateManager.AddDays(arrivalDate, 1);

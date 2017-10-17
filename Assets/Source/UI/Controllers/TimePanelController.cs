@@ -37,18 +37,7 @@ namespace Assets.Source.UI.Controllers
 
         private float NextTickTime { get; set; }
         private IBackgroundTaskManager TaskManager { get; set; }
-        private IDateManager DatesManager { get; set; }
-
-        private IDate _date;
-        private IDate Date
-        {
-            get { return _date; }
-            set
-            {
-                _date = value;
-                TimerText.text = Date.ToString();
-            }
-        }
+        private ITimeManager TimeManager { get; set; }
 
         private bool HasTimeSurpassedTickTime
         {
@@ -59,9 +48,11 @@ namespace Assets.Source.UI.Controllers
         {
             IsPlaying = false;
             TaskManager = BackgroundTaskManager.Instance;
-            DatesManager = DateManager.Instance;
-            var startDate = DatesManager.GetDate(1, 1, 1);
-            DatesManager.Initialise(startDate);
+
+            TimeManager = Model.Impl.TimeManager.Instance;
+            var startDate = DateManager.Instance.GetDate(1, 1, 1);
+            TimeManager.Initialise(startDate);
+            TimeManager.CurrentDateChangeCallbacks.Add(SetCurrentDate);
         }
 
         void Update()
@@ -92,10 +83,12 @@ namespace Assets.Source.UI.Controllers
 
         private void OnTickChange()
         {
-            DatesManager.OnTick();
-            Date = DatesManager.CurrentDate;
+            TimeManager.OnTick();
+        }
 
-            TaskManager.ExecuteTasks(Date);
+        private void SetCurrentDate(IDate currentDate)
+        {
+            TimerText.text = currentDate.ToString();
         }
 
         private void RefreshTickTime()
