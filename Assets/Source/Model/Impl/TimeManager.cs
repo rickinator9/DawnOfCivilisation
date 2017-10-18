@@ -14,28 +14,41 @@ namespace Assets.Source.Model.Impl
         }
 
         public IList<DateCallback> CurrentDateChangeCallbacks { get; private set; }
-        public IDate CurrentDate { get; private set; }
+
+        private IDate _currentDate;
+
+        public IDate CurrentDate
+        {
+            get { return _currentDate; }
+            set
+            {
+                _currentDate = value;
+                foreach (var callback in CurrentDateChangeCallbacks)
+                {
+                    callback(CurrentDate);
+                }
+            }
+        }
 
         private IDateManager DateManager { get; set; }
 
         private IBackgroundTaskManager TaskManager { get; set; }
 
-        public void Initialise(IDate startDate)
+        private TimeManager()
         {
             CurrentDateChangeCallbacks = new List<DateCallback>();
-            CurrentDate = startDate;
             DateManager = Impl.DateManager.Instance;
             TaskManager = BackgroundTaskManager.Instance;
+        }
+
+        public void Initialise(IDate startDate)
+        {
+            CurrentDate = startDate;
         }
 
         public void OnTick()
         {
             CurrentDate = DateManager.AddDays(CurrentDate, 1);
-            foreach (var callback in CurrentDateChangeCallbacks)
-            {
-                callback(CurrentDate);
-            }
-
             TaskManager.ExecuteTasks(CurrentDate);
         }
     }

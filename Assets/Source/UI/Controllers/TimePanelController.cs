@@ -50,9 +50,9 @@ namespace Assets.Source.UI.Controllers
             TaskManager = BackgroundTaskManager.Instance;
 
             TimeManager = Model.Impl.TimeManager.Instance;
+            TimeManager.CurrentDateChangeCallbacks.Add(SetCurrentDate);
             var startDate = DateManager.Instance.GetDate(1, 1, 1);
             TimeManager.Initialise(startDate);
-            TimeManager.CurrentDateChangeCallbacks.Add(SetCurrentDate);
         }
 
         void Update()
