@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Assets.Source.Contexts.Views.UI;
+using UnityEngine;
 
 namespace Assets.Source.UI.Controllers
 {
@@ -18,7 +19,7 @@ namespace Assets.Source.UI.Controllers
 
         public IHexPanel HexPanel
         {
-            get { return HexPanelController; }
+            get { return HexPanelView; }
         }
 
         private IPanel[] AllPanels
@@ -29,7 +30,7 @@ namespace Assets.Source.UI.Controllers
         #region Unity Properties
         public ArmyPanelController ArmyPanelController;
         public CountryPanelController CountryPanelController;
-        public HexPanelController HexPanelController;
+        public HexPanelView HexPanelView;
         #endregion
 
         public void HideAll()

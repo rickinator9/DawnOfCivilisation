@@ -1,4 +1,6 @@
-﻿namespace Assets.Source.Model.Background.Impl
+﻿using Assets.Source.Contexts.Model;
+
+namespace Assets.Source.Model.Background.Impl
 {
     public class MoveArmyTask : IBackgroundTask
     {

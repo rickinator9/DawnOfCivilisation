@@ -1,4 +1,5 @@
-﻿using Assets.Source.Model;
+﻿using Assets.Source.Contexts.Model;
+using Assets.Source.Model;
 using UnityEngine;
 using UnityEngine.UI;
 

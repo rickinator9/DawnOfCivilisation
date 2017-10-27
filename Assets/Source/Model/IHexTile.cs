@@ -1,4 +1,5 @@
-﻿using Assets.Source.Hex;
+﻿using Assets.Source.Contexts.Model;
+using Assets.Source.Hex;
 using UnityEngine;
 
 namespace Assets.Source.Model

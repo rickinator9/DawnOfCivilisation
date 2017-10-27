@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Assets.Source.Contexts.Model;
 
 namespace Assets.Source.Model.Impl
 {
@@ -22,11 +23,6 @@ namespace Assets.Source.Model.Impl
         public IArmy[] AllArmies
         {
             get { return _armies.ToArray(); }
-        }
-
-        public IArmy[] ArmiesWithoutView
-        {
-            get { return _armies.Where(army => !army.HasView).ToArray(); }
         }
 
         private Armies()
