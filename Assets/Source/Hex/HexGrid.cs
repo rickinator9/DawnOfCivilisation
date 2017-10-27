@@ -42,8 +42,16 @@ namespace Assets.Source.Hex
         private float[] _hexElevations;
         private IPanels _panels;
 
+        private static HexGrid _instance;
+        public static HexGrid Instance
+        {
+            get { return _instance; }
+        }
+
         void Start()
         {
+            _instance = this;
+
             var players = Players.Instance;
             var player = new LocalPlayer {Country = new Country("Sumeria")};
             players.LocalPlayer = player;
@@ -102,44 +110,6 @@ namespace Assets.Source.Hex
         void Update()
         {
             if(NeedsRefresh) OnRefresh();
-
-            if (EventSystem.current.IsPointerOverGameObject()) return;
-
-            if (Input.GetMouseButtonDown(0))
-            {
-                IHexTile tile;
-                RaycastHit hit;
-
-                var foundTile = FindTileWithRayCast(out tile, out hit);
-                if (foundTile)
-                {
-                    if (hit.transform.gameObject.tag.Equals("HexGrid"))
-                    {
-                        _panels.HideAll();
-                        _panels.HexPanel.ShowForHexTile(tile);
-                    }
-                    else if (hit.transform.gameObject.tag.Equals("Army"))
-                    {
-                        var army = tile.Armies[0];
-                        Players.Instance.LocalPlayer.SelectedObject = army;
-
-                        _panels.HideAll();
-                        _panels.ArmyPanel.ShowForArmy(army);
-                    }
-                }
-            }
-            else if (Input.GetMouseButtonDown(1))
-            {
-                RaycastHit hit;
-                IHexTile tile;
-
-                var foundTile = FindTileWithRayCast(out tile, out hit);
-                if (foundTile && tile.TerrainType != HexTerrainType.Water)
-                {
-                    var selectedObject = Players.Instance.LocalPlayer.SelectedObject;
-                    if(selectedObject != null) selectedObject.OnRightClickOnTile(tile);
-                }
-            }
         }
 
         public float[] GetElevationForTile(IHexTile tile)
@@ -163,7 +133,7 @@ namespace Assets.Source.Hex
             return elevations;
         }
 
-        private IHexTile GetTileAtPosition(int x, int z)
+        public IHexTile GetTileAtPosition(int x, int z)
         {
             var index = z*Width + x;
             return _hexTiles[index];

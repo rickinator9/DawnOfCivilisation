@@ -1,4 +1,5 @@
 ﻿using Assets.Source.Contexts.Game.Commands.Army;
+using Assets.Source.Contexts.Game.Commands.Input;
 using Assets.Source.Contexts.Game.Mediators;
 using Assets.Source.Contexts.Game.Mediators.UI;
 using Assets.Source.Contexts.Game.Model;
@@ -29,6 +30,8 @@ namespace Assets.Source.Contexts.Game
         protected override void mapBindings()
         {
             commandBinder.Bind<CreateArmySignal>().To<CreateArmyCommand>().Pooled();
+            commandBinder.Bind<LeftMouseClickSignal>().To<LeftMouseClickCommand>().Pooled();
+            commandBinder.Bind<RightMouseClickSignal>().To<RightMouseClickCommand>().Pooled();
 
             injectionBinder.Bind<IArmy>().To<Army>().ToName(CustomContextKeys.NewInstance);
             injectionBinder.Bind<IArmies>().To<Armies>().ToSingleton();
@@ -36,6 +39,8 @@ namespace Assets.Source.Contexts.Game
 
             mediationBinder.Bind<ArmyView>().To<ArmyMediator>();
             mediationBinder.Bind<ArmiesView>().To<ArmiesMediator>();
+            mediationBinder.Bind<InputView>().To<InputMediator>();
+
             mediationBinder.Bind<HexPanelView>().To<HexPanelMediator>();
         }
     }
