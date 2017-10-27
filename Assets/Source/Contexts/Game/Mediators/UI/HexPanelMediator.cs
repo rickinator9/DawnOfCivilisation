@@ -1,9 +1,9 @@
-﻿using Assets.Source.Contexts.Commands.Army;
-using Assets.Source.Contexts.Views.UI;
+﻿using Assets.Source.Contexts.Game.Commands.Army;
+using Assets.Source.Contexts.Game.Views.UI;
 using Assets.Source.Core.IoC;
 using Assets.Source.Model;
 
-namespace Assets.Source.Contexts.Mediators.UI
+namespace Assets.Source.Contexts.Game.Mediators.UI
 {
     public class HexPanelMediator : ViewMediator<HexPanelView>
     {

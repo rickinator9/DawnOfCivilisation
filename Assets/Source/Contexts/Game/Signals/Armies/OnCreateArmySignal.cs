@@ -1,7 +1,7 @@
-﻿using Assets.Source.Contexts.Model;
+﻿using Assets.Source.Contexts.Game.Model;
 using strange.extensions.signal.impl;
 
-namespace Assets.Source.Contexts.Signals.Armies
+namespace Assets.Source.Contexts.Game.Signals.Armies
 {
     /// <summary>
     /// IArmy: The created army.

@@ -1,4 +1,4 @@
-﻿using Assets.Source.Contexts.Model;
+﻿using Assets.Source.Contexts.Game.Model;
 
 namespace Assets.Source.Model.Background.Impl
 {

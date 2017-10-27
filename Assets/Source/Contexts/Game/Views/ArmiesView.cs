@@ -1,11 +1,9 @@
 ﻿using System.Collections.Generic;
-using Assets.Source.Contexts.Mediators;
-using Assets.Source.Contexts.Model;
-using Assets.Source.Model.Impl;
+using Assets.Source.Contexts.Game.Mediators;
+using Assets.Source.Contexts.Game.Model;
 using strange.extensions.mediation.impl;
-using UnityEngine;
 
-namespace Assets.Source.Contexts.Views
+namespace Assets.Source.Contexts.Game.Views
 {
 
     public class ArmiesView : View

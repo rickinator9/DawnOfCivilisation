@@ -1,10 +1,11 @@
-﻿using Assets.Source.Contexts.Commands.Army;
-using Assets.Source.Contexts.Mediators;
-using Assets.Source.Contexts.Mediators.UI;
-using Assets.Source.Contexts.Model;
-using Assets.Source.Contexts.Signals.Armies;
-using Assets.Source.Contexts.Views;
-using Assets.Source.Contexts.Views.UI;
+﻿using Assets.Source.Contexts.Game.Commands.Army;
+using Assets.Source.Contexts.Game.Mediators;
+using Assets.Source.Contexts.Game.Mediators.UI;
+using Assets.Source.Contexts.Game.Model;
+using Assets.Source.Contexts.Game.Signals.Armies;
+using Assets.Source.Contexts.Game.Views;
+using Assets.Source.Contexts.Game.Views.UI;
+using Assets.Source.Core.IoC;
 using strange.extensions.command.api;
 using strange.extensions.command.impl;
 using strange.extensions.context.impl;
@@ -27,9 +28,10 @@ namespace Assets.Source.Contexts.Game
 
         protected override void mapBindings()
         {
-            commandBinder.Bind<CreateArmySignal>().To<CreateArmyCommand>();
+            commandBinder.Bind<CreateArmySignal>().To<CreateArmyCommand>().Pooled();
 
-            injectionBinder.Bind<IArmy>().To<Army>();
+            injectionBinder.Bind<IArmy>().To<Army>().ToName(CustomContextKeys.NewInstance);
+            injectionBinder.Bind<IArmies>().To<Armies>().ToSingleton();
             injectionBinder.Bind<OnCreateArmySignal>().ToSingleton();
 
             mediationBinder.Bind<ArmyView>().To<ArmyMediator>();

@@ -5,7 +5,7 @@ using Assets.Source.Model.Impl;
 using strange.extensions.signal.impl;
 using UnityEngine;
 
-namespace Assets.Source.Contexts.Model
+namespace Assets.Source.Contexts.Game.Model
 {
     public interface IArmy : ISelectable
     {

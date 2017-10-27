@@ -1,10 +1,9 @@
-﻿using Assets.Source.Contexts.Model;
-using Assets.Source.Contexts.Views;
+﻿using Assets.Source.Contexts.Game.Model;
+using Assets.Source.Contexts.Game.Views;
 using Assets.Source.Core.IoC;
-using strange.extensions.mediation.impl;
 using strange.extensions.signal.impl;
 
-namespace Assets.Source.Contexts.Mediators
+namespace Assets.Source.Contexts.Game.Mediators
 {
     public class ArmyMediator : ViewMediator<ArmyView>
     {

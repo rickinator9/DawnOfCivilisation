@@ -1,4 +1,4 @@
-﻿using Assets.Source.Contexts.Views.UI;
+﻿using Assets.Source.Contexts.Game.Views.UI;
 using UnityEngine;
 
 namespace Assets.Source.UI.Controllers

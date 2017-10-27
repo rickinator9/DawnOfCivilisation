@@ -1,9 +1,9 @@
-﻿using Assets.Source.Contexts.Model;
-using Assets.Source.Contexts.Signals.Armies;
-using Assets.Source.Contexts.Views;
+﻿using Assets.Source.Contexts.Game.Model;
+using Assets.Source.Contexts.Game.Signals.Armies;
+using Assets.Source.Contexts.Game.Views;
 using Assets.Source.Core.IoC;
 
-namespace Assets.Source.Contexts.Mediators
+namespace Assets.Source.Contexts.Game.Mediators
 {
     public class ArmiesMediator : ViewMediator<ArmiesView>
     {

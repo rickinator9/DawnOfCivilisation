@@ -5,7 +5,7 @@ using strange.extensions.signal.impl;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Assets.Source.Contexts.Views.UI
+namespace Assets.Source.Contexts.Game.Views.UI
 {
     public class HexPanelView : View, IHexPanel
     {

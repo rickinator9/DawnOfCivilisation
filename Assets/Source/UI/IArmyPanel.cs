@@ -1,4 +1,4 @@
-﻿using Assets.Source.Contexts.Model;
+﻿using Assets.Source.Contexts.Game.Model;
 using Assets.Source.Model;
 
 namespace Assets.Source.UI
