@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Assets.Source.Contexts.Game.Model;
+using Assets.Source.Core.IoC;
 using Assets.Source.Model;
 using Assets.Source.Model.Impl;
 using strange.extensions.command.impl;
 using strange.extensions.signal.impl;
 using UnityEngine;
-using HexGrid = Assets.Source.Hex.HexGrid;
 
 namespace Assets.Source.Contexts.Game.Commands.Input
 {
@@ -18,6 +19,19 @@ namespace Assets.Source.Contexts.Game.Commands.Input
 
     public class RightMouseClickCommand : Command
     {
+        #region From signal
+
+        #endregion
+
+        #region Dependencies
+        [Inject(CustomContextKeys.CurrentInstance)]
+        public IHexMap HexMap { get; set; }
+        #endregion
+
+        #region Dispatchers
+
+        #endregion
+
         public override void Execute()
         {
             if (UnityEngine.Input.GetMouseButtonDown(1))
@@ -44,7 +58,7 @@ namespace Assets.Source.Contexts.Game.Commands.Input
                 var hitPosition = hit.point;
                 var coords = HexCoordinates.FromPosition(hitPosition).ToOffsetCoordinates();
 
-                tile = HexGrid.Instance.GetTileAtPosition(coords.X, coords.Z);
+                tile = HexMap[coords.X, coords.Z];
                 return true;
             }
             return false;

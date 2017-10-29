@@ -27,7 +27,7 @@ namespace Assets.Source.Hex
             _collider = gameObject.AddComponent<MeshCollider>();
         }
 
-        public void Triangulate(IHexTile[] tiles, HexGrid grid)
+        public void Triangulate(IHexTile[] tiles)
         {
             foreach (var hexTile in tiles)
             {

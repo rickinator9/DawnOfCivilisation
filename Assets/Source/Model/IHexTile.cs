@@ -1,5 +1,7 @@
-﻿using Assets.Source.Contexts.Game.Model;
+﻿using System.Collections.Generic;
+using Assets.Source.Contexts.Game.Model;
 using Assets.Source.Hex;
+using strange.extensions.signal.impl;
 using UnityEngine;
 
 namespace Assets.Source.Model
@@ -20,7 +22,7 @@ namespace Assets.Source.Model
 
         IArmy[] Armies { get; }
 
-        IHexGridView HexGridView { get; set; }
+        IList<Signal> RefreshSignals { get; } 
 
         void AddNeighbor(IHexTile tile, HexDirection direction);
 

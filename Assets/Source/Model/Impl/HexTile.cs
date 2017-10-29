@@ -2,6 +2,7 @@
 using System.Linq;
 using Assets.Source.Contexts.Game.Model;
 using Assets.Source.Hex;
+using strange.extensions.signal.impl;
 using UnityEngine;
 
 namespace Assets.Source.Model.Impl
@@ -58,7 +59,10 @@ namespace Assets.Source.Model.Impl
             set
             {
                 _country = value;
-                HexGridView.Refresh();
+                foreach (var refreshSignal in RefreshSignals)
+                {
+                    refreshSignal.Dispatch();
+                }
             }
         }
 
@@ -69,7 +73,8 @@ namespace Assets.Source.Model.Impl
             get { return _armies.ToArray(); }
         }
 
-        public IHexGridView HexGridView { get; set; }
+        private IList<Signal> _refreshSignals = new List<Signal>(); 
+        public IList<Signal> RefreshSignals { get { return _refreshSignals; } }
 
         public void AddNeighbor(IHexTile tile, HexDirection direction)
         {

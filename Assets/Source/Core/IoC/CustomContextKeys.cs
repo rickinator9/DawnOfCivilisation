@@ -2,6 +2,7 @@
 {
     public enum CustomContextKeys
     {
-        NewInstance
+        NewInstance,
+        CurrentInstance
     }
 }
