@@ -1,14 +1,15 @@
 ﻿using Assets.Source.Contexts.Game.Commands.Army;
 using Assets.Source.Contexts.Game.Commands.Initialisation;
 using Assets.Source.Contexts.Game.Commands.Input;
+using Assets.Source.Contexts.Game.Commands.UI;
 using Assets.Source.Contexts.Game.Mediators;
-using Assets.Source.Contexts.Game.Mediators.UI;
 using Assets.Source.Contexts.Game.Model;
-using Assets.Source.Contexts.Game.Signals.Armies;
-using Assets.Source.Contexts.Game.Signals.Initialisation;
+using Assets.Source.Contexts.Game.Model.Hex;
+using Assets.Source.Contexts.Game.UI;
+using Assets.Source.Contexts.Game.UI.Typed.Panels;
 using Assets.Source.Contexts.Game.Views;
-using Assets.Source.Contexts.Game.Views.UI;
 using Assets.Source.Core.IoC;
+using Assets.Source.UI.Controllers;
 using strange.extensions.command.api;
 using strange.extensions.command.impl;
 using strange.extensions.context.impl;
@@ -47,11 +48,16 @@ namespace Assets.Source.Contexts.Game
             commandBinder.Bind<RightMouseClickSignal>().To<RightMouseClickCommand>().Pooled();
             commandBinder.Bind<InitialiseHexMapSignal>().To<InitialiseHexMapCommand>();
 
+            commandBinder.Bind<ShowUiPanelExclusivelySignal>().To<ShowUiPanelExclusivelyCommand>();
+            injectionBinder.Bind<ShowUiPanelSignal>().ToSingleton();
+            injectionBinder.Bind<HideAllUiPanelsSignal>().ToSingleton();
+
             injectionBinder.Bind<IArmy>().To<Army>().ToName(CustomContextKeys.NewInstance);
             injectionBinder.Bind<IArmies>().To<Armies>().ToSingleton();
             injectionBinder.Bind<OnCreateArmySignal>().ToSingleton();
 
             injectionBinder.Bind<IHexMap>().To<HexMap>().ToName(CustomContextKeys.NewInstance);
+            injectionBinder.Bind<IHexTile>().To<HexTile>().ToName(CustomContextKeys.NewInstance);
             injectionBinder.Bind<OnInitialiseHexMapSignal>().ToSingleton();
 
             mediationBinder.Bind<ArmyView>().To<ArmyMediator>();
@@ -59,6 +65,10 @@ namespace Assets.Source.Contexts.Game
             mediationBinder.Bind<InputView>().To<InputMediator>();
 
             mediationBinder.Bind<HexPanelView>().To<HexPanelMediator>();
+            mediationBinder.Bind<CountryPanelView>().To<CountryPanelMediator>();
+            mediationBinder.Bind<ArmyPanelView>().To<ArmyPanelMediator>();
+            mediationBinder.Bind<CountrySelectionView>().To<CountrySelectionMediator>();
+
             mediationBinder.Bind<HexGridView>().To<HexGridMediator>();
         }
     }

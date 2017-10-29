@@ -1,5 +1,5 @@
-﻿using Assets.Source.Contexts.Game.Model;
-using Assets.Source.Contexts.Game.Signals.Armies;
+﻿using Assets.Source.Contexts.Game.Commands.Army;
+using Assets.Source.Contexts.Game.Model;
 using Assets.Source.Contexts.Game.Views;
 using Assets.Source.Core.IoC;
 

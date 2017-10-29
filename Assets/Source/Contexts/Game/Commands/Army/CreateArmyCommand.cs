@@ -1,5 +1,5 @@
 ﻿using Assets.Source.Contexts.Game.Model;
-using Assets.Source.Contexts.Game.Signals.Armies;
+using Assets.Source.Contexts.Game.Model.Hex;
 using Assets.Source.Core.IoC;
 using Assets.Source.Model;
 using Assets.Source.Model.Impl;
@@ -8,6 +8,7 @@ using strange.extensions.signal.impl;
 
 namespace Assets.Source.Contexts.Game.Commands.Army
 {
+    #region Signals
     /// <summary>
     /// IHexTile: The tile the army will be spawned on.
     /// </summary>
@@ -15,6 +16,15 @@ namespace Assets.Source.Contexts.Game.Commands.Army
     {
         
     }
+    
+    /// <summary>
+    /// IArmy: The created army.
+    /// </summary>
+    public class OnCreateArmySignal : Signal<IArmy>
+    {
+
+    }
+    #endregion
 
     public class CreateArmyCommand : Command
     {

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Assets.Source.Contexts.Game.Model.Hex;
 using Assets.Source.Model;
 using Assets.Source.Model.Background.Impl;
 using Assets.Source.Model.Impl;

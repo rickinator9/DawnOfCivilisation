@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Assets.Source.Contexts.Game.Model.Hex;
 
 namespace Assets.Source.Model
 {

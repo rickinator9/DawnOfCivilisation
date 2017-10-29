@@ -1,4 +1,8 @@
-﻿using Assets.Source.Contexts.Game.Model;
+﻿using Assets.Source.Contexts.Game.Commands.UI;
+using Assets.Source.Contexts.Game.Model;
+using Assets.Source.Contexts.Game.Model.Hex;
+using Assets.Source.Contexts.Game.UI;
+using Assets.Source.Contexts.Game.UI.Typed;
 using Assets.Source.Core.IoC;
 using Assets.Source.Model;
 using Assets.Source.Model.Impl;
@@ -24,7 +28,8 @@ namespace Assets.Source.Contexts.Game.Commands.Input
         #endregion
 
         #region Dispatchers
-
+        [Inject]
+        public ShowUiPanelExclusivelySignal ShowUiPanelExclusivelyDispatcher { get; set; }
         #endregion
 
         public override void Execute()
@@ -35,19 +40,16 @@ namespace Assets.Source.Contexts.Game.Commands.Input
             var foundTile = FindTileWithRayCast(out tile, out hit);
             if (foundTile)
             {
-                var panels = PanelsController.Instance;
                 if (hit.transform.gameObject.tag.Equals("HexGrid"))
                 {
-                    panels.HideAll();
-                    panels.HexPanel.ShowForHexTile(tile);
+                    ShowUiPanelExclusivelyDispatcher.Dispatch(UiType.HexPanel, tile);
                 }
                 else if (hit.transform.gameObject.tag.Equals("Army"))
                 {
                     var army = tile.Armies[0];
                     Players.Instance.LocalPlayer.SelectedObject = army;
 
-                    panels.HideAll();
-                    panels.ArmyPanel.ShowForArmy(army);
+                    ShowUiPanelExclusivelyDispatcher.Dispatch(UiType.ArmyPanel, army);
                 }
             }
         }

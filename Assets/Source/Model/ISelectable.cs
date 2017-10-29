@@ -1,4 +1,6 @@
-﻿namespace Assets.Source.Model
+﻿using Assets.Source.Contexts.Game.Model.Hex;
+
+namespace Assets.Source.Model
 {
     public interface ISelectable
     {

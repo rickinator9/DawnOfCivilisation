@@ -1,5 +1,6 @@
-﻿using Assets.Source.Contexts.Game.Model;
-using Assets.Source.Contexts.Game.Signals.Initialisation;
+﻿using Assets.Source.Contexts.Game.Commands.Initialisation;
+using Assets.Source.Contexts.Game.Model;
+using Assets.Source.Contexts.Game.Model.Hex;
 using Assets.Source.Contexts.Game.Views;
 using Assets.Source.Core.IoC;
 using strange.extensions.signal.impl;

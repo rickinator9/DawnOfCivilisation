@@ -1,7 +1,6 @@
 ﻿using Assets.Source.Contexts.Game.Model;
-using Assets.Source.Contexts.Game.Signals.Initialisation;
+using Assets.Source.Contexts.Game.Model.Hex;
 using Assets.Source.Core.IoC;
-using Assets.Source.Hex;
 using Assets.Source.Model;
 using Assets.Source.Model.Impl;
 using Assets.Source.Utils;
@@ -15,6 +14,7 @@ namespace Assets.Source.Contexts.Game.Commands.Initialisation
         public int Width, Height;
     }
 
+#region Signals
     /// <summary>
     /// HexMapDimension: Contains the dimensions of the HexMap.
     /// </summary>
@@ -22,6 +22,16 @@ namespace Assets.Source.Contexts.Game.Commands.Initialisation
     {
         
     }
+
+
+    /// <summary>
+    /// IHexMap: The Hex Map that was initialised.
+    /// </summary>
+    public class OnInitialiseHexMapSignal : Signal<IHexMap>
+    {
+
+    }
+#endregion
 
     public class InitialiseHexMapCommand : Command
     {
@@ -66,11 +76,9 @@ namespace Assets.Source.Contexts.Game.Commands.Initialisation
         private IHexTile CreateTile(int x, int z)
         {
             var terrain = EnumUtils.GetRandomValue<HexTerrainType>();
-            var tile = new HexTile
-            {
-                TerrainType = terrain,
-                Coordinates = HexCoordinates.FromOffsetCoordinates(x, z)
-            };
+            var tile = injectionBinder.GetInstance<IHexTile>(CustomContextKeys.NewInstance);
+            tile.TerrainType = terrain;
+            tile.Coordinates = HexCoordinates.FromOffsetCoordinates(x, z);
 
             return tile;
         }

@@ -1,4 +1,4 @@
-﻿using Assets.Source.Hex;
+﻿using Assets.Source.Contexts.Game.Model.Hex;
 using Assets.Source.Model;
 using Assets.Source.Model.Impl;
 using strange.extensions.mediation.impl;
