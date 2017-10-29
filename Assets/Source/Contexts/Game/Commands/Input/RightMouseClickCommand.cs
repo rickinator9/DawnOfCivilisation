@@ -27,6 +27,9 @@ namespace Assets.Source.Contexts.Game.Commands.Input
         #region Dependencies
         [Inject(CustomContextKeys.CurrentInstance)]
         public IHexMap HexMap { get; set; }
+
+        [Inject]
+        public IPlayers Players { get; set; }
         #endregion
 
         #region Dispatchers
@@ -43,7 +46,7 @@ namespace Assets.Source.Contexts.Game.Commands.Input
                 var foundTile = FindTileWithRayCast(out tile, out hit);
                 if (foundTile && tile.TerrainType != HexTerrainType.Water)
                 {
-                    var selectedObject = Players.Instance.LocalPlayer.SelectedObject;
+                    var selectedObject = Players.LocalPlayer.SelectedObject;
                     if (selectedObject != null) selectedObject.OnRightClickOnTile(tile);
                 }
             }

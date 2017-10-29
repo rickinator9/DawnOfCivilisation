@@ -25,6 +25,9 @@ namespace Assets.Source.Contexts.Game.Commands.Input
         #region Dependencies
         [Inject(CustomContextKeys.CurrentInstance)]
         public IHexMap HexMap { get; set; }
+
+        [Inject]
+        public IPlayers Players { get; set; }
         #endregion
 
         #region Dispatchers
@@ -47,7 +50,7 @@ namespace Assets.Source.Contexts.Game.Commands.Input
                 else if (hit.transform.gameObject.tag.Equals("Army"))
                 {
                     var army = tile.Armies[0];
-                    Players.Instance.LocalPlayer.SelectedObject = army;
+                    Players.LocalPlayer.SelectedObject = army;
 
                     ShowUiPanelExclusivelyDispatcher.Dispatch(UiType.ArmyPanel, army);
                 }

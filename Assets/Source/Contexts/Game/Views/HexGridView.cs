@@ -14,15 +14,6 @@ namespace Assets.Source.Contexts.Game.Views
 
         public IHexTile[] Tiles { get; set; }
 
-        protected override void Start()
-        {
-            base.Start();
-
-            var players = Players.Instance;
-            var player = new LocalPlayer { Country = new Country("Sumeria") };
-            players.LocalPlayer = player;
-        }
-
         protected void Update()
         {
             if (NeedsRefresh)

@@ -44,6 +44,9 @@ namespace Assets.Source.Contexts.Game.Commands.Initialisation
         #region Dependencies
         [Inject(CustomContextKeys.NewInstance)]
         public IHexMap HexMap { get; set; }
+
+        [Inject]
+        public IPlayers Players { get; set; }
         #endregion
 
         #region Dispatchers
@@ -56,6 +59,12 @@ namespace Assets.Source.Contexts.Game.Commands.Initialisation
 
         public override void Execute()
         {
+            //TODO: Add player init logic to its own command.
+            var player = injectionBinder.GetInstance<ILocalPlayer>(CustomContextKeys.NewInstance);
+            player.Country = injectionBinder.GetInstance<ICountry>(CustomContextKeys.NewInstance);
+            player.Country.Name = "Sumeria";
+            Players.LocalPlayer = player;
+
             HexMap.Initialise(Width, Height);
 
             for (var z = 0; z < Height; z++)

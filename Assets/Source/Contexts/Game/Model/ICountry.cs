@@ -1,7 +1,14 @@
 ﻿using UnityEngine;
 
-namespace Assets.Source.Model.Impl
+namespace Assets.Source.Contexts.Game.Model
 {
+    public interface ICountry
+    {
+         string Name { get; set; }
+
+         Color Color { get; }
+    }
+
     public class Country : ICountry
     {
         public string Name { get; set; }
@@ -20,11 +27,6 @@ namespace Assets.Source.Model.Impl
 
                 return _color;
             }
-        }
-
-        public Country(string name)
-        {
-            Name = name;
         }
     }
 }

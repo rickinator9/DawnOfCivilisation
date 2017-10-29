@@ -40,10 +40,13 @@ namespace Assets.Source.Contexts.Game.Commands.Army
         [Inject]
         public IArmies Armies { get; set; }
 
+        [Inject]
+        public IPlayers Players { get; set; }
+
         public override void Execute()
         {
             NewArmy.Location = Tile;
-            NewArmy.Country = Players.Instance.LocalPlayer.Country;
+            NewArmy.Country = Players.LocalPlayer.Country;
             Armies.AddArmy(NewArmy);
 
             Tile.Country = NewArmy.Country;

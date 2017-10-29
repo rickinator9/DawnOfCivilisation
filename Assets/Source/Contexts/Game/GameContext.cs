@@ -56,9 +56,15 @@ namespace Assets.Source.Contexts.Game
             injectionBinder.Bind<IArmies>().To<Armies>().ToSingleton();
             injectionBinder.Bind<OnCreateArmySignal>().ToSingleton();
 
+            injectionBinder.Bind<IPlayers>().To<Players>().ToSingleton();
+            injectionBinder.Bind<IPlayer>().To<Player>().ToName(CustomContextKeys.NewInstance);
+            injectionBinder.Bind<ILocalPlayer>().To<LocalPlayer>().ToName(CustomContextKeys.NewInstance);
+
             injectionBinder.Bind<IHexMap>().To<HexMap>().ToName(CustomContextKeys.NewInstance);
             injectionBinder.Bind<IHexTile>().To<HexTile>().ToName(CustomContextKeys.NewInstance);
             injectionBinder.Bind<OnInitialiseHexMapSignal>().ToSingleton();
+
+            injectionBinder.Bind<ICountry>().To<Country>().ToName(CustomContextKeys.NewInstance);
 
             mediationBinder.Bind<ArmyView>().To<ArmyMediator>();
             mediationBinder.Bind<ArmiesView>().To<ArmiesMediator>();

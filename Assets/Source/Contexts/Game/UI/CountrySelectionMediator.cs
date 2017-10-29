@@ -1,4 +1,5 @@
 ﻿using Assets.Source.Contexts.Game.Commands.UI;
+using Assets.Source.Contexts.Game.Model;
 using Assets.Source.Contexts.Game.UI.Typed;
 using Assets.Source.Core.IoC;
 using Assets.Source.Model.Impl;
@@ -8,8 +9,11 @@ namespace Assets.Source.Contexts.Game.UI
 {
     public class CountrySelectionMediator : ViewMediator<CountrySelectionView>
     {
-         [Inject]
-         public ShowUiPanelExclusivelySignal ShowUiPanelExclusivelyDispatcher { get; set; }
+        [Inject]
+        public ShowUiPanelExclusivelySignal ShowUiPanelExclusivelyDispatcher { get; set; }
+
+        [Inject]
+        public IPlayers Players { get; set; }
 
         public override void OnRegister()
         {
@@ -27,7 +31,7 @@ namespace Assets.Source.Contexts.Game.UI
 
         private void OnViewPressed()
         {
-            ShowUiPanelExclusivelyDispatcher.Dispatch(UiType.CountryPanel, Players.Instance.LocalPlayer.Country);
+            ShowUiPanelExclusivelyDispatcher.Dispatch(UiType.CountryPanel, Players.LocalPlayer.Country);
         }
     }
 }
