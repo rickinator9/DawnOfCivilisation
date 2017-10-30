@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace Assets.Source.Model
+namespace Assets.Source.Contexts.Game.Model.Hex
 {
     public enum HexTerrainType
     {
