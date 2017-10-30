@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using Assets.Source.Contexts.Game.Model.Hex;
 
-namespace Assets.Source.Model
+namespace Assets.Source.Contexts.Game.Model.Pathfinding
 {
-    public interface IHexGrid
+    public interface IPathfinding
     {
         IList<IHexTile> FindPath(IHexTile start, IHexTile goal);
     }

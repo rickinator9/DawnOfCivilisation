@@ -49,32 +49,5 @@ namespace Assets.Source.Contexts.Game.Model
         public IList<Signal> RefreshSignals { get { return _refreshSignals; } }
 
         public ICountry Country { get; set; }
-
-        public void OnRightClickOnTile(IHexTile tile)
-        {
-            if (Location != tile)
-            {
-                var grid = HexGrid.Instance;
-                var tilePath = grid.FindPath(Location, tile);
-
-                var dateManager = DateManager.Instance;
-                var timeManager = TimeManager.Instance;
-                var backgroundTaskManager = BackgroundTaskManager.Instance;
-
-                var arrivalDate = timeManager.CurrentDate;
-                for (var i = 1; i < tilePath.Count; i++)
-                {
-                    var previousTile = tilePath[i - 1];
-                    var destination = tilePath[i];
-
-                    var moveCost = (previousTile.TerrainType.GetCost() + destination.TerrainType.GetCost()) / 2;
-                    var moveTime = (int)Mathf.Round(moveCost);
-                    arrivalDate = dateManager.AddDays(arrivalDate, moveTime);
-                    var task = new MoveArmyTask(arrivalDate, this, destination);
-
-                    backgroundTaskManager.SubmitTask(task);
-                }
-            }
-        }
     }
 }

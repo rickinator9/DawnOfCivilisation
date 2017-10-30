@@ -1,12 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Assets.Source.Contexts.Game.Model;
 using Assets.Source.Contexts.Game.Model.Hex;
-using Assets.Source.Contexts.Game.Model.Pathfinding;
+using Assets.Source.Model;
 
-namespace Assets.Source.Model.Impl
+namespace Assets.Source.Contexts.Game.Model.Pathfinding
 {
-    public class Pathfinding : IPathfinding
+    public class Dijkstra : IPathfinding
     {
         internal class Node
         {
@@ -15,12 +14,6 @@ namespace Assets.Source.Model.Impl
             public float Cost { get; set; }
 
             public Node Parent { get; set; }
-        }
-
-        private static IPathfinding _instance;
-        public static IPathfinding Instance
-        {
-            get { return _instance ?? (_instance = new Pathfinding()); }
         }
 
         public IList<IHexTile> FindPath(IHexTile start, IHexTile goal)

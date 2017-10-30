@@ -5,6 +5,7 @@ using Assets.Source.Contexts.Game.Commands.UI;
 using Assets.Source.Contexts.Game.Mediators;
 using Assets.Source.Contexts.Game.Model;
 using Assets.Source.Contexts.Game.Model.Hex;
+using Assets.Source.Contexts.Game.Model.Pathfinding;
 using Assets.Source.Contexts.Game.UI;
 using Assets.Source.Contexts.Game.UI.Typed.Panels;
 using Assets.Source.Contexts.Game.Views;
@@ -47,6 +48,7 @@ namespace Assets.Source.Contexts.Game
             commandBinder.Bind<LeftMouseClickSignal>().To<LeftMouseClickCommand>().Pooled();
             commandBinder.Bind<RightMouseClickSignal>().To<RightMouseClickCommand>().Pooled();
             commandBinder.Bind<InitialiseHexMapSignal>().To<InitialiseHexMapCommand>();
+            commandBinder.Bind<CreateArmyMovementPathSignal>().To<CreateArmyMovementPathCommand>().Pooled();
 
             commandBinder.Bind<ShowUiPanelExclusivelySignal>().To<ShowUiPanelExclusivelyCommand>();
             injectionBinder.Bind<ShowUiPanelSignal>().ToSingleton();
@@ -62,6 +64,7 @@ namespace Assets.Source.Contexts.Game
 
             injectionBinder.Bind<IHexMap>().To<HexMap>().ToName(CustomContextKeys.NewInstance);
             injectionBinder.Bind<IHexTile>().To<HexTile>().ToName(CustomContextKeys.NewInstance);
+            injectionBinder.Bind<IPathfinding>().To<Dijkstra>().ToSingleton();
             injectionBinder.Bind<OnInitialiseHexMapSignal>().ToSingleton();
 
             injectionBinder.Bind<ICountry>().To<Country>().ToName(CustomContextKeys.NewInstance);

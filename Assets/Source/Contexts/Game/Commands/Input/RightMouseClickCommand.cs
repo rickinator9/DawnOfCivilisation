@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Assets.Source.Contexts.Game.Commands.Army;
 using Assets.Source.Contexts.Game.Model;
 using Assets.Source.Contexts.Game.Model.Hex;
 using Assets.Source.Core.IoC;
@@ -33,7 +34,8 @@ namespace Assets.Source.Contexts.Game.Commands.Input
         #endregion
 
         #region Dispatchers
-
+        [Inject]
+        public CreateArmyMovementPathSignal CreateArmyMovementPathDispatcher { get; set; }
         #endregion
 
         public override void Execute()
@@ -47,7 +49,15 @@ namespace Assets.Source.Contexts.Game.Commands.Input
                 if (foundTile && tile.TerrainType != HexTerrainType.Water)
                 {
                     var selectedObject = Players.LocalPlayer.SelectedObject;
-                    if (selectedObject != null) selectedObject.OnRightClickOnTile(tile);
+                    if (selectedObject != null && selectedObject is IArmy)
+                    {
+                        var army = (IArmy) selectedObject;
+                        CreateArmyMovementPathDispatcher.Dispatch(army, new ArmyMovementPathParams
+                        {
+                            Start = army.Location,
+                            Destination = tile
+                        });
+                    }
                 }
             }
         }
