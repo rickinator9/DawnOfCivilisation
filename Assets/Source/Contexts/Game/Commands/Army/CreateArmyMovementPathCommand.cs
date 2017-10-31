@@ -39,6 +39,9 @@ namespace Assets.Source.Contexts.Game.Commands.Army
         [Inject]
         public IPathfinding Pathfinding { get; set; }
 
+        [Inject]
+        public IDateManager DateManager { get; set; }
+
         public IHexTile Start { get { return ArmyMovementPathParams.Start; } }
         public IHexTile Destination { get { return ArmyMovementPathParams.Destination; } }
 
@@ -48,8 +51,6 @@ namespace Assets.Source.Contexts.Game.Commands.Army
             {
                 var grid = Pathfinding;
                 var tilePath = grid.FindPath(Start, Destination);
-
-                var dateManager = DateManager.Instance;
                 var timeManager = TimeManager.Instance;
                 var backgroundTaskManager = BackgroundTaskManager.Instance;
 
@@ -61,7 +62,8 @@ namespace Assets.Source.Contexts.Game.Commands.Army
 
                     var moveCost = (previousTile.TerrainType.GetCost() + destination.TerrainType.GetCost()) / 2;
                     var moveTime = (int)Mathf.Round(moveCost);
-                    arrivalDate = dateManager.AddDays(arrivalDate, moveTime);
+
+                    var date = DateManager.AddDays(arrivalDate, moveTime);
                     var task = new MoveArmyTask(arrivalDate, Army, destination);
 
                     backgroundTaskManager.SubmitTask(task);
