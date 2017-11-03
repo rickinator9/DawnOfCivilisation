@@ -1301,6 +1301,46 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 859438127}
+--- !u!1 &920781686
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 920781687}
+  - component: {fileID: 920781688}
+  m_Layer: 0
+  m_Name: Update
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &920781687
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 920781686}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 2005563022}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &920781688
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 920781686}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 619ec37f1b9c5b04198105288e1202be, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &945505214
 GameObject:
   m_ObjectHideFlags: 0
@@ -1843,9 +1883,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ec39c5db4a474f41a57dee9c396a04c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ArmyPanelController: {fileID: 1498052110}
-  CountryPanelController: {fileID: 0}
-  HexPanelView: {fileID: 1312775144}
 --- !u!1 &1422369370
 GameObject:
   m_ObjectHideFlags: 0
@@ -3282,6 +3319,7 @@ Transform:
   - {fileID: 393907201}
   - {fileID: 1671792340}
   - {fileID: 1027713276}
+  - {fileID: 920781687}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

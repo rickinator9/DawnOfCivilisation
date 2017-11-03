@@ -1,8 +1,5 @@
 ﻿using System.Collections.Generic;
 using Assets.Source.Contexts.Game.Model.Hex;
-using Assets.Source.Model;
-using Assets.Source.Model.Background.Impl;
-using Assets.Source.Model.Impl;
 using strange.extensions.signal.impl;
 using UnityEngine;
 
@@ -17,6 +14,10 @@ namespace Assets.Source.Contexts.Game.Model
         IList<Signal> RefreshSignals { get; }
 
         ICountry Country { get; set; }
+
+        IMovementPath MovementPath { get; set; }
+
+        bool IsMoving { get; set; }
     }
 
     public class Army : IArmy
@@ -49,5 +50,7 @@ namespace Assets.Source.Contexts.Game.Model
         public IList<Signal> RefreshSignals { get { return _refreshSignals; } }
 
         public ICountry Country { get; set; }
+        public IMovementPath MovementPath { get; set; }
+        public bool IsMoving { get; set; }
     }
 }

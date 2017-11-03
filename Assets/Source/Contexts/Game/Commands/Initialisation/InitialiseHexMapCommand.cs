@@ -2,7 +2,6 @@
 using Assets.Source.Contexts.Game.Model.Hex;
 using Assets.Source.Core.IoC;
 using Assets.Source.Model;
-using Assets.Source.Model.Impl;
 using Assets.Source.Utils;
 using strange.extensions.command.impl;
 using strange.extensions.signal.impl;
@@ -47,6 +46,9 @@ namespace Assets.Source.Contexts.Game.Commands.Initialisation
 
         [Inject]
         public IPlayers Players { get; set; }
+
+        [Inject]
+        public IDateManager DateManager { get; set; }
         #endregion
 
         #region Dispatchers
@@ -59,6 +61,12 @@ namespace Assets.Source.Contexts.Game.Commands.Initialisation
 
         public override void Execute()
         {
+            //TODO: Set current date init
+            var date = injectionBinder.GetInstance<IDate>(CustomContextKeys.NewInstance);
+            date.Initialise(1, 1, 1);
+            DateManager[date.Day, date.Month, date.Year] = date;
+            DateManager.CurrentDate = date;
+
             //TODO: Add player init logic to its own command.
             var player = injectionBinder.GetInstance<ILocalPlayer>(CustomContextKeys.NewInstance);
             player.Country = injectionBinder.GetInstance<ICountry>(CustomContextKeys.NewInstance);

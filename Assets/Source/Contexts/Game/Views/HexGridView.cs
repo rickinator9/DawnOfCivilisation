@@ -1,6 +1,4 @@
 ﻿using Assets.Source.Contexts.Game.Model.Hex;
-using Assets.Source.Model;
-using Assets.Source.Model.Impl;
 using strange.extensions.mediation.impl;
 
 namespace Assets.Source.Contexts.Game.Views

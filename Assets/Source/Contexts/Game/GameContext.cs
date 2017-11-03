@@ -1,4 +1,5 @@
-﻿using Assets.Source.Contexts.Game.Commands.Army;
+﻿using Assets.Source.Contexts.Game.Commands;
+using Assets.Source.Contexts.Game.Commands.Army;
 using Assets.Source.Contexts.Game.Commands.Initialisation;
 using Assets.Source.Contexts.Game.Commands.Input;
 using Assets.Source.Contexts.Game.Commands.UI;
@@ -10,11 +11,13 @@ using Assets.Source.Contexts.Game.UI;
 using Assets.Source.Contexts.Game.UI.Typed.Panels;
 using Assets.Source.Contexts.Game.Views;
 using Assets.Source.Core.IoC;
+using Assets.Source.Model;
 using Assets.Source.UI.Controllers;
 using strange.extensions.command.api;
 using strange.extensions.command.impl;
 using strange.extensions.context.impl;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 namespace Assets.Source.Contexts.Game
 {
@@ -49,6 +52,9 @@ namespace Assets.Source.Contexts.Game
             commandBinder.Bind<RightMouseClickSignal>().To<RightMouseClickCommand>().Pooled();
             commandBinder.Bind<InitialiseHexMapSignal>().To<InitialiseHexMapCommand>();
             commandBinder.Bind<CreateArmyMovementPathSignal>().To<CreateArmyMovementPathCommand>().Pooled();
+            commandBinder.Bind<ProcessDateTickSignal>().To<ProcessDateTickCommand>();
+            injectionBinder.Bind<TimePanelWaitSignal>().ToSingleton();
+            injectionBinder.Bind<TimePanelResumeSignal>().ToSingleton();
 
             commandBinder.Bind<ShowUiPanelExclusivelySignal>().To<ShowUiPanelExclusivelyCommand>();
             injectionBinder.Bind<ShowUiPanelSignal>().ToSingleton();
@@ -56,6 +62,8 @@ namespace Assets.Source.Contexts.Game
 
             injectionBinder.Bind<IArmy>().To<Army>().ToName(CustomContextKeys.NewInstance);
             injectionBinder.Bind<IArmies>().To<Armies>().ToSingleton();
+            injectionBinder.Bind<IMovement>().To<Movement>().ToName(CustomContextKeys.NewInstance);
+            injectionBinder.Bind<IMovementPath>().To<MovementPath>().ToName(CustomContextKeys.NewInstance);
             injectionBinder.Bind<OnCreateArmySignal>().ToSingleton();
 
             injectionBinder.Bind<IPlayers>().To<Players>().ToSingleton();
@@ -69,6 +77,10 @@ namespace Assets.Source.Contexts.Game
 
             injectionBinder.Bind<ICountry>().To<Country>().ToName(CustomContextKeys.NewInstance);
 
+            injectionBinder.Bind<IDate>().To<Date>().ToName(CustomContextKeys.NewInstance);
+            injectionBinder.Bind<IDateManager>().To<DateManager>().ToSingleton();
+            injectionBinder.Bind<OnCurrentDateChangeSignal>().ToSingleton();
+
             mediationBinder.Bind<ArmyView>().To<ArmyMediator>();
             mediationBinder.Bind<ArmiesView>().To<ArmiesMediator>();
             mediationBinder.Bind<InputView>().To<InputMediator>();
@@ -77,6 +89,9 @@ namespace Assets.Source.Contexts.Game
             mediationBinder.Bind<CountryPanelView>().To<CountryPanelMediator>();
             mediationBinder.Bind<ArmyPanelView>().To<ArmyPanelMediator>();
             mediationBinder.Bind<CountrySelectionView>().To<CountrySelectionMediator>();
+            mediationBinder.Bind<TimePanelView>().To<TimePanelMediator>();
+            mediationBinder.Bind<UpdateView>().To<UpdateMediator>();
+            injectionBinder.Bind<UpdateSignal>().ToSingleton();
 
             mediationBinder.Bind<HexGridView>().To<HexGridMediator>();
         }

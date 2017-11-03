@@ -1,8 +1,6 @@
 ﻿using Assets.Source.Contexts.Game.Model;
 using Assets.Source.Contexts.Game.Model.Hex;
 using Assets.Source.Core.IoC;
-using Assets.Source.Model;
-using Assets.Source.Model.Impl;
 using strange.extensions.command.impl;
 using strange.extensions.signal.impl;
 

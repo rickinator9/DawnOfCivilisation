@@ -2,8 +2,6 @@
 using Assets.Source.Contexts.Game.Model;
 using Assets.Source.Contexts.Game.UI.Typed;
 using Assets.Source.Core.IoC;
-using Assets.Source.Model.Impl;
-using Assets.Source.UI.Controllers;
 
 namespace Assets.Source.Contexts.Game.UI
 {

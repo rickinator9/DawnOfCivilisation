@@ -11,8 +11,11 @@ namespace Assets.Source.Model
 
     public interface IDateManager
     {
+        IDate this[TentativeDate tentativeDate] { get; set; }
         IDate this[byte day, byte month, short year] { get; set; }
         IDate this[string date] { get; set; }
+
+        IDate CurrentDate { get; set; }
 
         TentativeDate AddDays(IDate date, int days);
 
@@ -40,10 +43,32 @@ namespace Assets.Source.Model
             DatesByString = new Dictionary<string, IDate>();
         }
 
+        public IDate this[TentativeDate tentativeDate]
+        {
+            get
+            {
+                var dateString = GetDateString(tentativeDate.Day, tentativeDate.Month, tentativeDate.Year);
+                return GetDateByString(dateString);
+            }
+            set
+            {
+                var dateString = GetDateString(tentativeDate.Day, tentativeDate.Month, tentativeDate.Year);
+                SetDateByString(dateString, value);
+            }
+        }
+
         IDate IDateManager.this[byte day, byte month, short year]
         {
-            get { return GetDateByString(GetDateString(day, month, year)); }
-            set { SetDateByString(GetDateString(day, month, year), value); }
+            get
+            {
+                var dateString = GetDateString(day, month, year);
+                return GetDateByString(dateString);
+            }
+            set
+            {
+                var dateString = GetDateString(day, month, year);
+                SetDateByString(dateString, value);
+            }
         }
 
         IDate IDateManager.this[string date]
@@ -51,6 +76,8 @@ namespace Assets.Source.Model
             get { return GetDateByString(date); }
             set { SetDateByString(date, value); }
         }
+
+        public IDate CurrentDate { get; set; }
 
         public TentativeDate AddDays(IDate date, int days)
         {

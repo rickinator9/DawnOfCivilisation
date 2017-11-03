@@ -11,6 +11,8 @@
         short Year { get; }
 
         void Initialise(byte day, byte month, short year);
+
+        void Initialise(TentativeDate tentativeDate);
     }
 
     public class Date : IDate
@@ -24,6 +26,11 @@
             Day = day;
             Month = month;
             Year = year;
+        }
+
+        public void Initialise(TentativeDate tentativeDate)
+        {
+            Initialise(tentativeDate.Day, tentativeDate.Month, tentativeDate.Year);
         }
 
         public override string ToString()

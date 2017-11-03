@@ -1,9 +1,9 @@
-﻿using Assets.Source.Contexts.Game.Model;
+﻿using System.Collections.Generic;
+using Assets.Source.Contexts.Game.Model;
 using Assets.Source.Contexts.Game.Model.Hex;
 using Assets.Source.Contexts.Game.Model.Pathfinding;
+using Assets.Source.Core.IoC;
 using Assets.Source.Model;
-using Assets.Source.Model.Background.Impl;
-using Assets.Source.Model.Impl;
 using strange.extensions.command.impl;
 using strange.extensions.signal.impl;
 using UnityEngine;
@@ -30,17 +30,18 @@ namespace Assets.Source.Contexts.Game.Commands.Army
 
     public class CreateArmyMovementPathCommand : Command
     {
+#region From Signal
         [Inject]
         public IArmy Army { get; set; }
 
         [Inject]
         public ArmyMovementPathParams ArmyMovementPathParams { get; set; }
+#endregion
 
+#region Dependencies
         [Inject]
         public IPathfinding Pathfinding { get; set; }
-
-        [Inject]
-        public IDateManager DateManager { get; set; }
+#endregion
 
         public IHexTile Start { get { return ArmyMovementPathParams.Start; } }
         public IHexTile Destination { get { return ArmyMovementPathParams.Destination; } }
@@ -51,10 +52,8 @@ namespace Assets.Source.Contexts.Game.Commands.Army
             {
                 var grid = Pathfinding;
                 var tilePath = grid.FindPath(Start, Destination);
-                var timeManager = TimeManager.Instance;
-                var backgroundTaskManager = BackgroundTaskManager.Instance;
 
-                var arrivalDate = timeManager.CurrentDate;
+                var movements = new List<IMovement>();
                 for (var i = 1; i < tilePath.Count; i++)
                 {
                     var previousTile = tilePath[i - 1];
@@ -63,11 +62,15 @@ namespace Assets.Source.Contexts.Game.Commands.Army
                     var moveCost = (previousTile.TerrainType.GetCost() + destination.TerrainType.GetCost()) / 2;
                     var moveTime = (int)Mathf.Round(moveCost);
 
-                    var date = DateManager.AddDays(arrivalDate, moveTime);
-                    var task = new MoveArmyTask(arrivalDate, Army, destination);
-
-                    backgroundTaskManager.SubmitTask(task);
+                    var movement = injectionBinder.GetInstance<IMovement>(CustomContextKeys.NewInstance);
+                    movement.Initialise(destination, moveTime);
+                    movements.Add(movement);
                 }
+
+                var movementPath = injectionBinder.GetInstance<IMovementPath>(CustomContextKeys.NewInstance);
+                movementPath.Initialise(movements, Army);
+                Army.MovementPath = movementPath;
+                Army.IsMoving = true;
             }
         }
     }

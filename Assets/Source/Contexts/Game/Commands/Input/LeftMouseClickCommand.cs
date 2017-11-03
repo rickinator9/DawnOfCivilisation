@@ -1,12 +1,8 @@
 ﻿using Assets.Source.Contexts.Game.Commands.UI;
 using Assets.Source.Contexts.Game.Model;
 using Assets.Source.Contexts.Game.Model.Hex;
-using Assets.Source.Contexts.Game.UI;
 using Assets.Source.Contexts.Game.UI.Typed;
 using Assets.Source.Core.IoC;
-using Assets.Source.Model;
-using Assets.Source.Model.Impl;
-using Assets.Source.UI.Controllers;
 using strange.extensions.command.impl;
 using strange.extensions.signal.impl;
 using UnityEngine;
