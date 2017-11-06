@@ -1699,6 +1699,62 @@ MonoBehaviour:
   ZValue: {fileID: 1973775240}
   TerrainValue: {fileID: 390720576}
   RaiseArmyButton: {fileID: 1822353762}
+--- !u!1 &1328887624
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 1328887625}
+  - component: {fileID: 1328887626}
+  - component: {fileID: 1328887627}
+  m_Layer: 0
+  m_Name: Cities
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1328887625
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1328887624}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 2005563022}
+  m_RootOrder: 8
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1328887626
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1328887624}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 43960360598e9304eaab284cc3f92ac4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ChildPrefab: {fileID: 114488499608669872, guid: 9c793f55fd9e9064f9e70f47d6bd52ac,
+    type: 2}
+--- !u!114 &1328887627
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1328887624}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09ec3fdb8da773e4b9d55577598d093e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ChildPrefab: {fileID: 114085829354964326, guid: 0c47175079d446944955cd779a1fefa5,
+    type: 2}
 --- !u!1 &1400581731
 GameObject:
   m_ObjectHideFlags: 0
@@ -1784,7 +1840,6 @@ GameObject:
   - component: {fileID: 1416227930}
   - component: {fileID: 1416227929}
   - component: {fileID: 1416227928}
-  - component: {fileID: 1416227932}
   m_Layer: 5
   m_Name: UICanvas
   m_TagString: Untagged
@@ -1872,17 +1927,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
---- !u!114 &1416227932
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1416227927}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5ec39c5db4a474f41a57dee9c396a04c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1422369370
 GameObject:
   m_ObjectHideFlags: 0
@@ -2576,7 +2620,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 477e8e45b7b67e94bb09ce5e72159864, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ArmyPrefab: {fileID: 114013459091255914, guid: 0e2e92d6006e78c42968adbf409dfd74,
+  ChildPrefab: {fileID: 114013459091255914, guid: 0e2e92d6006e78c42968adbf409dfd74,
     type: 2}
 --- !u!1 &1685997997
 GameObject:
@@ -3320,6 +3364,7 @@ Transform:
   - {fileID: 1671792340}
   - {fileID: 1027713276}
   - {fileID: 920781687}
+  - {fileID: 1328887625}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

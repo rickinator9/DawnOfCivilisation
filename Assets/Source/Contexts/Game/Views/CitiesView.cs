@@ -6,12 +6,11 @@ using strange.extensions.mediation.impl;
 
 namespace Assets.Source.Contexts.Game.Views
 {
-
-    public class ArmiesView : ChildCreatorView<ArmyView, ArmyMediator, IArmy>
+    public class CitiesView : ChildCreatorView<CityView, CityMediator, ICity>
     {
-        protected override void OnMediatorCreated(ArmyMediator mediator, IArmy obj)
+        protected override void OnMediatorCreated(CityMediator mediator, ICity obj)
         {
-            mediator.Initialise(obj);
+            
         }
     }
 }

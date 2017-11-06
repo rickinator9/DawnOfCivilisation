@@ -19,7 +19,7 @@ namespace Assets.Source.Contexts.Game.Mediators
 
         private void OnCreateArmy(IArmy army)
         {
-            View.CreateViewForArmy(army);
+            View.CreateViewForObject(army);
         }
     }
 }

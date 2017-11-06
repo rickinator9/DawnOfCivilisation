@@ -1,4 +1,5 @@
-﻿using Assets.Source.Contexts.Game.Model;
+﻿using Assets.Source.Contexts.Game.Commands.City;
+using Assets.Source.Contexts.Game.Model;
 using Assets.Source.Contexts.Game.Model.Hex;
 using Assets.Source.Core.IoC;
 using Assets.Source.Model;
@@ -54,6 +55,9 @@ namespace Assets.Source.Contexts.Game.Commands.Initialisation
         #region Dispatchers
         [Inject]
         public OnInitialiseHexMapSignal OnInitialiseHexMapDispatcher { get; set; }
+
+        [Inject]
+        public CreateCitySignal CreateCityDispatcher { get; set; }
         #endregion
 
         private int Width { get { return Dimension.Width; } }
@@ -88,6 +92,9 @@ namespace Assets.Source.Contexts.Game.Commands.Initialisation
 
             injectionBinder.Bind<IHexMap>().ToName(CustomContextKeys.CurrentInstance).ToValue(HexMap);
             OnInitialiseHexMapDispatcher.Dispatch(HexMap);
+
+            // TODO: Create city init
+            CreateCityDispatcher.Dispatch(HexMap[0,0]);
         }
 
         private IHexTile CreateTile(int x, int z)

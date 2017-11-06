@@ -1,10 +1,7 @@
 ﻿using Assets.Source.Contexts.Game.Model;
-using Assets.Source.Contexts.Game.UI.Typed;
-using Assets.Source.Model;
-using UnityEngine;
 using UnityEngine.UI;
 
-namespace Assets.Source.UI.Controllers
+namespace Assets.Source.Contexts.Game.UI.Typed.Panels
 {
     public class ArmyPanelView : TypedUiView<IArmy>
     {

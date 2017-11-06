@@ -1,5 +1,6 @@
 ﻿using Assets.Source.Contexts.Game.Commands;
 using Assets.Source.Contexts.Game.Commands.Army;
+using Assets.Source.Contexts.Game.Commands.City;
 using Assets.Source.Contexts.Game.Commands.Initialisation;
 using Assets.Source.Contexts.Game.Commands.Input;
 using Assets.Source.Contexts.Game.Commands.UI;
@@ -12,7 +13,6 @@ using Assets.Source.Contexts.Game.UI.Typed.Panels;
 using Assets.Source.Contexts.Game.Views;
 using Assets.Source.Core.IoC;
 using Assets.Source.Model;
-using Assets.Source.UI.Controllers;
 using strange.extensions.command.api;
 using strange.extensions.command.impl;
 using strange.extensions.context.impl;
@@ -76,6 +76,15 @@ namespace Assets.Source.Contexts.Game
             injectionBinder.Bind<OnInitialiseHexMapSignal>().ToSingleton();
 
             injectionBinder.Bind<ICountry>().To<Country>().ToName(CustomContextKeys.NewInstance);
+
+            injectionBinder.Bind<ICity>().To<City>().ToName(CustomContextKeys.NewInstance);
+            injectionBinder.Bind<ICities>().To<Cities>().ToSingleton();
+            commandBinder.Bind<CreateCitySignal>().To<CreateCityCommand>();
+            injectionBinder.Bind<OnCreateCitySignal>().ToSingleton();
+            mediationBinder.Bind<CitiesView>().To<CitiesMediator>();
+            mediationBinder.Bind<CityView>().To<CityMediator>();
+            mediationBinder.Bind<CityWorldPanelsView>().To<CityWorldPanelsMediator>();
+            mediationBinder.Bind<CityWorldPanelView>().To<CityWorldPanelMediator>();
 
             injectionBinder.Bind<IDate>().To<Date>().ToName(CustomContextKeys.NewInstance);
             injectionBinder.Bind<IDateManager>().To<DateManager>().ToSingleton();
