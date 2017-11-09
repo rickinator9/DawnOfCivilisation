@@ -9,7 +9,7 @@ namespace Assets.Source.Contexts.Game.Commands.City
     /// <summary>
     /// IHexTile: Location where the city will be created.
     /// </summary>
-    public class CreateCitySignal : Signal<IHexTile>
+    public class CreateCitySignal : Signal<ILandTile>
     {
         
     }
@@ -25,7 +25,7 @@ namespace Assets.Source.Contexts.Game.Commands.City
     public class CreateCityCommand : Command
     {
         [Inject]
-        public IHexTile Location { get; set; }
+        public ILandTile Location { get; set; }
 
         [Inject(CustomContextKeys.NewInstance)]
         public ICity NewCity { get; set; }

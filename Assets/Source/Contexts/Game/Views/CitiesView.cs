@@ -10,7 +10,7 @@ namespace Assets.Source.Contexts.Game.Views
     {
         protected override void OnMediatorCreated(CityMediator mediator, ICity obj)
         {
-            
+            mediator.transform.position += obj.Location.Center;
         }
     }
 }

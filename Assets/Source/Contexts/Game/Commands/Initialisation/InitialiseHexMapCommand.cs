@@ -6,6 +6,7 @@ using Assets.Source.Model;
 using Assets.Source.Utils;
 using strange.extensions.command.impl;
 using strange.extensions.signal.impl;
+using UnityEngine;
 
 namespace Assets.Source.Contexts.Game.Commands.Initialisation
 {
@@ -93,18 +94,31 @@ namespace Assets.Source.Contexts.Game.Commands.Initialisation
             injectionBinder.Bind<IHexMap>().ToName(CustomContextKeys.CurrentInstance).ToValue(HexMap);
             OnInitialiseHexMapDispatcher.Dispatch(HexMap);
 
-            // TODO: Create city init
-            CreateCityDispatcher.Dispatch(HexMap[0,0]);
+            foreach (var hex in HexMap.LandTiles)
+            {
+                if(hex.Population >= 19000) CreateCityDispatcher.Dispatch(hex);
+            }
         }
 
         private IHexTile CreateTile(int x, int z)
         {
             var terrain = EnumUtils.GetRandomValue<HexTerrainType>();
-            var tile = injectionBinder.GetInstance<IHexTile>(CustomContextKeys.NewInstance);
-            tile.TerrainType = terrain;
-            tile.Coordinates = HexCoordinates.FromOffsetCoordinates(x, z);
+            var population = Random.value * 20000;
+            var coords = HexCoordinates.FromOffsetCoordinates(x, z);
+            if (terrain == HexTerrainType.Water)
+            {
+                var tile = injectionBinder.GetInstance<IWaterTile>(CustomContextKeys.NewInstance);
+                tile.Initialise(coords);
 
-            return tile;
+                return tile;
+            }
+            else
+            {
+                var tile = injectionBinder.GetInstance<ILandTile>(CustomContextKeys.NewInstance);
+                tile.Initialise(coords, terrain, (int)population);
+
+                return tile;
+            }
         }
 
         private void SetAdjacenciesForTile(IHexTile tile, int x, int z)

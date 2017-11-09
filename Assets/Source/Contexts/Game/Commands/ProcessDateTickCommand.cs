@@ -87,8 +87,11 @@ namespace Assets.Source.Contexts.Game.Commands
 
         private void OnArmyArrival(IArmy army, IHexTile tile)
         {
-            army.Location = tile;
-            tile.Country = army.Country;
+            if (tile.TerrainType == HexTerrainType.Water) return;
+
+            var landTile = (ILandTile) tile;
+            army.Location = landTile;
+            landTile.Country = army.Country;
         }
 
         private void OnStart()

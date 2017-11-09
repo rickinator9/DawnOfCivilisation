@@ -43,11 +43,15 @@ namespace Assets.Source.Contexts.Game.Commands.Army
 
         public override void Execute()
         {
-            NewArmy.Location = Tile;
+            if (Tile.TerrainType == HexTerrainType.Water) return; // Cannot create armies on water.
+
+            var landTile = (ILandTile) Tile;
+
+            NewArmy.Location = landTile;
             NewArmy.Country = Players.LocalPlayer.Country;
             Armies.AddArmy(NewArmy);
 
-            Tile.Country = NewArmy.Country;
+            landTile.Country = NewArmy.Country;
 
             OnCreateArmyDispatcher.Dispatch(NewArmy);
         }

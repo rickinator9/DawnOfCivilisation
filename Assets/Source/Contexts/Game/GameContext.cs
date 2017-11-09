@@ -71,7 +71,8 @@ namespace Assets.Source.Contexts.Game
             injectionBinder.Bind<ILocalPlayer>().To<LocalPlayer>().ToName(CustomContextKeys.NewInstance);
 
             injectionBinder.Bind<IHexMap>().To<HexMap>().ToName(CustomContextKeys.NewInstance);
-            injectionBinder.Bind<IHexTile>().To<HexTile>().ToName(CustomContextKeys.NewInstance);
+            injectionBinder.Bind<ILandTile>().To<LandTile>().ToName(CustomContextKeys.NewInstance);
+            injectionBinder.Bind<IWaterTile>().To<WaterTile>().ToName(CustomContextKeys.NewInstance);
             injectionBinder.Bind<IPathfinding>().To<Dijkstra>().ToSingleton();
             injectionBinder.Bind<OnInitialiseHexMapSignal>().ToSingleton();
 

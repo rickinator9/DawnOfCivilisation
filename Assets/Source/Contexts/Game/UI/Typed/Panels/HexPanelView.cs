@@ -8,7 +8,7 @@ namespace Assets.Source.Contexts.Game.UI.Typed.Panels
 {
     public class HexPanelView : TypedUiView<IHexTile>
     {
-        public Text XValue, ZValue, TerrainValue;
+        public Text XValue, ZValue, TerrainValue, PopulationValue;
         public Button RaiseArmyButton;
         public Signal<IHexTile> RaiseArmySignal = new Signal<IHexTile>();
 
@@ -24,7 +24,20 @@ namespace Assets.Source.Contexts.Game.UI.Typed.Panels
                 ZValue.text = coords.Z.ToString();
                 TerrainValue.text = _activeTile.TerrainType.ToString();
 
-                RaiseArmyButton.gameObject.SetActive(_activeTile.TerrainType != HexTerrainType.Water);
+                if (_activeTile.TerrainType == HexTerrainType.Water)
+                {
+                    PopulationValue.transform.parent.gameObject.SetActive(false);
+                    RaiseArmyButton.gameObject.SetActive(false);
+                }
+                else
+                {
+                    var landTile = (ILandTile) _activeTile;
+
+                    PopulationValue.transform.parent.gameObject.SetActive(true);
+                    RaiseArmyButton.gameObject.SetActive(true);
+
+                    PopulationValue.text = landTile.Population.ToString();
+                }
             }
             get { return _activeTile; }
         }

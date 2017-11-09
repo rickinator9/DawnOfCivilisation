@@ -9,6 +9,7 @@ namespace Assets.Source.Contexts.Game.Views
         protected override void OnMediatorCreated(CityWorldPanelMediator mediator, ICity obj)
         {
             mediator.Initialise(obj);
+            mediator.gameObject.transform.position += obj.Location.Center;
         }
     }
 }

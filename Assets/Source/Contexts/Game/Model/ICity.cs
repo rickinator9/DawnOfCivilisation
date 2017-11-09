@@ -9,11 +9,11 @@ namespace Assets.Source.Contexts.Game.Model
 
         int Population { get; }
 
-        IHexTile Location { get; }
+        ILandTile Location { get; }
 
         ICountry Country { get; }
 
-        void Initialise(IHexTile location, string name);
+        void Initialise(ILandTile location, string name);
     }
 
     public class City : ICity
@@ -25,14 +25,14 @@ namespace Assets.Source.Contexts.Game.Model
             get { throw new NotImplementedException(); }
         }
 
-        public IHexTile Location { get; private set; }
+        public ILandTile Location { get; private set; }
 
         public ICountry Country
         {
             get { return Location.Country; }
         }
 
-        public void Initialise(IHexTile location, string name)
+        public void Initialise(ILandTile location, string name)
         {
             Location = location;
             Name = name;

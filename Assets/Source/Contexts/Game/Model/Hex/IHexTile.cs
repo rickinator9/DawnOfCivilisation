@@ -8,21 +8,19 @@ namespace Assets.Source.Contexts.Game.Model.Hex
 {
     public interface IHexTile
     {
-        HexCoordinates Coordinates { get; set; }
+        HexCoordinates Coordinates { get; }
 
         Vector3 Center { get; }
 
         Color Color { get; }
 
-        HexTerrainType TerrainType { get; set; }
+        HexTerrainType TerrainType { get; }
 
         IHexTile[] Neighbors { get; }
 
-        ICountry Country { get; set; }
-
         IArmy[] Armies { get; }
 
-        IList<Signal> RefreshSignals { get; } 
+        IList<Signal> RefreshSignals { get; }
 
         void AddNeighbor(IHexTile tile, HexDirection direction);
 
@@ -33,43 +31,28 @@ namespace Assets.Source.Contexts.Game.Model.Hex
         void RemoveArmy(IArmy army);
     }
 
-    public class HexTile : IHexTile
+    public abstract class HexTile : IHexTile
     {
-        public HexCoordinates Coordinates { get; set; }
+        public HexCoordinates Coordinates { get; protected set; }
 
-        private bool _centerInitialised = false;
-        private Vector3 _center;
         public Vector3 Center
         {
             get
             {
-                if (!_centerInitialised)
-                {
-                    var coords = Coordinates.ToOffsetCoordinates();
-                    var x = coords.X;
-                    var z = coords.Z;
+                var coords = Coordinates.ToOffsetCoordinates();
+                var x = coords.X;
+                var z = coords.Z;
 
-                    var xPos = (x + z * 0.5f - z / 2) * HexMetrics.InnerRadius * 2; // z*0.5f - z/2 either results in 0 or 0.5 depending on the rounding of z/2.
-                    var zPos = z * HexMetrics.OuterRadius * 1.5f; // Only multiply by 1.5f since hexes hook into eachother.
+                var xPos = (x + z * 0.5f - z / 2) * HexMetrics.InnerRadius * 2; // z*0.5f - z/2 either results in 0 or 0.5 depending on the rounding of z/2.
+                var zPos = z * HexMetrics.OuterRadius * 1.5f; // Only multiply by 1.5f since hexes hook into eachother.
 
-                    _center = new Vector3(xPos, 0, zPos);
-                }
-
-                return _center;
+                return new Vector3(xPos, 0, zPos);
             }
         }
 
-        public Color Color
-        {
-            get
-            {
-                if (Country == null) return TerrainType.GetColor();
+        public abstract Color Color { get; }
 
-                return Country.Color;
-            }
-        }
-
-        public HexTerrainType TerrainType { get; set; }
+        public abstract HexTerrainType TerrainType { get; }
 
         private IHexTile[] _neighbors = new IHexTile[6];
         public IHexTile[] Neighbors
@@ -77,23 +60,7 @@ namespace Assets.Source.Contexts.Game.Model.Hex
             get { return _neighbors.ToArray(); }
         }
 
-        private ICountry _country;
-
-        public ICountry Country
-        {
-            get { return _country; }
-            set
-            {
-                _country = value;
-                foreach (var refreshSignal in RefreshSignals)
-                {
-                    refreshSignal.Dispatch();
-                }
-            }
-        }
-
         private IList<IArmy> _armies = new List<IArmy>();
-
         public IArmy[] Armies
         {
             get { return _armies.ToArray(); }

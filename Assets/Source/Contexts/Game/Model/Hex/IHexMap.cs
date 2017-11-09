@@ -1,4 +1,5 @@
-﻿using Assets.Source.Model;
+﻿using System.Linq;
+using Assets.Source.Model;
 
 namespace Assets.Source.Contexts.Game.Model.Hex
 {
@@ -8,7 +9,10 @@ namespace Assets.Source.Contexts.Game.Model.Hex
         int Height { get; }
 
         IHexTile this[int x, int z] { get; set; }
+
         IHexTile[] AllTiles { get; }
+        ILandTile[] LandTiles { get; }
+        IWaterTile[] WaterTiles { get; }
 
         void Initialise(int width, int height);
     }
@@ -26,6 +30,16 @@ namespace Assets.Source.Contexts.Game.Model.Hex
         }
 
         public IHexTile[] AllTiles { get { return Tiles; } }
+
+        public ILandTile[] LandTiles
+        {
+            get { return Tiles.Where(tile => tile.TerrainType != HexTerrainType.Water).Cast<ILandTile>().ToArray(); }
+        }
+
+        public IWaterTile[] WaterTiles
+        {
+            get { return Tiles.Where(tile => tile.TerrainType == HexTerrainType.Water).Cast<IWaterTile>().ToArray(); }
+        }
 
         public void Initialise(int width, int height)
         {
