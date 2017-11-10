@@ -51,7 +51,7 @@ namespace Assets.Source.Contexts.Game
             commandBinder.Bind<LeftMouseClickSignal>().To<LeftMouseClickCommand>().Pooled();
             commandBinder.Bind<RightMouseClickSignal>().To<RightMouseClickCommand>().Pooled();
             commandBinder.Bind<InitialiseHexMapSignal>().To<InitialiseHexMapCommand>();
-            commandBinder.Bind<CreateArmyMovementPathSignal>().To<CreateArmyMovementPathCommand>().Pooled();
+            commandBinder.Bind<CreateMovementPathSignal>().To<CreateMovementPathCommand>().Pooled();
             commandBinder.Bind<ProcessDateTickSignal>().To<ProcessDateTickCommand>();
             injectionBinder.Bind<TimePanelWaitSignal>().ToSingleton();
             injectionBinder.Bind<TimePanelResumeSignal>().ToSingleton();

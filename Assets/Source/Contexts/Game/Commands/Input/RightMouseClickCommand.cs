@@ -29,7 +29,7 @@ namespace Assets.Source.Contexts.Game.Commands.Input
 
         #region Dispatchers
         [Inject]
-        public CreateArmyMovementPathSignal CreateArmyMovementPathDispatcher { get; set; }
+        public CreateMovementPathSignal CreateMovementPathDispatcher { get; set; }
         #endregion
 
         public override void Execute()
@@ -46,7 +46,7 @@ namespace Assets.Source.Contexts.Game.Commands.Input
                     if (selectedObject != null && selectedObject is IArmy)
                     {
                         var army = (IArmy) selectedObject;
-                        CreateArmyMovementPathDispatcher.Dispatch(army, new ArmyMovementPathParams
+                        CreateMovementPathDispatcher.Dispatch(army, new MovementPathParams
                         {
                             Start = army.Location,
                             Destination = tile

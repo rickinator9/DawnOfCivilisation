@@ -10,7 +10,7 @@ using UnityEngine;
 
 namespace Assets.Source.Contexts.Game.Commands.Army
 {
-    public struct ArmyMovementPathParams
+    public struct MovementPathParams
     {
         public IHexTile Start;
 
@@ -22,20 +22,20 @@ namespace Assets.Source.Contexts.Game.Commands.Army
     /// IArmy: The army the path will be created for.
     /// ArmyMovementPathParams: The start and destination hexes.
     /// </summary>
-    public class CreateArmyMovementPathSignal : Signal<IArmy, ArmyMovementPathParams>
+    public class CreateMovementPathSignal : Signal<IArmy, MovementPathParams>
     {
         
     }
     #endregion
 
-    public class CreateArmyMovementPathCommand : Command
+    public class CreateMovementPathCommand : Command
     {
 #region From Signal
         [Inject]
         public IArmy Army { get; set; }
 
         [Inject]
-        public ArmyMovementPathParams ArmyMovementPathParams { get; set; }
+        public MovementPathParams MovementPathParams { get; set; }
 #endregion
 
 #region Dependencies
@@ -43,8 +43,8 @@ namespace Assets.Source.Contexts.Game.Commands.Army
         public IPathfinding Pathfinding { get; set; }
 #endregion
 
-        public IHexTile Start { get { return ArmyMovementPathParams.Start; } }
-        public IHexTile Destination { get { return ArmyMovementPathParams.Destination; } }
+        public IHexTile Start { get { return MovementPathParams.Start; } }
+        public IHexTile Destination { get { return MovementPathParams.Destination; } }
 
         public override void Execute()
         {

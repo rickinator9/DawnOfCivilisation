@@ -26,7 +26,7 @@ namespace Assets.Source.Contexts.Game.Commands
     public class ProcessDateTickCommand : Command
     {
         [Inject]
-        public IArmies Armies { get; set; }
+        public IMovables Movables { get; set; }
 
         [Inject]
         public TimePanelResumeSignal TimePanelResumeDispatcher { get; set; }
@@ -63,20 +63,20 @@ namespace Assets.Source.Contexts.Game.Commands
 
         private void ProcessMultithreaded()
         {
-            foreach (var army in Armies.AllArmies)
+            foreach (var movable in Movables.AllMovables)
             {
-                if (army.IsMoving)
+                if (movable.IsMoving)
                 {
-                    var path = army.MovementPath;
+                    var path = movable.MovementPath;
                     var next = path.NextMovement;
                     next.DecrementMovementTime();
                     if (next.HasArrived)
                     {
-                        OnArmyArrival(army, next.Destination);
+                        OnArrival(movable, next.Destination);
                         path.SetMovementComplete();
                         if (path.IsComplete)
                         {
-                            army.IsMoving = false;
+                            movable.IsMoving = false;
                         }
                     }
                 }
@@ -85,13 +85,10 @@ namespace Assets.Source.Contexts.Game.Commands
             Finished = true;
         }
 
-        private void OnArmyArrival(IArmy army, IHexTile tile)
+        private void OnArrival(IMovable movable, IHexTile tile)
         {
-            if (tile.TerrainType == HexTerrainType.Water) return;
-
-            var landTile = (ILandTile) tile;
-            army.Location = landTile;
-            landTile.Country = army.Country;
+            movable.Location = tile;
+            movable.OnArrivalInTile(tile);
         }
 
         private void OnStart()

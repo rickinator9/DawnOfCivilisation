@@ -5,19 +5,13 @@ using UnityEngine;
 
 namespace Assets.Source.Contexts.Game.Model
 {
-    public interface IArmy : ISelectable
+    public interface IArmy : ISelectable, IMovable
     {
-        IHexTile Location { get; set; }
-
         Vector3 Position { get; }
 
         IList<Signal> RefreshSignals { get; }
 
         ICountry Country { get; set; }
-
-        IMovementPath MovementPath { get; set; }
-
-        bool IsMoving { get; set; }
     }
 
     public class Army : IArmy
@@ -39,6 +33,14 @@ namespace Assets.Source.Contexts.Game.Model
                     signal.Dispatch();
                 }
             }
+        }
+
+        public void OnArrivalInTile(IHexTile tile)
+        {
+            if (tile.TerrainType == HexTerrainType.Water) return;
+
+            var landTile = (ILandTile) tile;
+            landTile.Country = Country;
         }
 
         public Vector3 Position
