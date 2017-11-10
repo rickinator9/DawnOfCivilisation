@@ -24,6 +24,9 @@ namespace Assets.Source.Contexts.Game.Commands.Input
 
         [Inject]
         public IPlayers Players { get; set; }
+
+        [Inject]
+        public ICities Cities { get; set; }
         #endregion
 
         #region Dispatchers
@@ -49,6 +52,20 @@ namespace Assets.Source.Contexts.Game.Commands.Input
                     Players.LocalPlayer.SelectedObject = army;
 
                     ShowUiPanelExclusivelyDispatcher.Dispatch(UiType.ArmyPanel, army);
+                }
+                else if (hit.transform.gameObject.transform.parent.tag.Equals("City"))
+                {
+                    ICity cityInTile = null;
+                    foreach (var city in Cities.AllCities)
+                    {
+                        if (city.Location == tile)
+                        {
+                            cityInTile = city;
+                            break;
+                        }
+                    }
+
+                    if(cityInTile != null) ShowUiPanelExclusivelyDispatcher.Dispatch(UiType.CityPanel, cityInTile);
                 }
             }
         }

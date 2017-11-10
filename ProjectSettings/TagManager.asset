@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Army
   - HexGrid
+  - City
   layers:
   - Default
   - TransparentFX

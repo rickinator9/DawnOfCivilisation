@@ -98,6 +98,7 @@ namespace Assets.Source.Contexts.Game
             mediationBinder.Bind<HexPanelView>().To<HexPanelMediator>();
             mediationBinder.Bind<CountryPanelView>().To<CountryPanelMediator>();
             mediationBinder.Bind<ArmyPanelView>().To<ArmyPanelMediator>();
+            mediationBinder.Bind<CityPanelView>().To<CityPanelMediator>();
             mediationBinder.Bind<CountrySelectionView>().To<CountrySelectionMediator>();
             mediationBinder.Bind<TimePanelView>().To<TimePanelMediator>();
             mediationBinder.Bind<UpdateView>().To<UpdateMediator>();

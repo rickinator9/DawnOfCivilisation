@@ -22,7 +22,7 @@ namespace Assets.Source.Contexts.Game.Model
 
         public int Population
         {
-            get { throw new NotImplementedException(); }
+            get { return Location.Population; }
         }
 
         public ILandTile Location { get; private set; }

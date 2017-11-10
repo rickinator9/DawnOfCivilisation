@@ -6,6 +6,7 @@ namespace Assets.Source.Contexts.Game.UI.Typed
     {
         HexPanel,
         CountryPanel,
-        ArmyPanel
+        ArmyPanel,
+        CityPanel
     }
 }
