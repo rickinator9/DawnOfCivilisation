@@ -20,7 +20,7 @@ namespace Assets.Source.Contexts.Game.Model.Hex
 
         IArmy[] Armies { get; }
 
-        IList<Signal> RefreshSignals { get; }
+        IList<Signal> RefreshHexGridViewSignals { get; }
 
         void AddNeighbor(IHexTile tile, HexDirection direction);
 
@@ -66,8 +66,8 @@ namespace Assets.Source.Contexts.Game.Model.Hex
             get { return _armies.ToArray(); }
         }
 
-        private IList<Signal> _refreshSignals = new List<Signal>();
-        public IList<Signal> RefreshSignals { get { return _refreshSignals; } }
+        private IList<Signal> _refreshHexGridViewSignals = new List<Signal>();
+        public IList<Signal> RefreshHexGridViewSignals { get { return _refreshHexGridViewSignals; } }
 
         public void AddNeighbor(IHexTile tile, HexDirection direction)
         {

@@ -36,7 +36,7 @@ namespace Assets.Source.Contexts.Game.Mediators
             signal.AddListener(OnRefresh);
             foreach (var tile in HexMap.AllTiles)
             {
-                tile.RefreshSignals.Add(signal);
+                tile.RefreshHexGridViewSignals.Add(signal);
             }
 
             OnRefresh(); // We need to draw the map.

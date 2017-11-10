@@ -28,7 +28,20 @@ namespace Assets.Source.Contexts.Game.Model.Hex
 
         public int Population { get; private set; }
 
-        public ICountry Country { get; set; }
+        private ICountry _country;
+
+        public ICountry Country
+        {
+            get { return _country; }
+            set
+            {
+                _country = value;
+                foreach (var signal in RefreshHexGridViewSignals)
+                {
+                    signal.Dispatch();
+                }
+            }
+        }
 
         public void Initialise(HexCoordinates coordinates, HexTerrainType terrainType, int population)
         {
