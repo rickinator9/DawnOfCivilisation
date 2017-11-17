@@ -43,9 +43,9 @@ namespace Assets.Source.Contexts.Game.Commands.Input
                 if (foundTile && tile.TerrainType != HexTerrainType.Water)
                 {
                     var selectedObject = Players.LocalPlayer.SelectedObject;
-                    if (selectedObject != null && selectedObject is IArmy)
+                    if (selectedObject != null && selectedObject is IMovable)
                     {
-                        var army = (IArmy) selectedObject;
+                        var army = (IMovable) selectedObject;
                         CreateMovementPathDispatcher.Dispatch(army, new MovementPathParams
                         {
                             Start = army.Location,

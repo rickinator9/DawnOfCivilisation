@@ -1,12 +1,18 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using System.Linq;
+using Assets.Source.Contexts.Game.Model.Hex;
+using Assets.Source.Utils;
+using UnityEngine;
 
 namespace Assets.Source.Contexts.Game.Model
 {
-    public interface ICountry
+    public interface ICountry : IMovable, ISelectable
     {
-         string Name { get; set; }
+        string Name { get; set; }
 
-         Color Color { get; }
+        Color Color { get; }
+
+        ILandTile[] Territories { get; }
     }
 
     public class Country : ICountry
@@ -22,11 +28,61 @@ namespace Assets.Source.Contexts.Game.Model
                 if (!_colorInitialised)
                 {
                     _colorInitialised = true;
-                    _color = Color.red; // TODO: Make random.
+                    _color = ColorUtils.GetRandomColor();
                 }
 
                 return _color;
             }
+        }
+
+        public ILandTile[] Territories
+        {
+            get
+            {
+                if (Location == null) return new ILandTile[0];
+
+                var list = new List<ILandTile>();
+                list.Add(_location as ILandTile);
+                foreach (var neighbor in Location.Neighbors)
+                {
+                    if(neighbor == null || neighbor.TerrainType == HexTerrainType.Water) continue;
+
+                    list.Add(neighbor as ILandTile);
+                }
+
+                return list.ToArray();
+            }
+        }
+
+        public IMovementPath MovementPath { get; set; }
+
+        public bool IsMoving { get; set; }
+
+        private IHexTile _location;
+        public IHexTile Location
+        {
+            get { return _location; }
+            set
+            {
+                if (_location != null)
+                {
+                    foreach (var territory in Territories)
+                    {
+                        territory.Country = null;
+                    }
+                }
+                _location = value;
+                foreach (var territory in Territories)
+                {
+                    territory.Country = this;
+                }
+            }
+        }
+
+        public void OnArrivalInTile(IHexTile tile)
+        {
+            Debug.Log("Country arrived in tile.");
+            Location = tile;
         }
     }
 }

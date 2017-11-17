@@ -40,6 +40,7 @@ namespace Assets.Source.Contexts.Game.Commands.City
         {
             Cities.Add(NewCity);
             NewCity.Initialise(Location, "Babili");
+            Location.City = NewCity;
 
             OnCreateCityDispatcher.Dispatch(NewCity);
         }

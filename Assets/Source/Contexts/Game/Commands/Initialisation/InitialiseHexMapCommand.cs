@@ -51,6 +51,9 @@ namespace Assets.Source.Contexts.Game.Commands.Initialisation
 
         [Inject]
         public IDateManager DateManager { get; set; }
+
+        [Inject]
+        public IMovables Movables { get; set; }
         #endregion
 
         #region Dispatchers
@@ -74,9 +77,11 @@ namespace Assets.Source.Contexts.Game.Commands.Initialisation
 
             //TODO: Add player init logic to its own command.
             var player = injectionBinder.GetInstance<ILocalPlayer>(CustomContextKeys.NewInstance);
-            player.Country = injectionBinder.GetInstance<ICountry>(CustomContextKeys.NewInstance);
-            player.Country.Name = "Sumeria";
+            var country = injectionBinder.GetInstance<ICountry>(CustomContextKeys.NewInstance);
+            country.Name = "Sumeria";
+            player.Country = country;
             Players.LocalPlayer = player;
+            Movables.Add(country);
 
             HexMap.Initialise(Width, Height);
 
@@ -96,7 +101,8 @@ namespace Assets.Source.Contexts.Game.Commands.Initialisation
 
             foreach (var hex in HexMap.LandTiles)
             {
-                if(hex.Population >= 19000) CreateCityDispatcher.Dispatch(hex);
+                if (country.Location == null) country.Location = hex;
+                if (hex.Population >= 19000 && hex.AllowsCity) CreateCityDispatcher.Dispatch(hex);
             }
         }
 

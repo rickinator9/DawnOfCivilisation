@@ -41,6 +41,9 @@ namespace Assets.Source.Contexts.Game.Commands.Army
         [Inject]
         public IPlayers Players { get; set; }
 
+        [Inject]
+        public IMovables Movables { get; set; }
+
         public override void Execute()
         {
             if (Tile.TerrainType == HexTerrainType.Water) return; // Cannot create armies on water.
@@ -50,6 +53,7 @@ namespace Assets.Source.Contexts.Game.Commands.Army
             NewArmy.Location = landTile;
             NewArmy.Country = Players.LocalPlayer.Country;
             Armies.AddArmy(NewArmy);
+            Movables.Add(NewArmy);
 
             landTile.Country = NewArmy.Country;
 

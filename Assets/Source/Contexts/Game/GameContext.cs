@@ -64,6 +64,7 @@ namespace Assets.Source.Contexts.Game
             injectionBinder.Bind<IArmies>().To<Armies>().ToSingleton();
             injectionBinder.Bind<IMovement>().To<Movement>().ToName(CustomContextKeys.NewInstance);
             injectionBinder.Bind<IMovementPath>().To<MovementPath>().ToName(CustomContextKeys.NewInstance);
+            injectionBinder.Bind<IMovables>().To<Movables>().ToSingleton();
             injectionBinder.Bind<OnCreateArmySignal>().ToSingleton();
 
             injectionBinder.Bind<IPlayers>().To<Players>().ToSingleton();

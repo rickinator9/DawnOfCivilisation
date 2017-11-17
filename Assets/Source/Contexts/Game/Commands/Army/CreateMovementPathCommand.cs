@@ -22,7 +22,7 @@ namespace Assets.Source.Contexts.Game.Commands.Army
     /// IArmy: The army the path will be created for.
     /// ArmyMovementPathParams: The start and destination hexes.
     /// </summary>
-    public class CreateMovementPathSignal : Signal<IArmy, MovementPathParams>
+    public class CreateMovementPathSignal : Signal<IMovable, MovementPathParams>
     {
         
     }
@@ -32,7 +32,7 @@ namespace Assets.Source.Contexts.Game.Commands.Army
     {
 #region From Signal
         [Inject]
-        public IArmy Army { get; set; }
+        public IMovable Movable { get; set; }
 
         [Inject]
         public MovementPathParams MovementPathParams { get; set; }
@@ -68,9 +68,9 @@ namespace Assets.Source.Contexts.Game.Commands.Army
                 }
 
                 var movementPath = injectionBinder.GetInstance<IMovementPath>(CustomContextKeys.NewInstance);
-                movementPath.Initialise(movements, Army);
-                Army.MovementPath = movementPath;
-                Army.IsMoving = true;
+                movementPath.Initialise(movements);
+                Movable.MovementPath = movementPath;
+                Movable.IsMoving = true;
             }
         }
     }

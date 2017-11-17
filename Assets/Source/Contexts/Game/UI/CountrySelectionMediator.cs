@@ -29,6 +29,7 @@ namespace Assets.Source.Contexts.Game.UI
 
         private void OnViewPressed()
         {
+            Players.LocalPlayer.SelectedObject = Players.LocalPlayer.Country;
             ShowUiPanelExclusivelyDispatcher.Dispatch(UiType.CountryPanel, Players.LocalPlayer.Country);
         }
     }

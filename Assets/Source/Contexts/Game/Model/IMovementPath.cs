@@ -7,13 +7,11 @@ namespace Assets.Source.Contexts.Game.Model
     {
         IMovement NextMovement { get; }
 
-        IArmy Army { get; }
-
         IMovement[] Movements { get; }
 
         bool IsComplete { get; }
 
-        void Initialise(IList<IMovement> movements, IArmy army);
+        void Initialise(IList<IMovement> movements);
 
         void SetMovementComplete();
     }
@@ -26,8 +24,6 @@ namespace Assets.Source.Contexts.Game.Model
             get { return _movements[_movementIndex]; }
         }
 
-        public IArmy Army { get; private set; }
-
         private IList<IMovement> _movements;
         public IMovement[] Movements
         {
@@ -39,11 +35,10 @@ namespace Assets.Source.Contexts.Game.Model
             get { return _movements.Count <= _movementIndex; }
         }
 
-        public void Initialise(IList<IMovement> movements, IArmy army)
+        public void Initialise(IList<IMovement> movements)
         {
             _movementIndex = 0;
             _movements = movements;
-            Army = army;
         }
 
         public void SetMovementComplete()
