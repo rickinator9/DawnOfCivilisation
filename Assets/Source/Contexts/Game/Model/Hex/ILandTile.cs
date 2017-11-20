@@ -25,7 +25,7 @@ namespace Assets.Source.Contexts.Game.Model.Hex
         {
             get
             {
-                if (Country == null) return TerrainType.GetColor();
+                if (Country == null) return Color.black;
 
                 return Country.Color;
             }

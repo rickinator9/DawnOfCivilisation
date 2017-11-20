@@ -1,4 +1,5 @@
 ﻿using Assets.Source.Contexts.Game.Commands.City;
+using Assets.Source.Contexts.Game.Commands.Country;
 using Assets.Source.Contexts.Game.Model;
 using Assets.Source.Contexts.Game.Model.Hex;
 using Assets.Source.Core.IoC;
@@ -53,7 +54,7 @@ namespace Assets.Source.Contexts.Game.Commands.Initialisation
         public IDateManager DateManager { get; set; }
 
         [Inject]
-        public IMovables Movables { get; set; }
+        public ICountries Countries { get; set; }
         #endregion
 
         #region Dispatchers
@@ -62,6 +63,9 @@ namespace Assets.Source.Contexts.Game.Commands.Initialisation
 
         [Inject]
         public CreateCitySignal CreateCityDispatcher { get; set; }
+
+        [Inject]
+        public CreateCountrySignal CreateCountryDispatcher { get; set; }
         #endregion
 
         private int Width { get { return Dimension.Width; } }
@@ -77,11 +81,7 @@ namespace Assets.Source.Contexts.Game.Commands.Initialisation
 
             //TODO: Add player init logic to its own command.
             var player = injectionBinder.GetInstance<ILocalPlayer>(CustomContextKeys.NewInstance);
-            var country = injectionBinder.GetInstance<ICountry>(CustomContextKeys.NewInstance);
-            country.Name = "Sumeria";
-            player.Country = country;
             Players.LocalPlayer = player;
-            Movables.Add(country);
 
             HexMap.Initialise(Width, Height);
 
@@ -101,9 +101,18 @@ namespace Assets.Source.Contexts.Game.Commands.Initialisation
 
             foreach (var hex in HexMap.LandTiles)
             {
-                if (country.Location == null) country.Location = hex;
-                if (hex.Population >= 19000 && hex.AllowsCity) CreateCityDispatcher.Dispatch(hex);
+                if (hex.Population >= 19000 && hex.AllowsCity)
+                {
+                    CreateCityDispatcher.Dispatch(hex);
+                    CreateCountryDispatcher.Dispatch(new CountryCreationParams
+                    {
+                        InitialLocation = hex,
+                        Name = "Sumeria"
+                    });
+                }
             }
+
+            player.Country = Countries.All[Countries.All.Length - 1];
         }
 
         private IHexTile CreateTile(int x, int z)

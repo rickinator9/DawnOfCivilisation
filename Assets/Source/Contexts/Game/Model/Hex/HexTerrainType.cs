@@ -47,5 +47,22 @@ namespace Assets.Source.Contexts.Game.Model.Hex
                     throw new ArgumentOutOfRangeException("type", type, null);
             }
         }
+
+        public static float GetTerrainIndex(this HexTerrainType type)
+        {
+            switch (type)
+            {
+                case HexTerrainType.Desert:
+                    return 0f;
+                case HexTerrainType.Plain:
+                    return 1f;
+                case HexTerrainType.Mountain:
+                    return 3f;
+                case HexTerrainType.Water:
+                    return 0f;
+                default:
+                    throw new ArgumentOutOfRangeException("type", type, null);
+            }
+        }
     }
 }

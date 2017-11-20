@@ -1,6 +1,7 @@
 ﻿using Assets.Source.Contexts.Game.Commands;
 using Assets.Source.Contexts.Game.Commands.Army;
 using Assets.Source.Contexts.Game.Commands.City;
+using Assets.Source.Contexts.Game.Commands.Country;
 using Assets.Source.Contexts.Game.Commands.Initialisation;
 using Assets.Source.Contexts.Game.Commands.Input;
 using Assets.Source.Contexts.Game.Commands.UI;
@@ -48,6 +49,7 @@ namespace Assets.Source.Contexts.Game
         protected override void mapBindings()
         {
             commandBinder.Bind<CreateArmySignal>().To<CreateArmyCommand>().Pooled();
+            commandBinder.Bind<CreateCountrySignal>().To<CreateCountryCommand>().Pooled();
             commandBinder.Bind<LeftMouseClickSignal>().To<LeftMouseClickCommand>().Pooled();
             commandBinder.Bind<RightMouseClickSignal>().To<RightMouseClickCommand>().Pooled();
             commandBinder.Bind<InitialiseHexMapSignal>().To<InitialiseHexMapCommand>();
@@ -78,6 +80,7 @@ namespace Assets.Source.Contexts.Game
             injectionBinder.Bind<OnInitialiseHexMapSignal>().ToSingleton();
 
             injectionBinder.Bind<ICountry>().To<Country>().ToName(CustomContextKeys.NewInstance);
+            injectionBinder.Bind<ICountries>().To<Countries>().ToSingleton();
 
             injectionBinder.Bind<ICity>().To<City>().ToName(CustomContextKeys.NewInstance);
             injectionBinder.Bind<ICities>().To<Cities>().ToSingleton();

@@ -11,7 +11,7 @@ namespace Assets.Source.Contexts.Game.Model.Hex
     {
         public override Color Color
         {
-            get { return TerrainType.GetColor(); }
+            get { return Color.black; }
         }
 
         public override HexTerrainType TerrainType
