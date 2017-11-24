@@ -13,6 +13,8 @@ namespace Assets.Source.Contexts.Game.Model
         Color Color { get; }
 
         ILandTile[] Territories { get; }
+
+        bool IsPlayerControlled { get; set; }
     }
 
     public class Country : ICountry
@@ -54,6 +56,8 @@ namespace Assets.Source.Contexts.Game.Model
             }
         }
 
+        public bool IsPlayerControlled { get; set; }
+
         public IMovementPath MovementPath { get; set; }
 
         public bool IsMoving { get; set; }
@@ -69,12 +73,14 @@ namespace Assets.Source.Contexts.Game.Model
                     foreach (var territory in Territories)
                     {
                         territory.Country = null;
+                        territory.Controller = null;
                     }
                 }
                 _location = value;
                 foreach (var territory in Territories)
                 {
                     territory.Country = this;
+                    territory.Controller = this;
                 }
             }
         }

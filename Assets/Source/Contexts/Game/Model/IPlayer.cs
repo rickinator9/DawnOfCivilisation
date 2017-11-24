@@ -9,6 +9,7 @@ namespace Assets.Source.Contexts.Game.Model
 
     public class Player : IPlayer
     {
+        private ICountry _country;
         public ICountry Country { get; set; }
     }
 }

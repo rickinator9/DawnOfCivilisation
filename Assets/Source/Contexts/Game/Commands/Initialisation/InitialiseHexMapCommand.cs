@@ -113,6 +113,7 @@ namespace Assets.Source.Contexts.Game.Commands.Initialisation
             }
 
             player.Country = Countries.All[Countries.All.Length - 1];
+            player.Country.IsPlayerControlled = true;
         }
 
         private IHexTile CreateTile(int x, int z)

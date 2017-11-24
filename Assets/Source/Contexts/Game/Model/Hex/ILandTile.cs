@@ -10,6 +10,8 @@ namespace Assets.Source.Contexts.Game.Model.Hex
 
         ICountry Country { get; set; }
 
+        ICountry Controller { get; set; }
+
         ICity City { get; set; }
 
         bool HasCity { get; }
@@ -25,7 +27,7 @@ namespace Assets.Source.Contexts.Game.Model.Hex
         {
             get
             {
-                if (Country == null) return Color.black;
+                if (Country == null) return new Color(0, 0, 0, 0);
 
                 return Country.Color;
             }
@@ -43,6 +45,23 @@ namespace Assets.Source.Contexts.Game.Model.Hex
             set
             {
                 _country = value;
+                foreach (var signal in RefreshHexGridViewSignals)
+                {
+                    signal.Dispatch();
+                }
+            }
+        }
+
+        private ICountry _controller;
+
+        public ICountry Controller
+        {
+            get { return _controller; }
+            set
+            {
+                if (_country == null) return;
+
+                _controller = value;
                 foreach (var signal in RefreshHexGridViewSignals)
                 {
                     signal.Dispatch();
