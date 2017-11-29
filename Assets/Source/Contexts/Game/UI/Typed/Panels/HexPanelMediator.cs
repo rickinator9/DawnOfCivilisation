@@ -1,5 +1,5 @@
 ﻿using Assets.Source.Contexts.Game.Commands.Army;
-using Assets.Source.Contexts.Game.Model.Hex;
+using Assets.Source.Contexts.Game.Model.Map;
 using Assets.Source.Model;
 
 namespace Assets.Source.Contexts.Game.UI.Typed.Panels

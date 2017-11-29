@@ -1,10 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Assets.Source.Model;
 using strange.extensions.signal.impl;
 using UnityEngine;
 
-namespace Assets.Source.Contexts.Game.Model.Hex
+namespace Assets.Source.Contexts.Game.Model.Map
 {
     public interface IHexTile
     {

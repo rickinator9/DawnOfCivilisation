@@ -1,4 +1,4 @@
-﻿using Assets.Source.Contexts.Game.Model.Hex;
+﻿using Assets.Source.Contexts.Game.Model.Map;
 using Assets.Source.Model;
 using strange.extensions.signal.impl;
 using UnityEngine;

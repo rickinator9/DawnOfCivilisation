@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Assets.Source.Contexts.Game.Model.Hex;
+using Assets.Source.Contexts.Game.Model.Map;
 using Assets.Source.Utils;
 using UnityEngine;
 

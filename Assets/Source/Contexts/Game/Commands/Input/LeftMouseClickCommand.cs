@@ -1,6 +1,6 @@
 ﻿using Assets.Source.Contexts.Game.Commands.UI;
 using Assets.Source.Contexts.Game.Model;
-using Assets.Source.Contexts.Game.Model.Hex;
+using Assets.Source.Contexts.Game.Model.Map;
 using Assets.Source.Contexts.Game.UI.Typed;
 using Assets.Source.Core.IoC;
 using strange.extensions.command.impl;

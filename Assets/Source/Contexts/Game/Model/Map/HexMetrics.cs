@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Assets.Source.Contexts.Game.Model.Hex
+namespace Assets.Source.Contexts.Game.Model.Map
 {
     public static class HexMetrics
     {

@@ -1,7 +1,7 @@
 ﻿using System.Threading;
 using Assets.Source.Contexts.Game.Mediators;
 using Assets.Source.Contexts.Game.Model;
-using Assets.Source.Contexts.Game.Model.Hex;
+using Assets.Source.Contexts.Game.Model.Map;
 using Assets.Source.Core.IoC;
 using Assets.Source.Model;
 using strange.extensions.command.impl;

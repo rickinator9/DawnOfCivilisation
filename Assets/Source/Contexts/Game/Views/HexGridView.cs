@@ -1,4 +1,5 @@
-﻿using Assets.Source.Contexts.Game.Model.Hex;
+﻿using Assets.Source.Contexts.Game.Model.Map;
+using Assets.Source.Contexts.Game.Model.Map.MapMode;
 using strange.extensions.mediation.impl;
 
 namespace Assets.Source.Contexts.Game.Views
@@ -12,11 +13,13 @@ namespace Assets.Source.Contexts.Game.Views
 
         public IHexTile[] Tiles { get; set; }
 
+        public IMapMode MapMode { get; set; }
+
         protected void Update()
         {
-            if (NeedsRefresh)
+            if (NeedsRefresh && MapMode != null)
             {
-                Mesh.Triangulate(Tiles);
+                Mesh.Triangulate(Tiles, MapMode);
                 NeedsRefresh = false;
             }
         }

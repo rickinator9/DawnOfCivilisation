@@ -1,7 +1,9 @@
 ﻿using Assets.Source.Contexts.Game.Commands.City;
 using Assets.Source.Contexts.Game.Commands.Country;
+using Assets.Source.Contexts.Game.Commands.Map;
 using Assets.Source.Contexts.Game.Model;
-using Assets.Source.Contexts.Game.Model.Hex;
+using Assets.Source.Contexts.Game.Model.Map;
+using Assets.Source.Contexts.Game.Model.Map.MapMode;
 using Assets.Source.Core.IoC;
 using Assets.Source.Model;
 using Assets.Source.Utils;
@@ -66,6 +68,9 @@ namespace Assets.Source.Contexts.Game.Commands.Initialisation
 
         [Inject]
         public CreateCountrySignal CreateCountryDispatcher { get; set; }
+
+        [Inject]
+        public SetMapModeSignal SetMapModeDispatcher { get; set; }
         #endregion
 
         private int Width { get { return Dimension.Width; } }
@@ -98,6 +103,9 @@ namespace Assets.Source.Contexts.Game.Commands.Initialisation
 
             injectionBinder.Bind<IHexMap>().ToName(CustomContextKeys.CurrentInstance).ToValue(HexMap);
             OnInitialiseHexMapDispatcher.Dispatch(HexMap);
+
+            // TODO: Add map mode init logic to its own command.
+            SetMapModeDispatcher.Dispatch(MapMode.Political);
 
             foreach (var hex in HexMap.LandTiles)
             {

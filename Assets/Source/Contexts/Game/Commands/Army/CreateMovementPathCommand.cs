@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using Assets.Source.Contexts.Game.Model;
-using Assets.Source.Contexts.Game.Model.Hex;
+using Assets.Source.Contexts.Game.Model.Map;
 using Assets.Source.Contexts.Game.Model.Pathfinding;
 using Assets.Source.Core.IoC;
 using Assets.Source.Model;

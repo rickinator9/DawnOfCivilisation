@@ -4,10 +4,12 @@ using Assets.Source.Contexts.Game.Commands.City;
 using Assets.Source.Contexts.Game.Commands.Country;
 using Assets.Source.Contexts.Game.Commands.Initialisation;
 using Assets.Source.Contexts.Game.Commands.Input;
+using Assets.Source.Contexts.Game.Commands.Map;
 using Assets.Source.Contexts.Game.Commands.UI;
 using Assets.Source.Contexts.Game.Mediators;
 using Assets.Source.Contexts.Game.Model;
-using Assets.Source.Contexts.Game.Model.Hex;
+using Assets.Source.Contexts.Game.Model.Map;
+using Assets.Source.Contexts.Game.Model.Map.MapMode;
 using Assets.Source.Contexts.Game.Model.Pathfinding;
 using Assets.Source.Contexts.Game.UI;
 using Assets.Source.Contexts.Game.UI.Typed.Panels;
@@ -109,6 +111,16 @@ namespace Assets.Source.Contexts.Game
             injectionBinder.Bind<UpdateSignal>().ToSingleton();
 
             mediationBinder.Bind<HexGridView>().To<HexGridMediator>();
+
+            BindMapModes();
+        }
+
+        private void BindMapModes()
+        {
+            commandBinder.Bind<SetMapModeSignal>().To<SetMapModeCommand>();
+            injectionBinder.Bind<OnSetMapModeSignal>().ToSingleton();
+
+            injectionBinder.Bind<IMapMode>().To<PoliticalMapMode>().ToName(MapMode.Political);
         }
     }
 }

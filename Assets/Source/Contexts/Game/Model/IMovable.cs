@@ -1,4 +1,4 @@
-﻿using Assets.Source.Contexts.Game.Model.Hex;
+﻿using Assets.Source.Contexts.Game.Model.Map;
 
 namespace Assets.Source.Contexts.Game.Model
 {

@@ -1,7 +1,6 @@
 ﻿using System.Linq;
-using Assets.Source.Model;
 
-namespace Assets.Source.Contexts.Game.Model.Hex
+namespace Assets.Source.Contexts.Game.Model.Map
 {
     public interface IHexMap
     {
