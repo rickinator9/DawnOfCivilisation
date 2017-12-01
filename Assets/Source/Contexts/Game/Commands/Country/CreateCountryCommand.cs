@@ -30,14 +30,11 @@ namespace Assets.Source.Contexts.Game.Commands.Country
         public ICountries Countries { get; set; }
 
         [Inject]
-        public ICountryNames CountryNames { get; set; }
-
-        [Inject]
         public IMovables Movables { get; set; }
 
         public override void Execute()
         {
-            NewCountry.Name = CountryNames.RandomName;
+            NewCountry.Name = CountryCreationParams.Name;
             NewCountry.Location = CountryCreationParams.InitialLocation;
 
             Countries.Add(NewCountry);
