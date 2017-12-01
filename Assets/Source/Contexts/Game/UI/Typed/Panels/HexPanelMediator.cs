@@ -1,4 +1,6 @@
 ﻿using Assets.Source.Contexts.Game.Commands.Army;
+using Assets.Source.Contexts.Game.Commands.UI;
+using Assets.Source.Contexts.Game.Model.Country;
 using Assets.Source.Contexts.Game.Model.Map;
 using Assets.Source.Model;
 
@@ -10,6 +12,9 @@ namespace Assets.Source.Contexts.Game.UI.Typed.Panels
         [Inject]
         public CreateArmySignal CreateArmyDispatcher { get; set; }
 
+        [Inject]
+        public ShowUiPanelExclusivelySignal ShowUiPanelExclusivelyDispatcher { get; set; }
+
         protected override UiType UiType
         {
             get { return UiType.HexPanel; }
@@ -20,6 +25,7 @@ namespace Assets.Source.Contexts.Game.UI.Typed.Panels
             base.OnRegister();
 
             View.RaiseArmySignal.AddListener(RaiseArmy);
+            View.ShowCountryPanelSignal.AddListener(ShowCountryPanel);
         }
 
         public override void OnRemove()
@@ -27,11 +33,17 @@ namespace Assets.Source.Contexts.Game.UI.Typed.Panels
             base.OnRemove();
 
             View.RaiseArmySignal.RemoveListener(RaiseArmy);
+            View.ShowCountryPanelSignal.RemoveListener(ShowCountryPanel);
         }
 
         private void RaiseArmy(IHexTile tile)
         {
             CreateArmyDispatcher.Dispatch(tile);
+        }
+
+        private void ShowCountryPanel(ICountry country)
+        {
+            ShowUiPanelExclusivelyDispatcher.Dispatch(UiType.CountryPanel, country);
         }
     }
 }
