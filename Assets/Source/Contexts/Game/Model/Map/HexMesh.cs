@@ -31,10 +31,16 @@ namespace Assets.Source.Contexts.Game.Model.Map
         {
             foreach (var hexTile in tiles)
             {
-                if(hexTile.TerrainType == HexTerrainType.Water) continue;
-
-                var landTile = (ILandTile) hexTile;
-                Triangulate(landTile, mapMode);
+                if (hexTile.TerrainType == HexTerrainType.Water)
+                {
+                    var waterTile = (IWaterTile) hexTile;
+                    TriangulateWaterTile(waterTile);
+                }
+                else
+                {
+                    var landTile = (ILandTile) hexTile;
+                    TriangulateLandTile(landTile, mapMode);
+                }
             }
             
             _mesh.SetVertices(_vertices);
@@ -52,14 +58,8 @@ namespace Assets.Source.Contexts.Game.Model.Map
             _terrainTypes.Clear();
         }
 
-        private void Triangulate(ILandTile tile, IMapMode mapMode)
+        private void TriangulateLandTile(ILandTile tile, IMapMode mapMode)
         {
-            var indexOffset = _vertices.Count;
-
-            //_vertices.Add(tile.Center);
-            //_colors.Add(tile.Color);
-            //_stripeColors.Add(GetStripeColor(tile).ToVector3());
-            //_terrainTypes.Add(GetTerrainType(tile, -1));
             var center = tile.Center;
 
             var color = mapMode.GetColorForTile(tile);
@@ -75,29 +75,40 @@ namespace Assets.Source.Contexts.Game.Model.Map
                 AddTriangleColor(color);
                 AddTriangleStripeColor(stripeColor.ToVector3());
                 AddTriangleTerrainType(terrainType);
-
-                //AddVertex(tile, mapMode, i, indexOffset);
             }
         }
 
-        private void AddVertex(ILandTile tile, IMapMode mapMode, int cornerIndex, int indexOffset)
+        private void TriangulateWaterTile(IWaterTile tile)
         {
-            var corner = HexMetrics.Corners[cornerIndex];
-            var vertex = corner + tile.Center;
+            const float surfaceFactor = 0.75f;
+            var center = tile.Center;
+            var depthVector = new Vector3(0, -2, 0);
 
-            _vertices.Add(vertex);
-            _colors.Add(mapMode.GetColorForTile(tile));
-
-            _stripeColors.Add(mapMode.GetStripeColorForTile(tile).ToVector3());
-            _terrainTypes.Add(GetTerrainType(tile, cornerIndex));
-
-            _indices.Add(indexOffset);
-            _indices.Add(indexOffset + cornerIndex + 1);
-            if (cornerIndex == 5)
+            var color = tile.Color;
+            var stripeColor = Color.black; // No stripes
+            for (var i = 0; i < HexMetrics.Corners.Length; i++)
             {
-                _indices.Add(indexOffset + 1);
+                var terrainType = GetTerrainType(tile, i);
+
+                var corner1 = HexMetrics.Corners[i];
+                var corner2 = HexMetrics.Corners[(i + 1)%HexMetrics.Corners.Length];
+
+                var v1 = corner1 * surfaceFactor + center + depthVector;
+                var v2 = corner2 * surfaceFactor + center + depthVector;
+
+                AddTriangle(center + depthVector, v1, v2);
+                AddTriangleColor(color);
+                AddTriangleStripeColor(stripeColor.ToVector3());
+                AddTriangleTerrainType(terrainType);
+
+                var v3 = corner1 + center;
+                var v4 = corner2 + center;
+
+                AddQuad(v1, v2, v3, v4);
+                AddQuadColor(color);
+                AddQuadStripeColor(stripeColor.ToVector3());
+                AddQuadTerrainType(terrainType);
             }
-            else _indices.Add(indexOffset + cornerIndex + 2);
         }
 
         private Vector3 GetTerrainType(IHexTile tile, int cornerIndex)
@@ -129,16 +140,6 @@ namespace Assets.Source.Contexts.Game.Model.Map
             else terrainType.z = tile.TerrainType.GetTerrainIndex();
 
             return terrainType;
-        }
-
-        private Color GetStripeColor(ILandTile tile)
-        {
-            if (tile.Country != tile.Controller)
-            {
-                return tile.Controller.Color;
-            }
-
-            return new Color(0,0,0,0);
         }
 
         #region Addition Methods
@@ -190,6 +191,63 @@ namespace Assets.Source.Contexts.Game.Model.Map
             _stripeColors.Add(s1);
             _stripeColors.Add(s2);
             _stripeColors.Add(s3);
+        }
+        #endregion
+        #region Quads
+        void AddQuad(Vector3 v1, Vector3 v2, Vector3 v3, Vector3 v4)
+        {
+            var vertexIndex = _vertices.Count;
+
+            _vertices.Add(v1);
+            _vertices.Add(v2);
+            _vertices.Add(v3);
+            _vertices.Add(v4);
+
+            _indices.Add(vertexIndex);
+            _indices.Add(vertexIndex + 2);
+            _indices.Add(vertexIndex + 1);
+            _indices.Add(vertexIndex + 1);
+            _indices.Add(vertexIndex + 2);
+            _indices.Add(vertexIndex + 3);
+        }
+
+        void AddQuadColor(Color c)
+        {
+            AddQuadColor(c, c, c, c);
+        }
+
+        void AddQuadColor(Color c1, Color c2, Color c3, Color c4)
+        {
+            _colors.Add(c1);
+            _colors.Add(c2);
+            _colors.Add(c3);
+            _colors.Add(c4);
+        }
+
+        void AddQuadTerrainType(Vector3 t)
+        {
+            AddQuadTerrainType(t, t, t, t);
+        }
+
+        void AddQuadTerrainType(Vector3 t1, Vector3 t2, Vector3 t3, Vector3 t4)
+        {
+            _terrainTypes.Add(t1);
+            _terrainTypes.Add(t2);
+            _terrainTypes.Add(t3);
+            _terrainTypes.Add(t4);
+        }
+
+        void AddQuadStripeColor(Vector3 s)
+        {
+            AddQuadStripeColor(s, s, s, s);
+        }
+
+        void AddQuadStripeColor(Vector3 s1, Vector3 s2, Vector3 s3, Vector3 s4)
+        {
+            _stripeColors.Add(s1);
+            _stripeColors.Add(s2);
+            _stripeColors.Add(s3);
+            _stripeColors.Add(s4);
         }
         #endregion
         #endregion
