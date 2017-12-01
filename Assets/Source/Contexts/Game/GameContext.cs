@@ -8,6 +8,7 @@ using Assets.Source.Contexts.Game.Commands.Map;
 using Assets.Source.Contexts.Game.Commands.UI;
 using Assets.Source.Contexts.Game.Mediators;
 using Assets.Source.Contexts.Game.Model;
+using Assets.Source.Contexts.Game.Model.Country;
 using Assets.Source.Contexts.Game.Model.Map;
 using Assets.Source.Contexts.Game.Model.Map.MapMode;
 using Assets.Source.Contexts.Game.Model.Pathfinding;
@@ -83,6 +84,7 @@ namespace Assets.Source.Contexts.Game
 
             injectionBinder.Bind<ICountry>().To<Country>().ToName(CustomContextKeys.NewInstance);
             injectionBinder.Bind<ICountries>().To<Countries>().ToSingleton();
+            injectionBinder.Bind<ICountryNames>().To<CountryNames>().ToSingleton();
 
             injectionBinder.Bind<ICity>().To<City>().ToName(CustomContextKeys.NewInstance);
             injectionBinder.Bind<ICities>().To<Cities>().ToSingleton();

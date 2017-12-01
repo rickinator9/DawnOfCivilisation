@@ -1,10 +1,9 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using Assets.Source.Contexts.Game.Model.Map;
 using Assets.Source.Utils;
 using UnityEngine;
 
-namespace Assets.Source.Contexts.Game.Model
+namespace Assets.Source.Contexts.Game.Model.Country
 {
     public interface ICountry : IMovable, ISelectable
     {

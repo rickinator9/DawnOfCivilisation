@@ -2,6 +2,7 @@
 using Assets.Source.Contexts.Game.Commands.Country;
 using Assets.Source.Contexts.Game.Commands.Map;
 using Assets.Source.Contexts.Game.Model;
+using Assets.Source.Contexts.Game.Model.Country;
 using Assets.Source.Contexts.Game.Model.Map;
 using Assets.Source.Contexts.Game.Model.Map.MapMode;
 using Assets.Source.Core.IoC;
@@ -57,6 +58,9 @@ namespace Assets.Source.Contexts.Game.Commands.Initialisation
 
         [Inject]
         public ICountries Countries { get; set; }
+
+        [Inject]
+        public ICountryNames CountryNames { get; set; }
         #endregion
 
         #region Dispatchers
@@ -115,7 +119,7 @@ namespace Assets.Source.Contexts.Game.Commands.Initialisation
                     CreateCountryDispatcher.Dispatch(new CountryCreationParams
                     {
                         InitialLocation = hex,
-                        Name = "Sumeria"
+                        Name = CountryNames.RandomName
                     });
                 }
             }

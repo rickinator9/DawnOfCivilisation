@@ -1,4 +1,5 @@
 ﻿using Assets.Source.Contexts.Game.Model;
+using Assets.Source.Contexts.Game.Model.Country;
 using Assets.Source.Contexts.Game.Model.Map;
 using Assets.Source.Core.IoC;
 using strange.extensions.command.impl;
@@ -29,11 +30,14 @@ namespace Assets.Source.Contexts.Game.Commands.Country
         public ICountries Countries { get; set; }
 
         [Inject]
+        public ICountryNames CountryNames { get; set; }
+
+        [Inject]
         public IMovables Movables { get; set; }
 
         public override void Execute()
         {
-            NewCountry.Name = CountryCreationParams.Name;
+            NewCountry.Name = CountryNames.RandomName;
             NewCountry.Location = CountryCreationParams.InitialLocation;
 
             Countries.Add(NewCountry);

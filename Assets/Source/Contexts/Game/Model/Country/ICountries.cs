@@ -1,8 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using JetBrains.Annotations;
 
-namespace Assets.Source.Contexts.Game.Model
+namespace Assets.Source.Contexts.Game.Model.Country
 {
     public interface ICountries
     {

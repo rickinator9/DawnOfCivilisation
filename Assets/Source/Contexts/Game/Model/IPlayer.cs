@@ -1,4 +1,5 @@
-﻿using Assets.Source.Model;
+﻿using Assets.Source.Contexts.Game.Model.Country;
+using Assets.Source.Model;
 
 namespace Assets.Source.Contexts.Game.Model
 {
