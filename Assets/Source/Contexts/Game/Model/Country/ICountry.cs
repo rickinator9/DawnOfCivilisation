@@ -1,6 +1,9 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Assets.Source.Contexts.Game.Model.Map;
+using Assets.Source.Contexts.Game.Model.Political;
 using Assets.Source.Utils;
+using strange.extensions.signal.impl;
 using UnityEngine;
 
 namespace Assets.Source.Contexts.Game.Model.Country
@@ -13,7 +16,19 @@ namespace Assets.Source.Contexts.Game.Model.Country
 
         ILandTile[] Territories { get; }
 
+        IWar[] Wars { get; }
+
+        IList<Signal<IWar>> WarAddedSignals { get; }
+        
+        IList<Signal<IWar>> WarRemovedSignals { get; }  
+
         bool IsPlayerControlled { get; set; }
+
+        void AddWar(IWar war);
+
+        void RemoveWar(IWar war);
+
+        bool IsEnemyOfCountry(ICountry country);
     }
 
     public class Country : ICountry
@@ -55,8 +70,45 @@ namespace Assets.Source.Contexts.Game.Model.Country
             }
         }
 
+        private IList<IWar> _wars = new List<IWar>(); 
+        public IWar[] Wars { get { return _wars.ToArray(); } }
+
+        private IList<Signal<IWar>> _warAddedSignals = new List<Signal<IWar>>(); 
+        public IList<Signal<IWar>> WarAddedSignals { get { return _warAddedSignals; } }
+
+        private IList<Signal<IWar>> _warRemovedSignals = new List<Signal<IWar>>(); 
+        public IList<Signal<IWar>> WarRemovedSignals { get { return _warRemovedSignals; } }
+
         public bool IsPlayerControlled { get; set; }
 
+        public void AddWar(IWar war)
+        {
+            _wars.Add(war);
+            foreach (var signal in WarAddedSignals) { signal.Dispatch(war); }
+        }
+
+        public void RemoveWar(IWar war)
+        {
+            _wars.Remove(war);
+            foreach (var signal in WarRemovedSignals) { signal.Dispatch(war); }
+        }
+
+        public bool IsEnemyOfCountry(ICountry country)
+        {
+            if (country == null) return false;
+
+            foreach (var war in Wars)
+            {
+                foreach (var enemy in war.GetEnemiesOfCountry(this))
+                {
+                    if (enemy == country) return true;
+                }
+            }
+
+            return false;
+        }
+
+        #region IMovable Implementations
         public IMovementPath MovementPath { get; set; }
 
         public bool IsMoving { get; set; }
@@ -89,5 +141,6 @@ namespace Assets.Source.Contexts.Game.Model.Country
             Debug.Log("Country arrived in tile.");
             Location = tile;
         }
+#endregion
     }
 }

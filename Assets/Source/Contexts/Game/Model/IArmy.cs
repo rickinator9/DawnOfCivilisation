@@ -41,7 +41,8 @@ namespace Assets.Source.Contexts.Game.Model
             if (tile.TerrainType == HexTerrainType.Water) return;
 
             var landTile = (ILandTile) tile;
-            landTile.Controller = Country;
+
+            if(Country.IsEnemyOfCountry(landTile.Country)) landTile.Controller = Country;
         }
 
         public Vector3 Position

@@ -6,12 +6,14 @@ using Assets.Source.Contexts.Game.Commands.Initialisation;
 using Assets.Source.Contexts.Game.Commands.Input;
 using Assets.Source.Contexts.Game.Commands.Map;
 using Assets.Source.Contexts.Game.Commands.UI;
+using Assets.Source.Contexts.Game.Commands.War;
 using Assets.Source.Contexts.Game.Mediators;
 using Assets.Source.Contexts.Game.Model;
 using Assets.Source.Contexts.Game.Model.Country;
 using Assets.Source.Contexts.Game.Model.Map;
 using Assets.Source.Contexts.Game.Model.Map.MapMode;
 using Assets.Source.Contexts.Game.Model.Pathfinding;
+using Assets.Source.Contexts.Game.Model.Political;
 using Assets.Source.Contexts.Game.UI;
 using Assets.Source.Contexts.Game.UI.Typed.Panels;
 using Assets.Source.Contexts.Game.Views;
@@ -42,11 +44,7 @@ namespace Assets.Source.Contexts.Game
         {
             base.Launch();
 
-            injectionBinder.GetInstance<InitialiseHexMapSignal>().Dispatch(new HexMapDimension
-            {
-                Width = 20,
-                Height = 20
-            });
+            injectionBinder.GetInstance<InitialiseGameSignal>().Dispatch();
         }
 
         protected override void mapBindings()
@@ -55,7 +53,6 @@ namespace Assets.Source.Contexts.Game
             commandBinder.Bind<CreateCountrySignal>().To<CreateCountryCommand>().Pooled();
             commandBinder.Bind<LeftMouseClickSignal>().To<LeftMouseClickCommand>().Pooled();
             commandBinder.Bind<RightMouseClickSignal>().To<RightMouseClickCommand>().Pooled();
-            commandBinder.Bind<InitialiseHexMapSignal>().To<InitialiseHexMapCommand>();
             commandBinder.Bind<CreateMovementPathSignal>().To<CreateMovementPathCommand>().Pooled();
             commandBinder.Bind<ProcessDateTickSignal>().To<ProcessDateTickCommand>();
             injectionBinder.Bind<TimePanelWaitSignal>().ToSingleton();
@@ -114,7 +111,17 @@ namespace Assets.Source.Contexts.Game
 
             mediationBinder.Bind<HexGridView>().To<HexGridMediator>();
 
+            BindInitialisation();
             BindMapModes();
+            BindWars();
+        }
+
+        private void BindInitialisation()
+        {
+            commandBinder.Bind<InitialiseGameSignal>().To<InitialiseGameCommand>();
+            commandBinder.Bind<InitialiseHexMapSignal>().To<InitialiseHexMapCommand>();
+            commandBinder.Bind<InitialiseDateManagerSignal>().To<InitialiseDateManagerCommand>();
+            commandBinder.Bind<InitialisePlayerSignal>().To<InitialisePlayerCommand>();
         }
 
         private void BindMapModes()
@@ -123,6 +130,17 @@ namespace Assets.Source.Contexts.Game
             injectionBinder.Bind<OnSetMapModeSignal>().ToSingleton();
 
             injectionBinder.Bind<IMapMode>().To<PoliticalMapMode>().ToName(MapMode.Political);
+        }
+
+        private void BindWars()
+        {
+            commandBinder.Bind<WarDeclarationSignal>().To<WarDeclarationCommand>();
+            commandBinder.Bind<PlayerWarDeclarationSignal>().To<PlayerWarDeclarationCommand>();
+
+            injectionBinder.Bind<IWar>().To<War>().ToName(CustomContextKeys.NewInstance);
+
+            mediationBinder.Bind<WarsPanelView>().To<WarsPanelMediator>();
+            mediationBinder.Bind<WarPanelView>().To<WarPanelMediator>();
         }
     }
 }

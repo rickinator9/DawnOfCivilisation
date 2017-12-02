@@ -1,6 +1,8 @@
 ﻿using Assets.Source.Contexts.Game.Model;
 using Assets.Source.Contexts.Game.Model.Country;
 using Assets.Source.Model;
+using strange.extensions.signal.impl;
+using UnityEngine;
 using UnityEngine.UI;
 
 namespace Assets.Source.Contexts.Game.UI.Typed.Panels
@@ -8,21 +10,25 @@ namespace Assets.Source.Contexts.Game.UI.Typed.Panels
     public class CountryPanelView : TypedUiView<ICountry>
     {
         private ICountry _country;
-        public ICountry Country
-        {
-            get { return _country; }
-            set
-            {
-                _country = value;
-                CountryNameText.text = _country.Name;
-            }
-        }
 
-        public Text CountryNameText;
+        [SerializeField]
+        private Text CountryNameText;
+        [SerializeField]
+        private Button DeclareWarButton;
+
+        public Signal<ICountry> DeclareWarSignal = new Signal<ICountry>();
 
         public override void UpdateValues(ICountry obj)
         {
-            Country = obj;
+            _country = obj;
+            CountryNameText.text = _country.Name;
+            DeclareWarButton.gameObject.SetActive(!_country.IsPlayerControlled);
+        }
+
+        // Unity Listeners
+        public void ButtonDeclareWar()
+        {
+            DeclareWarSignal.Dispatch(_country);
         }
     }
 }

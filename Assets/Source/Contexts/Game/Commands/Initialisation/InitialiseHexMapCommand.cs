@@ -51,15 +51,6 @@ namespace Assets.Source.Contexts.Game.Commands.Initialisation
         public IHexMap HexMap { get; set; }
 
         [Inject]
-        public IPlayers Players { get; set; }
-
-        [Inject]
-        public IDateManager DateManager { get; set; }
-
-        [Inject]
-        public ICountries Countries { get; set; }
-
-        [Inject]
         public ICountryNames CountryNames { get; set; }
         #endregion
 
@@ -82,16 +73,6 @@ namespace Assets.Source.Contexts.Game.Commands.Initialisation
 
         public override void Execute()
         {
-            //TODO: Set current date init
-            var date = injectionBinder.GetInstance<IDate>(CustomContextKeys.NewInstance);
-            date.Initialise(1, 1, 1);
-            DateManager[date.Day, date.Month, date.Year] = date;
-            DateManager.CurrentDate = date;
-
-            //TODO: Add player init logic to its own command.
-            var player = injectionBinder.GetInstance<ILocalPlayer>(CustomContextKeys.NewInstance);
-            Players.LocalPlayer = player;
-
             HexMap.Initialise(Width, Height);
 
             for (var z = 0; z < Height; z++)
@@ -123,9 +104,6 @@ namespace Assets.Source.Contexts.Game.Commands.Initialisation
                     });
                 }
             }
-
-            player.Country = Countries.All[Countries.All.Length - 1];
-            player.Country.IsPlayerControlled = true;
         }
 
         private IHexTile CreateTile(int x, int z)
