@@ -1,4 +1,5 @@
-﻿using Assets.Source.Contexts.Game.Model.Country;
+﻿using System;
+using Assets.Source.Contexts.Game.Model.Country;
 using Assets.Source.Contexts.Game.Model.Political;
 using Assets.Source.Core.IoC;
 using strange.extensions.command.impl;
@@ -31,6 +32,7 @@ namespace Assets.Source.Contexts.Game.Commands.War
 
         public override void Execute()
         {
+            NewWar.Name = string.Format("{0} Conquest of {1}", Params.Attacker.Name, Params.Defender.Name);
             NewWar.AddAttacker(Params.Attacker);
             NewWar.AddDefender(Params.Defender);
 

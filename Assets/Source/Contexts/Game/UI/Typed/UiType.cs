@@ -7,6 +7,7 @@ namespace Assets.Source.Contexts.Game.UI.Typed
         HexPanel,
         CountryPanel,
         ArmyPanel,
-        CityPanel
+        CityPanel,
+        WarOverviewPanel
     }
 }

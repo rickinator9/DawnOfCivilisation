@@ -141,6 +141,10 @@ namespace Assets.Source.Contexts.Game
 
             mediationBinder.Bind<WarsPanelView>().To<WarsPanelMediator>();
             mediationBinder.Bind<WarPanelView>().To<WarPanelMediator>();
+            mediationBinder.Bind<WarOverviewPanelView>().To<WarOverviewPanelMediator>();
+
+            mediationBinder.Bind<BeligerentPanelView>().To<BeligerentPanelMediator>();
+            mediationBinder.Bind<BeligerentListPanelView>().To<BeligerentListPanelMediator>();
         }
     }
 }

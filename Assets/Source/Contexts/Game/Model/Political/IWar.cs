@@ -6,6 +6,8 @@ namespace Assets.Source.Contexts.Game.Model.Political
 {
     public interface IWar
     {
+        string Name { get; set; }
+        
         ICountry[] Attackers { get; }
         
         ICountry[] Defenders { get; }
@@ -27,7 +29,9 @@ namespace Assets.Source.Contexts.Game.Model.Political
 
     public class War : IWar
     {
-        private IList<ICountry> _attackers = new List<ICountry>(); 
+        public string Name { get; set; }
+
+        private IList<ICountry> _attackers = new List<ICountry>();
         public ICountry[] Attackers { get { return _attackers.ToArray(); } }
 
         private IList<ICountry> _defenders = new List<ICountry>(); 
