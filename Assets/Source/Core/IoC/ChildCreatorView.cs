@@ -16,22 +16,30 @@ namespace Assets.Source.Core.IoC
 
         public TChildView ChildPrefab;
 
+        private Queue<TObject> _objectCreationQueue = new Queue<TObject>();  
         private IList<UnassignedMediator> _unassignedMediators = new List<UnassignedMediator>();
 
         public void CreateViewForObject(TObject obj)
         {
-            var view = Instantiate(ChildPrefab);
-            view.transform.SetParent(transform);
-
-            _unassignedMediators.Add(new UnassignedMediator
-            {
-                View = view,
-                Object = obj
-            });
+            _objectCreationQueue.Enqueue(obj);
         }
 
         protected void Update()
         {
+            while (_objectCreationQueue.Count != 0)
+            {
+                var obj = _objectCreationQueue.Dequeue();
+
+                var view = Instantiate(ChildPrefab);
+                view.transform.SetParent(transform);
+
+                _unassignedMediators.Add(new UnassignedMediator
+                {
+                    View = view,
+                    Object = obj
+                });
+            }
+
             for (var i = _unassignedMediators.Count - 1; i >= 0; i--)
             {
                 var unassignedMediator = _unassignedMediators[i];

@@ -22,7 +22,7 @@ namespace Assets.Source.Contexts.Game.UI.Typed.Panels
         {
             _country = obj;
             CountryNameText.text = _country.Name;
-            DeclareWarButton.gameObject.SetActive(!_country.IsPlayerControlled);
+            DeclareWarButton.gameObject.SetActive(!_country.IsHumanControlled);
         }
 
         // Unity Listeners

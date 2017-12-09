@@ -8,7 +8,7 @@ using strange.extensions.command.impl;
 using strange.extensions.signal.impl;
 using UnityEngine;
 
-namespace Assets.Source.Contexts.Game.Commands
+namespace Assets.Source.Contexts.Game.Commands.ProcessCommands
 {
     public class ProcessDateTickSignal : Signal
     {
@@ -26,9 +26,6 @@ namespace Assets.Source.Contexts.Game.Commands
     public class ProcessDateTickCommand : Command
     {
         [Inject]
-        public IMovables Movables { get; set; }
-
-        [Inject]
         public TimePanelResumeSignal TimePanelResumeDispatcher { get; set; }
 
         [Inject]
@@ -39,6 +36,12 @@ namespace Assets.Source.Contexts.Game.Commands
 
         [Inject]
         public UpdateSignal UpdateSignal { get; set; }
+
+        [Inject]
+        public ProcessMovablesSignal ProcessMovablesDispatcher { get; set; }
+
+        [Inject]
+        public ProcessAiSignal ProcessAiDispatcher { get; set; }
 
         [Inject]
         public IDateManager DateManager { get; set; }
@@ -63,39 +66,17 @@ namespace Assets.Source.Contexts.Game.Commands
 
         private void ProcessMultithreaded()
         {
-            foreach (var movable in Movables.AllMovables)
-            {
-                if (movable.IsMoving)
-                {
-                    var path = movable.MovementPath;
-                    var next = path.NextMovement;
-                    next.DecrementMovementTime();
-                    if (next.HasArrived)
-                    {
-                        OnArrival(movable, next.Destination);
-                        path.SetMovementComplete();
-                        if (path.IsComplete)
-                        {
-                            movable.IsMoving = false;
-                        }
-                    }
-                }
-            }
+            ProcessAiDispatcher.Dispatch();
+            ProcessMovablesDispatcher.Dispatch();
 
             Finished = true;
         }
 
-        private void OnArrival(IMovable movable, IHexTile tile)
-        {
-            movable.Location = tile;
-            movable.OnArrivalInTile(tile);
-        }
-
         private void OnStart()
         {
-            Debug.Log("OnStart");
             TimePanelWaitDispatcher.Dispatch();
 
+            //ProcessAiDispatcher.Dispatch();
             //ProcessMultithreaded();
         }
 
@@ -106,7 +87,6 @@ namespace Assets.Source.Contexts.Game.Commands
 
             var currentDate = DateManager.CurrentDate;
             var tentativeNextDate = DateManager.AddDays(currentDate, 1);
-            Debug.Log("OnFinish");
             var nextDate = DateManager[tentativeNextDate];
             if (nextDate == null)
             {
@@ -119,8 +99,6 @@ namespace Assets.Source.Contexts.Game.Commands
             OnCurrentDateChangeDispatcher.Dispatch(nextDate);
 
             TimePanelResumeDispatcher.Dispatch();
-
-            Debug.Log("OnFinish");
         }
     }
 }

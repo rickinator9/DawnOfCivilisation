@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Assets.Source.Contexts.Game.Model.Map;
+using Assets.Source.Contexts.Game.Model.Player;
 using Assets.Source.Contexts.Game.Model.Political;
 using Assets.Source.Utils;
 using strange.extensions.signal.impl;
@@ -14,15 +15,25 @@ namespace Assets.Source.Contexts.Game.Model.Country
 
         Color Color { get; }
 
+        IPlayer Player { get; set; }
+
+        bool HasPlayer { get; }
+
+        bool IsHumanControlled { get; }
+
         ILandTile[] Territories { get; }
+
+        IArmy[] Armies { get; }
+
+        void AddArmy(IArmy army);
+
+        void RemoveArmy(IArmy army);
 
         IWar[] Wars { get; }
 
         IList<Signal<IWar>> WarAddedSignals { get; }
         
         IList<Signal<IWar>> WarRemovedSignals { get; }  
-
-        bool IsPlayerControlled { get; set; }
 
         void AddWar(IWar war);
 
@@ -51,6 +62,20 @@ namespace Assets.Source.Contexts.Game.Model.Country
             }
         }
 
+        public IPlayer Player { get; set; }
+
+        public bool HasPlayer { get { return Player != null; } }
+
+        public bool IsHumanControlled
+        {
+            get
+            {
+                if (!HasPlayer) return false;
+
+                return Player.Type == PlayerType.Human;
+            }
+        }
+
         public ILandTile[] Territories
         {
             get
@@ -70,6 +95,11 @@ namespace Assets.Source.Contexts.Game.Model.Country
             }
         }
 
+        private IList<IArmy> _armies = new List<IArmy>(); 
+        public IArmy[] Armies { get { return _armies.ToArray(); } }
+        public void AddArmy(IArmy army) { _armies.Add(army); }
+        public void RemoveArmy(IArmy army) { _armies.Remove(army); }
+
         private IList<IWar> _wars = new List<IWar>(); 
         public IWar[] Wars { get { return _wars.ToArray(); } }
 
@@ -78,8 +108,6 @@ namespace Assets.Source.Contexts.Game.Model.Country
 
         private IList<Signal<IWar>> _warRemovedSignals = new List<Signal<IWar>>(); 
         public IList<Signal<IWar>> WarRemovedSignals { get { return _warRemovedSignals; } }
-
-        public bool IsPlayerControlled { get; set; }
 
         public void AddWar(IWar war)
         {

@@ -1,10 +1,12 @@
-﻿using Assets.Source.Contexts.Game.Commands;
+﻿using System.Runtime.InteropServices;
+using Assets.Source.Contexts.Game.Commands;
 using Assets.Source.Contexts.Game.Commands.Army;
 using Assets.Source.Contexts.Game.Commands.City;
 using Assets.Source.Contexts.Game.Commands.Country;
 using Assets.Source.Contexts.Game.Commands.Initialisation;
 using Assets.Source.Contexts.Game.Commands.Input;
 using Assets.Source.Contexts.Game.Commands.Map;
+using Assets.Source.Contexts.Game.Commands.ProcessCommands;
 using Assets.Source.Contexts.Game.Commands.UI;
 using Assets.Source.Contexts.Game.Commands.War;
 using Assets.Source.Contexts.Game.Mediators;
@@ -13,6 +15,7 @@ using Assets.Source.Contexts.Game.Model.Country;
 using Assets.Source.Contexts.Game.Model.Map;
 using Assets.Source.Contexts.Game.Model.Map.MapMode;
 using Assets.Source.Contexts.Game.Model.Pathfinding;
+using Assets.Source.Contexts.Game.Model.Player;
 using Assets.Source.Contexts.Game.Model.Political;
 using Assets.Source.Contexts.Game.UI;
 using Assets.Source.Contexts.Game.UI.Typed.Panels;
@@ -49,12 +52,10 @@ namespace Assets.Source.Contexts.Game
 
         protected override void mapBindings()
         {
-            commandBinder.Bind<CreateArmySignal>().To<CreateArmyCommand>().Pooled();
             commandBinder.Bind<CreateCountrySignal>().To<CreateCountryCommand>().Pooled();
             commandBinder.Bind<LeftMouseClickSignal>().To<LeftMouseClickCommand>().Pooled();
             commandBinder.Bind<RightMouseClickSignal>().To<RightMouseClickCommand>().Pooled();
             commandBinder.Bind<CreateMovementPathSignal>().To<CreateMovementPathCommand>().Pooled();
-            commandBinder.Bind<ProcessDateTickSignal>().To<ProcessDateTickCommand>();
             injectionBinder.Bind<TimePanelWaitSignal>().ToSingleton();
             injectionBinder.Bind<TimePanelResumeSignal>().ToSingleton();
 
@@ -62,16 +63,9 @@ namespace Assets.Source.Contexts.Game
             injectionBinder.Bind<ShowUiPanelSignal>().ToSingleton();
             injectionBinder.Bind<HideAllUiPanelsSignal>().ToSingleton();
 
-            injectionBinder.Bind<IArmy>().To<Army>().ToName(CustomContextKeys.NewInstance);
-            injectionBinder.Bind<IArmies>().To<Armies>().ToSingleton();
             injectionBinder.Bind<IMovement>().To<Movement>().ToName(CustomContextKeys.NewInstance);
             injectionBinder.Bind<IMovementPath>().To<MovementPath>().ToName(CustomContextKeys.NewInstance);
             injectionBinder.Bind<IMovables>().To<Movables>().ToSingleton();
-            injectionBinder.Bind<OnCreateArmySignal>().ToSingleton();
-
-            injectionBinder.Bind<IPlayers>().To<Players>().ToSingleton();
-            injectionBinder.Bind<IPlayer>().To<Player>().ToName(CustomContextKeys.NewInstance);
-            injectionBinder.Bind<ILocalPlayer>().To<LocalPlayer>().ToName(CustomContextKeys.NewInstance);
 
             injectionBinder.Bind<IHexMap>().To<HexMap>().ToName(CustomContextKeys.NewInstance);
             injectionBinder.Bind<ILandTile>().To<LandTile>().ToName(CustomContextKeys.NewInstance);
@@ -102,7 +96,6 @@ namespace Assets.Source.Contexts.Game
 
             mediationBinder.Bind<HexPanelView>().To<HexPanelMediator>();
             mediationBinder.Bind<CountryPanelView>().To<CountryPanelMediator>();
-            mediationBinder.Bind<ArmyPanelView>().To<ArmyPanelMediator>();
             mediationBinder.Bind<CityPanelView>().To<CityPanelMediator>();
             mediationBinder.Bind<CountrySelectionView>().To<CountrySelectionMediator>();
             mediationBinder.Bind<TimePanelView>().To<TimePanelMediator>();
@@ -111,9 +104,24 @@ namespace Assets.Source.Contexts.Game
 
             mediationBinder.Bind<HexGridView>().To<HexGridMediator>();
 
+            BindArmies();
             BindInitialisation();
             BindMapModes();
+            BindPlayers();
+            BindProcessing();
             BindWars();
+        }
+
+        private void BindArmies()
+        {
+            commandBinder.Bind<CreateArmySignal>().To<CreateArmyCommand>().Pooled();
+            commandBinder.Bind<CreatePlayerArmySignal>().To<CreatePlayerArmyCommand>().Pooled();
+
+            injectionBinder.Bind<IArmy>().To<Army>().ToName(CustomContextKeys.NewInstance);
+            injectionBinder.Bind<IArmies>().To<Armies>().ToSingleton();
+            injectionBinder.Bind<OnCreateArmySignal>().ToSingleton();
+
+            mediationBinder.Bind<ArmyPanelView>().To<ArmyPanelMediator>();
         }
 
         private void BindInitialisation()
@@ -121,7 +129,8 @@ namespace Assets.Source.Contexts.Game
             commandBinder.Bind<InitialiseGameSignal>().To<InitialiseGameCommand>();
             commandBinder.Bind<InitialiseHexMapSignal>().To<InitialiseHexMapCommand>();
             commandBinder.Bind<InitialiseDateManagerSignal>().To<InitialiseDateManagerCommand>();
-            commandBinder.Bind<InitialisePlayerSignal>().To<InitialisePlayerCommand>();
+            commandBinder.Bind<InitialiseAiPlayersSignal>().To<InitialiseAiPlayersCommand>();
+            commandBinder.Bind<InitialiseLocalPlayerSignal>().To<InitialiseLocalPlayerCommand>();
         }
 
         private void BindMapModes()
@@ -130,6 +139,22 @@ namespace Assets.Source.Contexts.Game
             injectionBinder.Bind<OnSetMapModeSignal>().ToSingleton();
 
             injectionBinder.Bind<IMapMode>().To<PoliticalMapMode>().ToName(MapMode.Political);
+        }
+
+        private void BindPlayers()
+        {
+            injectionBinder.Bind<IPlayers>().To<Players>().ToSingleton();
+            injectionBinder.Bind<ILocalPlayer>().To<LocalPlayer>().ToName(CustomContextKeys.NewInstance);
+            injectionBinder.Bind<IHumanPlayer>().To<HumanPlayer>().ToName(CustomContextKeys.NewInstance);
+            injectionBinder.Bind<IAiPlayer>().To<AiPlayer>().ToName(CustomContextKeys.NewInstance);
+        }
+
+        private void BindProcessing()
+        {
+            commandBinder.Bind<ProcessDateTickSignal>().To<ProcessDateTickCommand>();
+
+            commandBinder.Bind<ProcessAiSignal>().To<ProcessAiCommand>();
+            commandBinder.Bind<ProcessMovablesSignal>().To<ProcessMovablesCommand>();
         }
 
         private void BindWars()

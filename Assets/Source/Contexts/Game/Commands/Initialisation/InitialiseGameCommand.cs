@@ -16,7 +16,10 @@ namespace Assets.Source.Contexts.Game.Commands.Initialisation
         public InitialiseHexMapSignal InitialiseHexMapDispatcher { get; set; }
 
         [Inject]
-        public InitialisePlayerSignal InitialisePlayerDispatcher { get; set; }
+        public InitialiseLocalPlayerSignal InitialiseLocalPlayerDispatcher { get; set; }
+
+        [Inject]
+        public InitialiseAiPlayersSignal InitialiseAiPlayersDispatcher { get; set; }
 
         public override void Execute()
         {
@@ -26,7 +29,8 @@ namespace Assets.Source.Contexts.Game.Commands.Initialisation
                 Width = 20,
                 Height = 20
             });
-            InitialisePlayerDispatcher.Dispatch();
+            InitialiseLocalPlayerDispatcher.Dispatch();
+            InitialiseAiPlayersDispatcher.Dispatch();
         }
     }
 }

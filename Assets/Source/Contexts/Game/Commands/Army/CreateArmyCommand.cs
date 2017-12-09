@@ -1,5 +1,7 @@
 ﻿using Assets.Source.Contexts.Game.Model;
+using Assets.Source.Contexts.Game.Model.Country;
 using Assets.Source.Contexts.Game.Model.Map;
+using Assets.Source.Contexts.Game.Model.Player;
 using Assets.Source.Core.IoC;
 using strange.extensions.command.impl;
 using strange.extensions.signal.impl;
@@ -10,7 +12,7 @@ namespace Assets.Source.Contexts.Game.Commands.Army
     /// <summary>
     /// IHexTile: The tile the army will be spawned on.
     /// </summary>
-    public class CreateArmySignal : Signal<IHexTile>
+    public class CreateArmySignal : Signal<IHexTile, ICountry>
     {
         
     }
@@ -28,6 +30,9 @@ namespace Assets.Source.Contexts.Game.Commands.Army
     {
         [Inject]
         public IHexTile Tile { get; set; }
+
+        [Inject]
+        public ICountry Country { get; set; }
 
         [Inject]
         public OnCreateArmySignal OnCreateArmyDispatcher { get; set; }
@@ -51,7 +56,9 @@ namespace Assets.Source.Contexts.Game.Commands.Army
             var landTile = (ILandTile) Tile;
 
             NewArmy.Location = landTile;
-            NewArmy.Country = Players.LocalPlayer.Country;
+            NewArmy.Country = Country;
+
+            Country.AddArmy(NewArmy);
             Armies.AddArmy(NewArmy);
             Movables.Add(NewArmy);
 

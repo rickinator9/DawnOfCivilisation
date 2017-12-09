@@ -1,5 +1,6 @@
 ﻿using Assets.Source.Contexts.Game.Model;
 using Assets.Source.Contexts.Game.Model.Country;
+using Assets.Source.Contexts.Game.Model.Player;
 using strange.extensions.command.impl;
 using strange.extensions.signal.impl;
 

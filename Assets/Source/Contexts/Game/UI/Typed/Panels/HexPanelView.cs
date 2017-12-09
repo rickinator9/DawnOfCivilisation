@@ -36,7 +36,7 @@ namespace Assets.Source.Contexts.Game.UI.Typed.Panels
                 var landTile = (ILandTile)_activeTile;
 
                 PopulationValue.transform.parent.gameObject.SetActive(true);
-                RaiseArmyButton.gameObject.SetActive(landTile.Country != null && landTile.Country.IsPlayerControlled);
+                RaiseArmyButton.gameObject.SetActive(landTile.Country != null && landTile.Country.IsHumanControlled);
                 CountryButton.transform.parent.gameObject.SetActive(landTile.Country != null);
                 if (landTile.Country != null) CountryButton.GetComponentInChildren<Text>().text = landTile.Country.Name;
 

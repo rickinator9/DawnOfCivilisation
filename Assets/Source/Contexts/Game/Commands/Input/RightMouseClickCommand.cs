@@ -1,6 +1,7 @@
 ﻿using Assets.Source.Contexts.Game.Commands.Army;
 using Assets.Source.Contexts.Game.Model;
 using Assets.Source.Contexts.Game.Model.Map;
+using Assets.Source.Contexts.Game.Model.Player;
 using Assets.Source.Core.IoC;
 using strange.extensions.command.impl;
 using strange.extensions.signal.impl;

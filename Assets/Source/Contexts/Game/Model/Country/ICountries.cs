@@ -7,6 +7,8 @@ namespace Assets.Source.Contexts.Game.Model.Country
     {
         ICountry[] All { get; }
 
+        ICountry[] AllWithoutPlayers { get; }
+
         void Add(ICountry country);
 
         void Remove(ICountry country);
@@ -16,6 +18,12 @@ namespace Assets.Source.Contexts.Game.Model.Country
     {
         private IList<ICountry> _countries = new List<ICountry>(); 
         public ICountry[] All { get { return _countries.ToArray(); } }
+
+        public ICountry[] AllWithoutPlayers
+        {
+            get { return _countries.Where(country => !country.HasPlayer).ToArray(); }
+        }
+
 
         public void Add(ICountry country)
         {

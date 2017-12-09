@@ -10,7 +10,7 @@ namespace Assets.Source.Contexts.Game.UI.Typed.Panels
     public class HexPanelMediator : TypedUiMediator<HexPanelView, IHexTile>
     {
         [Inject]
-        public CreateArmySignal CreateArmyDispatcher { get; set; }
+        public CreatePlayerArmySignal CreatePlayerArmyDispatcher { get; set; }
 
         [Inject]
         public ShowUiPanelExclusivelySignal ShowUiPanelExclusivelyDispatcher { get; set; }
@@ -38,7 +38,7 @@ namespace Assets.Source.Contexts.Game.UI.Typed.Panels
 
         private void RaiseArmy(IHexTile tile)
         {
-            CreateArmyDispatcher.Dispatch(tile);
+            CreatePlayerArmyDispatcher.Dispatch(tile);
         }
 
         private void ShowCountryPanel(ICountry country)

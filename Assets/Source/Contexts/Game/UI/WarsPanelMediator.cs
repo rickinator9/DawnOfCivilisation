@@ -1,4 +1,5 @@
 ﻿using Assets.Source.Contexts.Game.Model;
+using Assets.Source.Contexts.Game.Model.Player;
 using Assets.Source.Contexts.Game.Model.Political;
 using Assets.Source.Core.IoC;
 using strange.extensions.signal.impl;
