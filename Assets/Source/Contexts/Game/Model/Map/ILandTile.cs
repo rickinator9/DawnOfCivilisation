@@ -13,6 +13,8 @@ namespace Assets.Source.Contexts.Game.Model.Map
 
         ICountry Controller { get; set; }
 
+        bool IsOccupied { get; }
+
         ICity City { get; set; }
 
         bool HasCity { get; }
@@ -69,6 +71,8 @@ namespace Assets.Source.Contexts.Game.Model.Map
                 }
             }
         }
+
+        public bool IsOccupied { get { return Country != Controller; } }
 
         public ICity City { get; set; }
 

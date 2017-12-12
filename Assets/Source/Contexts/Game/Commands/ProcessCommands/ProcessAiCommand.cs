@@ -93,7 +93,7 @@ namespace Assets.Source.Contexts.Game.Commands.ProcessCommands
             IHexTile closest = null;
             foreach (var hexTile in tiles)
             {
-                if (hexTile.Controller != hexTile.Country) continue;
+                if (hexTile.IsOccupied) continue;
 
                 var distance = Vector3.Distance(from.Center, hexTile.Center);
                 if (closest == null || distance < Vector3.Distance(closest.Center, from.Center))
