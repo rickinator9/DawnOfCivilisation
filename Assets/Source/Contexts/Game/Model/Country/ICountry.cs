@@ -40,6 +40,8 @@ namespace Assets.Source.Contexts.Game.Model.Country
         void RemoveWar(IWar war);
 
         bool IsEnemyOfCountry(ICountry country);
+
+        bool IsFriendOfCountry(ICountry country);
     }
 
     public class Country : ICountry
@@ -130,6 +132,23 @@ namespace Assets.Source.Contexts.Game.Model.Country
                 foreach (var enemy in war.GetEnemiesOfCountry(this))
                 {
                     if (enemy == country) return true;
+                }
+            }
+
+            return false;
+        }
+
+        public bool IsFriendOfCountry(ICountry country)
+        {
+            if (country == null) return false;
+
+            if (country == this) return true;
+
+            foreach (var war in Wars)
+            {
+                foreach (var friend in war.GetFriendsOfCountry(this))
+                {
+                    if (friend == country) return true;
                 }
             }
 

@@ -42,7 +42,9 @@ namespace Assets.Source.Contexts.Game.Model
 
             var landTile = (ILandTile) tile;
 
-            if(Country.IsEnemyOfCountry(landTile.Country)) landTile.Controller = Country;
+            var isUnoccupiedEnemyTile = !landTile.IsOccupied && Country.IsEnemyOfCountry(landTile.Country);
+            var isOccupiedFriendlyTile = landTile.IsOccupied && Country.IsFriendOfCountry(Country);
+            if(isUnoccupiedEnemyTile || isOccupiedFriendlyTile) landTile.Controller = Country;
         }
 
         public Vector3 Position

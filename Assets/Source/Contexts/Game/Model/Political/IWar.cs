@@ -25,6 +25,7 @@ namespace Assets.Source.Contexts.Game.Model.Political
         bool IsDefender(ICountry country);
 
         ICountry[] GetEnemiesOfCountry(ICountry country);
+        ICountry[] GetFriendsOfCountry(ICountry country);
     }
 
     public class War : IWar
@@ -51,6 +52,22 @@ namespace Assets.Source.Contexts.Game.Model.Political
             if(IsAttacker(country)) return Defenders;
             if(IsDefender(country)) return Attackers;
             return new ICountry[0]; // Empty, since country is not involved in the war.
+        }
+
+        public ICountry[] GetFriendsOfCountry(ICountry country)
+        {
+            var list = new List<ICountry>();
+            ICountry[] friendlyAlliance = null;
+
+            if(IsAttacker(country)) friendlyAlliance = Attackers;
+            if(IsDefender(country)) friendlyAlliance = Defenders;
+
+            foreach (var friendlyCountry in friendlyAlliance)
+            {
+                if(friendlyCountry != country) list.Add(friendlyCountry);
+            }
+
+            return list.Count > 0 ? list.ToArray() : new ICountry[0];
         }
     }
 }
