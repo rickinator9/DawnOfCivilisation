@@ -3,54 +3,49 @@ using Assets.Source.Contexts.Game.Model.Map.MapMode;
 using Assets.Source.Utils;
 using UnityEngine;
 
-namespace Assets.Source.Contexts.Game.Model.Map
+namespace Assets.Source.Contexts.Game.Model.Map.Mesh
 {
-    [RequireComponent(typeof(MeshFilter), typeof(MeshRenderer))]
-    public class HexMesh : MonoBehaviour
+    public class TerrainHexMesh : BaseHexMesh
     {
-        public Texture2D Heightmap;
-
-        private Mesh _mesh;
-        private MeshCollider _collider;
-
         private static List<Vector3> _vertices = new List<Vector3>();
-        private static List<int> _indices = new List<int>(); 
+        private static List<int> _indices = new List<int>();
         private static List<Color> _colors = new List<Color>();
-        private static List<Vector3> _stripeColors = new List<Vector3>(); 
-        private static List<Vector3> _terrainTypes = new List<Vector3>(); 
+        private static List<Vector3> _stripeColors = new List<Vector3>();
+        private static List<Vector3> _terrainTypes = new List<Vector3>();
 
-        void Awake()
+        protected override void Initialise()
         {
-            _mesh = GetComponent<MeshFilter>().mesh = new Mesh();
-            _mesh.name = "Hex Mesh";
-
-            _collider = gameObject.AddComponent<MeshCollider>();
+            Mesh.name = "Terrain Hex Mesh";
         }
 
-        public void Triangulate(IHexTile[] tiles, IMapMode mapMode)
+        protected override void TriangulateTiles(IHexTile[] tiles, IMapMode mapMode)
         {
             foreach (var hexTile in tiles)
             {
                 if (hexTile.TerrainType == HexTerrainType.Water)
                 {
-                    var waterTile = (IWaterTile) hexTile;
+                    var waterTile = (IWaterTile)hexTile;
                     TriangulateWaterTile(waterTile);
                 }
                 else
                 {
-                    var landTile = (ILandTile) hexTile;
+                    var landTile = (ILandTile)hexTile;
                     TriangulateLandTile(landTile, mapMode);
                 }
             }
-            
-            _mesh.SetVertices(_vertices);
-            _mesh.SetTriangles(_indices, 0);
-            _mesh.SetColors(_colors);
-            _mesh.SetUVs(1, _stripeColors);
-            _mesh.SetUVs(2, _terrainTypes);
+        }
 
-            _collider.sharedMesh = _mesh;
+        protected override void SetMeshProperties()
+        {
+            Mesh.SetVertices(_vertices);
+            Mesh.SetTriangles(_indices, 0);
+            Mesh.SetColors(_colors);
+            Mesh.SetUVs(1, _stripeColors);
+            Mesh.SetUVs(2, _terrainTypes);
+        }
 
+        protected override void ClearMeshProperties()
+        {
             _vertices.Clear();
             _indices.Clear();
             _colors.Clear();
@@ -80,35 +75,102 @@ namespace Assets.Source.Contexts.Game.Model.Map
 
         private void TriangulateWaterTile(IWaterTile tile)
         {
+            for (var i = 0; i < HexMetrics.Corners.Length; i++)
+            {
+                TriangulateWaterCorner(tile, i);
+            }
+        }
+
+        private void TriangulateWaterCorner(IWaterTile tile, int index)
+        {
             const float surfaceFactor = 0.75f;
             var center = tile.Center;
             var depthVector = new Vector3(0, -2, 0);
 
             var color = tile.Color;
             var stripeColor = Color.black; // No stripes
-            for (var i = 0; i < HexMetrics.Corners.Length; i++)
+
+            var terrainType = GetTerrainType(tile, index);
+
+            var corner1 = HexMetrics.Corners[index];
+            var corner2 = HexMetrics.Corners[(index + 1) % HexMetrics.Corners.Length];
+
+            var v1 = corner1 * surfaceFactor + center + depthVector;
+            var v2 = corner2 * surfaceFactor + center + depthVector;
+
+            AddTriangle(center + depthVector, v1, v2);
+            AddTriangleColor(color);
+            AddTriangleStripeColor(stripeColor.ToVector3());
+            AddTriangleTerrainType(terrainType);
+
+            var neighbor = GetNeighborAtCorner(tile, index);
+
+            var v3 = Vector3.zero;
+            var v4 = Vector3.zero;
+            if (!IsWaterTile(neighbor)) // If the neighbor is a land tile.
             {
-                var terrainType = GetTerrainType(tile, i);
-
-                var corner1 = HexMetrics.Corners[i];
-                var corner2 = HexMetrics.Corners[(i + 1)%HexMetrics.Corners.Length];
-
-                var v1 = corner1 * surfaceFactor + center + depthVector;
-                var v2 = corner2 * surfaceFactor + center + depthVector;
-
-                AddTriangle(center + depthVector, v1, v2);
-                AddTriangleColor(color);
-                AddTriangleStripeColor(stripeColor.ToVector3());
-                AddTriangleTerrainType(terrainType);
-
-                var v3 = corner1 + center;
-                var v4 = corner2 + center;
-
-                AddQuad(v1, v2, v3, v4);
-                AddQuadColor(color);
-                AddQuadStripeColor(stripeColor.ToVector3());
-                AddQuadTerrainType(terrainType);
+                v3 = corner1 + center;
+                v4 = corner2 + center;
             }
+            else // If the neighbor is a water tile.
+            {
+                var cornerDifference = corner2 - corner1;
+                var cornerDirection = cornerDifference.normalized;
+
+                var corner1Factor = cornerDifference.magnitude*(1 - surfaceFactor);
+                var corner2Factor = cornerDifference.magnitude*surfaceFactor;
+
+                var leftNeighbor = GetNeighborAtCorner(tile, index - 1);
+                if (IsWaterTile(leftNeighbor)) v3 = corner1 + center + depthVector;
+                else
+                {
+                    v3 = corner1 + cornerDirection * corner1Factor + center + depthVector;
+                    var v5 = corner1 + center;
+
+                    AddTriangle(v1, v5, v3);
+                    AddTriangleColor(color);
+                    AddTriangleStripeColor(stripeColor.ToVector3());
+                    AddTriangleTerrainType(terrainType);
+                }
+
+                var rightNeighbor = GetNeighborAtCorner(tile, index + 1);
+                if (IsWaterTile(rightNeighbor)) v4 = corner2 + center + depthVector;
+                else
+                {
+                    v4 = corner1 + cornerDirection*corner2Factor + center + depthVector;
+                    var v6 = corner2 + center;
+
+                    AddTriangle(v2, v4, v6);
+                    AddTriangleColor(color);
+                    AddTriangleStripeColor(stripeColor.ToVector3());
+                    AddTriangleTerrainType(terrainType);
+                }
+            }
+
+            AddQuad(v1, v2, v3, v4);
+            AddQuadColor(color);
+            AddQuadStripeColor(stripeColor.ToVector3());
+            AddQuadTerrainType(terrainType);
+        }
+
+        private IHexTile GetNeighborAtCorner(IHexTile tile, int index)
+        {
+            // 0: Opposite, 1: Normal, 2: Opposite, 3: Opposite, 4: Normal, 5: Opposite
+
+            var neighborDirection = (HexDirection)((index + 1) % HexMetrics.Corners.Length);
+            int neighborIndex;
+            if (index == 1 || index == 4) neighborIndex = (int)neighborDirection;
+            else neighborIndex = (int)neighborDirection.Opposite();
+
+            return tile.Neighbors[neighborIndex];
+        }
+
+        private bool IsWaterTile(IHexTile tile)
+        {
+            if (tile == null) return true;
+            if (tile.TerrainType == HexTerrainType.Water) return true;
+
+            return false;
         }
 
         private Vector3 GetTerrainType(IHexTile tile, int cornerIndex)

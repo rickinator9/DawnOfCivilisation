@@ -1,5 +1,7 @@
-﻿using Assets.Source.Contexts.Game.Model.Map;
+﻿using System.Collections.Generic;
+using Assets.Source.Contexts.Game.Model.Map;
 using Assets.Source.Contexts.Game.Model.Map.MapMode;
+using Assets.Source.Contexts.Game.Model.Map.Mesh;
 using strange.extensions.mediation.impl;
 
 namespace Assets.Source.Contexts.Game.Views
@@ -7,7 +9,7 @@ namespace Assets.Source.Contexts.Game.Views
     public class HexGridView : View
     {
 
-        public HexMesh Mesh;
+        public List<BaseHexMesh> Meshes; 
 
         public bool NeedsRefresh { get; set; }
 
@@ -19,7 +21,10 @@ namespace Assets.Source.Contexts.Game.Views
         {
             if (NeedsRefresh && MapMode != null)
             {
-                Mesh.Triangulate(Tiles, MapMode);
+                foreach (var mesh in Meshes)
+                {
+                    mesh.Triangulate(Tiles, MapMode);
+                }
                 NeedsRefresh = false;
             }
         }
