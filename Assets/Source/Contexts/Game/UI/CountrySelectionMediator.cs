@@ -6,7 +6,7 @@ using Assets.Source.Core.IoC;
 
 namespace Assets.Source.Contexts.Game.UI
 {
-    public class CountrySelectionMediator : ViewMediator<CountrySelectionView>
+    public class CountrySelectionMediator : ViewMediator<CountrySelectionView, CountrySelectionView>
     {
         [Inject]
         public ShowUiPanelExclusivelySignal ShowUiPanelExclusivelyDispatcher { get; set; }

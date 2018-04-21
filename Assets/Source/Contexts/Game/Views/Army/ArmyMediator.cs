@@ -3,15 +3,15 @@ using Assets.Source.Contexts.Game.Views;
 using Assets.Source.Core.IoC;
 using strange.extensions.signal.impl;
 
-namespace Assets.Source.Contexts.Game.Mediators
+namespace Assets.Source.Contexts.Game.Views.Army
 {
-    public class ArmyMediator : ViewMediator<ArmyView>
+    public class ArmyMediator : ChildMediator<IArmy, IArmyView, ArmyView>
     {
         private IArmy Army { get; set; }
 
         private bool NeedsRefresh { get; set; }
 
-        public void Initialise(IArmy army)
+        public override void Initialise(IArmy army)
         {
             Army = army;
 
@@ -26,7 +26,9 @@ namespace Assets.Source.Contexts.Game.Mediators
         {
             if (NeedsRefresh)
             {
-                View.OnRefresh(Army);
+                View.Position = Army.Position;
+                View.Color = Army.Country.Color;
+                
                 NeedsRefresh = false;
             }
         }

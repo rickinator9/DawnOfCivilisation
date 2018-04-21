@@ -6,12 +6,20 @@ using Assets.Source.Core.IoC;
 
 namespace Assets.Source.Contexts.Game.Mediators
 {
-    public class CityWorldPanelMediator : ViewMediator<CityWorldPanelView>
+    public class CityWorldPanelMediator : ChildMediator<ICity, CityWorldPanelView, CityWorldPanelView>
     {
         [Inject]
         public ShowUiPanelExclusivelySignal ShowUiPanelExclusivelyDispatcher { get; set; }
 
-        public ICity City { get; set; }
+        private ICity City { get; set; }
+
+        public override void Initialise(ICity city)
+        {
+            City = city;
+
+            View.CityName = City.Name;
+            View.transform.position += City.Location.Center;
+        }
 
         public override void OnRegister()
         {
@@ -30,12 +38,6 @@ namespace Assets.Source.Contexts.Game.Mediators
         private void OnViewClicked()
         {
             ShowUiPanelExclusivelyDispatcher.Dispatch(UiType.CityPanel, City);
-        }
-
-        public void Initialise(ICity city)
-        {
-            City = city;
-            View.UpdateUi(city);
         }
     }
 }

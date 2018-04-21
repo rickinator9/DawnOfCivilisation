@@ -4,13 +4,8 @@ using UnityEngine;
 
 namespace Assets.Source.Contexts.Game.UI
 {
-    public class BeligerentListPanelView : ChildCreatorView<BeligerentPanelView, BeligerentPanelMediator, ICountry> 
+    public class BeligerentListPanelView : ChildCreatorView<BeligerentPanelView, BeligerentPanelView, BeligerentPanelMediator, ICountry> 
     {
-        protected override void OnMediatorCreated(BeligerentPanelMediator mediator, ICountry country)
-        {
-            mediator.Initialise(country);
-        }
-
         public void ResetAndSpawn(ICountry[] countries)
         {
             Reset();

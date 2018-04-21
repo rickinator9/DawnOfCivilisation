@@ -19,7 +19,9 @@ using Assets.Source.Contexts.Game.Model.Player;
 using Assets.Source.Contexts.Game.Model.Political;
 using Assets.Source.Contexts.Game.UI;
 using Assets.Source.Contexts.Game.UI.Typed.Panels;
+using Assets.Source.Contexts.Game.UI.Typed.Panels.ArmyPanel;
 using Assets.Source.Contexts.Game.Views;
+using Assets.Source.Contexts.Game.Views.Army;
 using Assets.Source.Core.IoC;
 using Assets.Source.Model;
 using strange.extensions.command.api;
@@ -90,8 +92,6 @@ namespace Assets.Source.Contexts.Game
             injectionBinder.Bind<IDateManager>().To<DateManager>().ToSingleton();
             injectionBinder.Bind<OnCurrentDateChangeSignal>().ToSingleton();
 
-            mediationBinder.Bind<ArmyView>().To<ArmyMediator>();
-            mediationBinder.Bind<ArmiesView>().To<ArmiesMediator>();
             mediationBinder.Bind<InputView>().To<InputMediator>();
 
             mediationBinder.Bind<HexPanelView>().To<HexPanelMediator>();
@@ -122,6 +122,8 @@ namespace Assets.Source.Contexts.Game
             injectionBinder.Bind<OnCreateArmySignal>().ToSingleton();
 
             mediationBinder.Bind<ArmyPanelView>().To<ArmyPanelMediator>();
+            mediationBinder.Bind<ArmyView>().To<ArmyMediator>();
+            mediationBinder.Bind<ArmiesView>().To<ArmiesMediator>();
         }
 
         private void BindInitialisation()

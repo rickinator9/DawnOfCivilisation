@@ -43,7 +43,7 @@ namespace Assets.Source.Contexts.Game.Commands.ProcessCommands
         public void ProcessAiPlayer(IPlayer aiPlayer)
         {
             var country = aiPlayer.Country;
-            if (country.Wars.Length == 0) DeclareWarOnClosestCountry(country);
+            if (country.Wars.Count == 0) DeclareWarOnClosestCountry(country);
             else
             {
                 if (country.Armies.Length == 0) CreateArmy(country);
@@ -79,7 +79,7 @@ namespace Assets.Source.Contexts.Game.Commands.ProcessCommands
         {
             foreach (var army in country.Armies)
             {
-                var war = country.Wars[0];
+                var war = country.Wars.All[0];
                 var primaryAttacker = war.GetEnemiesOfCountry(country)[0];
                 CreateMovementPathDispatcher.Dispatch(
                     army,
@@ -100,7 +100,7 @@ namespace Assets.Source.Contexts.Game.Commands.ProcessCommands
                     closest = hexTile;
             }
 
-            return closest != null ? closest : from;
+            return closest ?? from;
         }
     }
 }

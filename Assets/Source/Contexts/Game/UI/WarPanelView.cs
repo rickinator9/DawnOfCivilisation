@@ -7,9 +7,11 @@ using UnityEngine.UI;
 
 namespace Assets.Source.Contexts.Game.UI
 {
+    #pragma warning disable CS0649
     public class WarPanelView : View
     {
-        [SerializeField] private Text CountryText;
+        [SerializeField]
+        private Text CountryText;
 
         public Signal ClickSignal = new Signal();
 

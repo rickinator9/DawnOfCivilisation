@@ -2,7 +2,7 @@
 
 namespace Assets.Source.Contexts.Game.UI
 {
-    public class BeligerentListPanelMediator : ViewMediator<BeligerentListPanelView>
+    public class BeligerentListPanelMediator : ViewMediator<BeligerentListPanelView, BeligerentListPanelView>
     {
          
     }

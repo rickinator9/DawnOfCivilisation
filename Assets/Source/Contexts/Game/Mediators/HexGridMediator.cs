@@ -9,7 +9,7 @@ using strange.extensions.signal.impl;
 
 namespace Assets.Source.Contexts.Game.Mediators
 {
-    public class HexGridMediator : ViewMediator<HexGridView>
+    public class HexGridMediator : ViewMediator<HexGridView, HexGridView>
     {
         [Inject]
         public OnInitialiseHexMapSignal OnInitialiseHexMapSignal { get; set; }

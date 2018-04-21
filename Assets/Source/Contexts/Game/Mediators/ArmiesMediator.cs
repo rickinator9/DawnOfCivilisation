@@ -5,7 +5,7 @@ using Assets.Source.Core.IoC;
 
 namespace Assets.Source.Contexts.Game.Mediators
 {
-    public class ArmiesMediator : ViewMediator<ArmiesView>
+    public class ArmiesMediator : ViewMediator<ArmiesView, ArmiesView>
     {
         [Inject]
         public OnCreateArmySignal OnCreateArmyListener { get; set; }

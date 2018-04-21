@@ -8,7 +8,7 @@ namespace Assets.Source.Contexts.Game.Mediators
     {
     }
 
-    public class UpdateMediator : ViewMediator<UpdateView>
+    public class UpdateMediator : ViewMediator<UpdateView, UpdateView>
     {
         [Inject]
         public UpdateSignal UpdateDispatcher { get; set; }

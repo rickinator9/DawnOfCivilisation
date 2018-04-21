@@ -1,20 +1,30 @@
 ﻿using System.Collections.Generic;
 using Assets.Source.Contexts.Game.Model;
 using Assets.Source.Contexts.Game.Views;
+using strange.extensions.mediation.api;
 using strange.extensions.mediation.impl;
 
 namespace Assets.Source.Core.IoC
 {
-    public abstract class ChildCreatorView<TChildView, TChildMediator, TObject> : View where TChildView : View
-                                                                                       where TChildMediator : Mediator
+    public abstract class ChildMediator<TObject, TView, TViewImpl> : ViewMediator<TView, TViewImpl> 
+        where TView : IView
+        where TViewImpl : View, TView
+    {
+        public abstract void Initialise(TObject obj);
+    }
+
+    public abstract class ChildCreatorView<TChildView, TChildViewImpl, TChildMediator, TObject> : View 
+        where TChildView : IView
+        where TChildViewImpl : View, TChildView
+        where TChildMediator : ChildMediator<TObject, TChildView, TChildViewImpl>
     {
         private struct UnassignedMediator
         {
-            public TChildView View;
+            public TChildViewImpl View;
             public TObject Object;
         }
 
-        public TChildView ChildPrefab;
+        public TChildViewImpl ChildPrefab;
 
         private Queue<TObject> _objectCreationQueue = new Queue<TObject>();  
         private IList<UnassignedMediator> _unassignedMediators = new List<UnassignedMediator>();
@@ -47,11 +57,9 @@ namespace Assets.Source.Core.IoC
                 if (mediator != null)
                 {
                     _unassignedMediators.RemoveAt(i);
-                    OnMediatorCreated(mediator, unassignedMediator.Object);
+                    mediator.Initialise(unassignedMediator.Object);
                 }
             }
         }
-
-        protected abstract void OnMediatorCreated(TChildMediator mediator, TObject obj);
     }
 }

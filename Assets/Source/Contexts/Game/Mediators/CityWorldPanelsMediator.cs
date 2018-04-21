@@ -5,7 +5,7 @@ using Assets.Source.Core.IoC;
 
 namespace Assets.Source.Contexts.Game.Mediators
 {
-    public class CityWorldPanelsMediator : ViewMediator<CityWorldPanelsView>
+    public class CityWorldPanelsMediator : ViewMediator<CityWorldPanelsView, CityWorldPanelsView>
     {
          [Inject]
          public OnCreateCitySignal OnCreateCitySignal { get; set; }

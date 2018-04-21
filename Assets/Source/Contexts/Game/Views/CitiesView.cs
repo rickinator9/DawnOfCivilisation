@@ -6,11 +6,7 @@ using strange.extensions.mediation.impl;
 
 namespace Assets.Source.Contexts.Game.Views
 {
-    public class CitiesView : ChildCreatorView<CityView, CityMediator, ICity>
+    public class CitiesView : ChildCreatorView<CityView, CityView, CityMediator, ICity>
     {
-        protected override void OnMediatorCreated(CityMediator mediator, ICity obj)
-        {
-            mediator.transform.position += obj.Location.Center;
-        }
     }
 }

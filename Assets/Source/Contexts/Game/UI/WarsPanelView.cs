@@ -4,11 +4,7 @@ using strange.extensions.mediation.impl;
 
 namespace Assets.Source.Contexts.Game.UI
 {
-    public class WarsPanelView : ChildCreatorView<WarPanelView, WarPanelMediator, IWar>
+    public class WarsPanelView : ChildCreatorView<WarPanelView, WarPanelView, WarPanelMediator, IWar>
     {
-        protected override void OnMediatorCreated(WarPanelMediator mediator, IWar war)
-        {
-            mediator.War = war;
-        }
     }
 }

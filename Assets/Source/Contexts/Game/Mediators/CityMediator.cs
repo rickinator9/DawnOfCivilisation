@@ -6,7 +6,11 @@ using Assets.Source.Core.IoC;
 
 namespace Assets.Source.Contexts.Game.Mediators
 {
-    public class CityMediator : ViewMediator<CityView>
+    public class CityMediator : ChildMediator<ICity, CityView, CityView>
     {
+        public override void Initialise(ICity city)
+        {
+            View.transform.position += city.Location.Center;
+        }
     }
 }

@@ -38,11 +38,11 @@ namespace Assets.Source.Contexts.Game.Commands.War
 
             foreach (var attacker in NewWar.Attackers)
             {
-                attacker.AddWar(NewWar);
+                attacker.Wars.Add(NewWar);
             }
             foreach (var defender in NewWar.Defenders)
             {
-                defender.AddWar(NewWar);
+                defender.Wars.Add(NewWar);
             }
 
             Debug.LogFormat("War declared between {0} and {1}.", Params.Attacker.Name, Params.Defender.Name);

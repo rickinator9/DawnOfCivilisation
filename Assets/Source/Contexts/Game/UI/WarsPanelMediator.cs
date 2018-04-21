@@ -6,7 +6,7 @@ using strange.extensions.signal.impl;
 
 namespace Assets.Source.Contexts.Game.UI
 {
-    public class WarsPanelMediator : ViewMediator<WarsPanelView>
+    public class WarsPanelMediator : ViewMediator<WarsPanelView, WarsPanelView>
     {
         [Inject]
         public IPlayers Players { get; set; }
@@ -36,12 +36,12 @@ namespace Assets.Source.Contexts.Game.UI
         {
             if (LocalPlayer != null)
             {
-                LocalPlayer.Country.WarAddedSignals.Remove(WarAddedSignal);
+                LocalPlayer.Country.Wars.OnAdd -= OnWarAdded;
             }
             LocalPlayer = localPlayer;
             if (LocalPlayer != null)
             {
-                LocalPlayer.Country.WarAddedSignals.Add(WarAddedSignal);
+                LocalPlayer.Country.Wars.OnAdd += OnWarAdded;
             }
         }
 

@@ -2,6 +2,7 @@
 using Assets.Source.Contexts.Game.Model.Map;
 using Assets.Source.Model;
 using strange.extensions.signal.impl;
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,52 +10,81 @@ namespace Assets.Source.Contexts.Game.UI.Typed.Panels
 {
     public class HexPanelView : TypedUiView<IHexTile>
     {
-        public Text XValue, ZValue, TerrainValue, PopulationValue;
-        public Button RaiseArmyButton, CountryButton;
-        public Signal<IHexTile> RaiseArmySignal = new Signal<IHexTile>();
-        public Signal<ICountry> ShowCountryPanelSignal = new Signal<ICountry>();
+        #region Unity Components
+        [SerializeField]
+        private Text _xText;
+        [SerializeField]
+        private Text _yText;
+        [SerializeField]
+        private Text _terrainText;
+        [SerializeField]
+        private Text _populationText;
+        [SerializeField]
+        private Button _raiseArmyButton;
+        [SerializeField]
+        private Button _countryButton;
+        #endregion
 
-        private IHexTile _activeTile;
-
-        public override void UpdateValues(IHexTile obj)
+        public int X
         {
-            _activeTile = obj;
+            set { _xText.text = value.ToString(); }
+        }
 
-            var coords = _activeTile.Coordinates.ToOffsetCoordinates();
-            XValue.text = coords.X.ToString();
-            ZValue.text = coords.Z.ToString();
-            TerrainValue.text = _activeTile.TerrainType.ToString();
+        public int Y
+        {
+            set { _yText.text = value.ToString(); }
+        }
 
-            if (_activeTile.TerrainType == HexTerrainType.Water)
+        public HexTerrainType TerrainType
+        {
+            set { _terrainText.text = value.ToString(); }
+        }
+
+        public int Population
+        {
+            set
             {
-                PopulationValue.transform.parent.gameObject.SetActive(false);
-                RaiseArmyButton.gameObject.SetActive(false);
-                CountryButton.transform.parent.gameObject.SetActive(false);
-            }
-            else
-            {
-                var landTile = (ILandTile)_activeTile;
-
-                PopulationValue.transform.parent.gameObject.SetActive(true);
-                RaiseArmyButton.gameObject.SetActive(landTile.Country != null && landTile.Country.IsHumanControlled);
-                CountryButton.transform.parent.gameObject.SetActive(landTile.Country != null);
-                if (landTile.Country != null) CountryButton.GetComponentInChildren<Text>().text = landTile.Country.Name;
-
-                PopulationValue.text = landTile.Population.ToString();
+                _populationText.text = value.ToString();
+                HasPopulation = true;
             }
         }
+
+        public string CountryName
+        {
+            set
+            {
+                _countryButton.GetComponentInChildren<Text>().text = value;
+                HasCountry = true;
+            }
+        }
+
+        public bool HasPopulation
+        {
+            set { _populationText.transform.parent.gameObject.SetActive(value); }
+        }
+
+        public bool CanRaiseArmies
+        {
+            set { _raiseArmyButton.gameObject.SetActive(value); }
+        }
+
+        public bool HasCountry
+        {
+            set { _countryButton.transform.parent.gameObject.SetActive(value); }
+        }
+
+        public Signal RaiseArmySignal = new Signal();
+        public Signal ShowCountryPanelSignal = new Signal();
 
         // Unity listeners.
         public void ButtonRaiseArmy()
         {
-            if (_activeTile.Armies.Length > 0) return;
-
-            RaiseArmySignal.Dispatch(_activeTile);
+            RaiseArmySignal.Dispatch();
         }
 
         public void ButtonCountry()
         {
-            ShowCountryPanelSignal.Dispatch(((ILandTile)_activeTile).Country);
+            ShowCountryPanelSignal.Dispatch();
         }
     }
 }

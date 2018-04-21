@@ -7,7 +7,7 @@ using Assets.Source.Core.IoC;
 
 namespace Assets.Source.Contexts.Game.UI
 {
-    public class WarPanelMediator : ViewMediator<WarPanelView>
+    public class WarPanelMediator : ChildMediator<IWar, WarPanelView, WarPanelView>
     {
         [Inject]
         public ShowUiPanelSignal ShowUiPanelDispatcher { get; set; }
@@ -16,7 +16,7 @@ namespace Assets.Source.Contexts.Game.UI
         public IPlayers Players { get; set; }
 
         private IWar _war;
-        public IWar War
+        private IWar War
         {
             get { return _war; }
             set
@@ -24,6 +24,11 @@ namespace Assets.Source.Contexts.Game.UI
                 _war = value;
                 View.PopulateUI(Players.LocalPlayer.Country, _war);
             }
+        }
+
+        public override void Initialise(IWar war)
+        {
+            War = war;
         }
 
         public override void OnRegister()

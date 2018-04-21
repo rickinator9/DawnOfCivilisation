@@ -18,7 +18,7 @@ namespace Assets.Source.Contexts.Game.Mediators
         
     }
 
-    public class TimePanelMediator : ViewMediator<TimePanelView>
+    public class TimePanelMediator : ViewMediator<TimePanelView, TimePanelView>
     {
         [Inject]
         public TimePanelWaitSignal TimePanelWaitSignal { get; set; }

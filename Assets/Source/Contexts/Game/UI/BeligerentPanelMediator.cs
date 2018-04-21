@@ -3,11 +3,11 @@ using Assets.Source.Core.IoC;
 
 namespace Assets.Source.Contexts.Game.UI
 {
-    public class BeligerentPanelMediator : ViewMediator<BeligerentPanelView>
+    public class BeligerentPanelMediator : ChildMediator<ICountry, BeligerentPanelView, BeligerentPanelView>
     {
         private ICountry _country;
 
-        public void Initialise(ICountry country)
+        public override void Initialise(ICountry country)
         {
             _country = country;
 

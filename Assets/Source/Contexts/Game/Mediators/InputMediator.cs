@@ -6,7 +6,7 @@ using Debug = UnityEngine.Debug;
 
 namespace Assets.Source.Contexts.Game.Mediators
 {
-    public class InputMediator : ViewMediator<InputView>
+    public class InputMediator : ViewMediator<InputView, InputView>
     {
         [Inject]
         public LeftMouseClickSignal LeftMouseClickDispatcher { get; set; }

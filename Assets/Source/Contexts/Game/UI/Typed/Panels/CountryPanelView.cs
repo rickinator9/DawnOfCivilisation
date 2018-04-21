@@ -9,26 +9,29 @@ namespace Assets.Source.Contexts.Game.UI.Typed.Panels
 {
     public class CountryPanelView : TypedUiView<ICountry>
     {
-        private ICountry _country;
-
         [SerializeField]
         private Text CountryNameText;
         [SerializeField]
         private Button DeclareWarButton;
 
-        public Signal<ICountry> DeclareWarSignal = new Signal<ICountry>();
-
-        public override void UpdateValues(ICountry obj)
+        public string CountryName
         {
-            _country = obj;
-            CountryNameText.text = _country.Name;
-            DeclareWarButton.gameObject.SetActive(!_country.IsHumanControlled);
+            get { return CountryNameText.text; }
+            set { CountryNameText.text = value; }
         }
+
+        public bool CanDeclareWar
+        {
+            get { return DeclareWarButton.gameObject.activeSelf; }
+            set { DeclareWarButton.gameObject.SetActive(value); }
+        }
+
+        public Signal DeclareWarSignal = new Signal();
 
         // Unity Listeners
         public void ButtonDeclareWar()
         {
-            DeclareWarSignal.Dispatch(_country);
+            DeclareWarSignal.Dispatch();
         }
     }
 }

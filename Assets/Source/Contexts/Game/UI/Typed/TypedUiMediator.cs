@@ -1,9 +1,12 @@
 ﻿using Assets.Source.Contexts.Game.Commands.UI;
 using Assets.Source.Core.IoC;
+using strange.extensions.mediation.api;
 
 namespace Assets.Source.Contexts.Game.UI.Typed
 {
-    public abstract class TypedUiMediator<TView, TObject> : ViewMediator<TView> where TView : TypedUiView<TObject>
+    public abstract class TypedUiMediator<TView, TViewImpl, TObject> : ViewMediator<TView, TViewImpl> 
+        where TView : IDOCView
+        where TViewImpl : TypedUiView<TObject>, TView
     {
         [Inject]
         public ShowUiPanelSignal ShowUiPanelSignal { get; set; }
@@ -33,9 +36,11 @@ namespace Assets.Source.Contexts.Game.UI.Typed
         {
             if (uiType == UiType)
             {
-                View.ShowForObject((TObject)uiObject);
+                ShowUiPanelForObject((TObject)uiObject);
             }
         }
+
+        protected abstract void ShowUiPanelForObject(TObject obj);
 
         private void HidePanel()
         {

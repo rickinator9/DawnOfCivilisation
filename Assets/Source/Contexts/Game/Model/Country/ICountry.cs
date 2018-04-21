@@ -3,6 +3,7 @@ using System.Linq;
 using Assets.Source.Contexts.Game.Model.Map;
 using Assets.Source.Contexts.Game.Model.Player;
 using Assets.Source.Contexts.Game.Model.Political;
+using Assets.Source.Core.Observable;
 using Assets.Source.Utils;
 using strange.extensions.signal.impl;
 using UnityEngine;
@@ -25,19 +26,11 @@ namespace Assets.Source.Contexts.Game.Model.Country
 
         IArmy[] Armies { get; }
 
+        ObservableList<IWar> Wars { get; }
+
         void AddArmy(IArmy army);
 
         void RemoveArmy(IArmy army);
-
-        IWar[] Wars { get; }
-
-        IList<Signal<IWar>> WarAddedSignals { get; }
-        
-        IList<Signal<IWar>> WarRemovedSignals { get; }  
-
-        void AddWar(IWar war);
-
-        void RemoveWar(IWar war);
 
         bool IsEnemyOfCountry(ICountry country);
 
@@ -101,27 +94,7 @@ namespace Assets.Source.Contexts.Game.Model.Country
         public IArmy[] Armies { get { return _armies.ToArray(); } }
         public void AddArmy(IArmy army) { _armies.Add(army); }
         public void RemoveArmy(IArmy army) { _armies.Remove(army); }
-
-        private IList<IWar> _wars = new List<IWar>(); 
-        public IWar[] Wars { get { return _wars.ToArray(); } }
-
-        private IList<Signal<IWar>> _warAddedSignals = new List<Signal<IWar>>(); 
-        public IList<Signal<IWar>> WarAddedSignals { get { return _warAddedSignals; } }
-
-        private IList<Signal<IWar>> _warRemovedSignals = new List<Signal<IWar>>(); 
-        public IList<Signal<IWar>> WarRemovedSignals { get { return _warRemovedSignals; } }
-
-        public void AddWar(IWar war)
-        {
-            _wars.Add(war);
-            foreach (var signal in WarAddedSignals) { signal.Dispatch(war); }
-        }
-
-        public void RemoveWar(IWar war)
-        {
-            _wars.Remove(war);
-            foreach (var signal in WarRemovedSignals) { signal.Dispatch(war); }
-        }
+        public ObservableList<IWar> Wars { get; private set; }
 
         public bool IsEnemyOfCountry(ICountry country)
         {
@@ -189,5 +162,10 @@ namespace Assets.Source.Contexts.Game.Model.Country
             Location = tile;
         }
 #endregion
+
+        public Country()
+        {
+            Wars = new ObservableList<IWar>();
+        }
     }
 }

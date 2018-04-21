@@ -1,10 +1,21 @@
-﻿using strange.extensions.mediation.impl;
+﻿using strange.extensions.mediation.api;
+using strange.extensions.mediation.impl;
 
 namespace Assets.Source.Core.IoC
 {
-    public class ViewMediator<T> : Mediator where T : View
+    public class ViewMediator<TView, TViewImpl> : Mediator
+        where TView : IView
+        where TViewImpl : View, TView
     {
-         [Inject]
-         public T View { get; set; }
+        private TView _view;
+        public TView View
+        {
+            get
+            {
+                if (_view == null) _view = GetComponent<TViewImpl>();
+
+                return _view;
+            }
+        }
     }
 }

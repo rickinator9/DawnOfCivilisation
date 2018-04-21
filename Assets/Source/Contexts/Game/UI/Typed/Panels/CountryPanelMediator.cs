@@ -5,10 +5,12 @@ using Assets.Source.Model;
 
 namespace Assets.Source.Contexts.Game.UI.Typed.Panels
 {
-    public class CountryPanelMediator : TypedUiMediator<CountryPanelView, ICountry>
+    public class CountryPanelMediator : TypedUiMediator<CountryPanelView, CountryPanelView, ICountry>
     {
         [Inject]
         public PlayerWarDeclarationSignal PlayerWarDeclarationDispatcher { get; set; }
+
+        private ICountry _country;
 
         protected override UiType UiType
         {
@@ -29,9 +31,20 @@ namespace Assets.Source.Contexts.Game.UI.Typed.Panels
             View.DeclareWarSignal.RemoveListener(OnDeclareWar);
         }
 
-        private void OnDeclareWar(ICountry attackedCountry)
+        protected override void ShowUiPanelForObject(ICountry obj)
         {
-            PlayerWarDeclarationDispatcher.Dispatch(attackedCountry);
+            _country = obj;
+            if (_country == null) return;
+
+            View.CountryName = obj.Name;
+            View.CanDeclareWar = !obj.IsHumanControlled;
+
+            View.Show();
+        }
+
+        private void OnDeclareWar()
+        {
+            if(_country != null) PlayerWarDeclarationDispatcher.Dispatch(_country);
         }
     }
 }

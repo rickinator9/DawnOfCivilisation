@@ -6,13 +6,31 @@ namespace Assets.Source.Contexts.Game.UI.Typed.Panels
 {
     public class CityPanelView : TypedUiView<ICity>
     {
-        [SerializeField] private Text _nameText, _countryText, _populationText;
+        [SerializeField]
+        private Text _cityNameText;
 
-        public override void UpdateValues(ICity city)
+        [SerializeField]
+        private Text _countryNameText;
+
+        [SerializeField]
+        private Text _populationAmountText;
+
+        public string CityName
         {
-            _nameText.text = city.Name;
-            _countryText.text = city.Country != null ? city.Country.Name : "None";
-            _populationText.text = city.Population.ToString();
+            get { return _cityNameText.text; }
+            set { _cityNameText.text = value; }
+        }
+
+        public string CountryName
+        {
+            get { return _countryNameText.text; }
+            set { _countryNameText.text = value; }
+        }
+
+        public int PopulationAmount
+        {
+            get { return int.Parse(_populationAmountText.text); }
+            set { _populationAmountText.text = value.ToString(); }
         }
     }
 }

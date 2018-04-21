@@ -4,12 +4,7 @@ using Assets.Source.Core.IoC;
 
 namespace Assets.Source.Contexts.Game.Views
 {
-    public class CityWorldPanelsView : ChildCreatorView<CityWorldPanelView, CityWorldPanelMediator, ICity>
+    public class CityWorldPanelsView : ChildCreatorView<CityWorldPanelView, CityWorldPanelView, CityWorldPanelMediator, ICity>
     {
-        protected override void OnMediatorCreated(CityWorldPanelMediator mediator, ICity obj)
-        {
-            mediator.Initialise(obj);
-            mediator.gameObject.transform.position += obj.Location.Center;
-        }
     }
 }

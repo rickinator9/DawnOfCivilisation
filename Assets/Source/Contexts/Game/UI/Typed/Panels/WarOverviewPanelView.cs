@@ -10,7 +10,7 @@ namespace Assets.Source.Contexts.Game.UI.Typed.Panels
         [SerializeField] private BeligerentListPanelView AttackersListView;
         [SerializeField] private BeligerentListPanelView DefendersListView;
 
-        public override void UpdateValues(IWar war)
+        public void UpdateValues(IWar war)
         {
             WarNameText.text = war.Name;
 

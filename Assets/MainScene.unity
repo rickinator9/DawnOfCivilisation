@@ -77,15 +77,18 @@ LightmapSettings:
     m_PVRDirectSampleCount: 32
     m_PVRSampleCount: 500
     m_PVRBounces: 2
-    m_PVRFiltering: 0
+    m_PVRFilterTypeDirect: 0
+    m_PVRFilterTypeIndirect: 0
+    m_PVRFilterTypeAO: 0
     m_PVRFilteringMode: 1
     m_PVRCulling: 1
     m_PVRFilteringGaussRadiusDirect: 1
     m_PVRFilteringGaussRadiusIndirect: 5
     m_PVRFilteringGaussRadiusAO: 2
-    m_PVRFilteringAtrousColorSigma: 1
-    m_PVRFilteringAtrousNormalSigma: 1
-    m_PVRFilteringAtrousPositionSigma: 1
+    m_PVRFilteringAtrousPositionSigmaDirect: 0.5
+    m_PVRFilteringAtrousPositionSigmaIndirect: 2
+    m_PVRFilteringAtrousPositionSigmaAO: 1
+    m_ShowResolutionOverlay: 1
   m_LightingDataAsset: {fileID: 0}
   m_UseShadowmask: 1
 --- !u!196 &4
@@ -107,6 +110,8 @@ NavMeshSettings:
     manualTileSize: 0
     tileSize: 256
     accuratePlacement: 0
+    debug:
+      m_Flags: 0
   m_NavMeshData: {fileID: 0}
 --- !u!1 &37778989
 GameObject:
@@ -1398,6 +1403,7 @@ MeshRenderer:
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -1413,6 +1419,7 @@ MeshRenderer:
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_StitchLightmapSeams: 0
   m_SelectedEditorRenderState: 3
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
@@ -3481,9 +3488,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a0496e2b0e6f1441ab8eb86e7c1e077, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _nameText: {fileID: 101062087}
-  _countryText: {fileID: 1058678588}
-  _populationText: {fileID: 1140282599}
+  _cityNameText: {fileID: 101062087}
+  _countryNameText: {fileID: 1058678588}
+  _populationAmountText: {fileID: 1140282599}
 --- !u!114 &1282464785
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3715,12 +3722,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3daccffb3fc091c4eb78841373db0fb3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  XValue: {fileID: 1685997999}
-  ZValue: {fileID: 1973775240}
-  TerrainValue: {fileID: 390720576}
-  PopulationValue: {fileID: 1299828507}
-  RaiseArmyButton: {fileID: 1822353762}
-  CountryButton: {fileID: 1068043275}
+  _xText: {fileID: 1685997999}
+  _yText: {fileID: 1973775240}
+  _terrainText: {fileID: 390720576}
+  _populationText: {fileID: 1299828507}
+  _raiseArmyButton: {fileID: 1822353762}
+  _countryButton: {fileID: 1068043275}
 --- !u!114 &1312775145
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4180,11 +4187,11 @@ Camera:
   m_TargetEye: 3
   m_HDR: 1
   m_AllowMSAA: 1
+  m_AllowDynamicResolution: 0
   m_ForceIntoRT: 0
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
-  m_StereoMirrorMode: 0
 --- !u!4 &1422369375
 Transform:
   m_ObjectHideFlags: 0
@@ -4584,7 +4591,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8cc26f86e47ee1f48a0be6dcb1353822, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CountryValue: {fileID: 1806050743}
+  CountryNameText: {fileID: 1806050743}
 --- !u!114 &1498052111
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4795,6 +4802,7 @@ MeshRenderer:
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -4810,6 +4818,7 @@ MeshRenderer:
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_StitchLightmapSeams: 0
   m_SelectedEditorRenderState: 3
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
