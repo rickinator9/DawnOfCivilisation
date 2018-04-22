@@ -1,8 +1,8 @@
 ﻿using Assets.Source.Contexts.Game.Model;
 
-namespace Assets.Source.Contexts.Game.UI.Typed.Panels
+namespace Assets.Source.Contexts.Game.UI.Typed.Panels.CityPanel
 {
-    public class CityPanelMediator : TypedUiMediator<CityPanelView, CityPanelView, ICity>
+    public class CityPanelMediator : TypedUiMediator<ICityPanelView, CityPanelView, ICity>
     {
         private ICity _city;
 

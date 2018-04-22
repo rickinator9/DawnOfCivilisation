@@ -18,6 +18,8 @@ namespace Assets.Source.Contexts.Game.UI
 
         public override void OnRegister()
         {
+            base.OnRegister();
+
             Players.LocalPlayerChangeSignals.Add(LocalPlayerChangeSignal);
             LocalPlayerChangeSignal.AddListener(OnLocalPlayerChange);
 

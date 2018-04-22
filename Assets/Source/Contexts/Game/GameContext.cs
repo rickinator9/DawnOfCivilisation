@@ -20,6 +20,7 @@ using Assets.Source.Contexts.Game.Model.Political;
 using Assets.Source.Contexts.Game.UI;
 using Assets.Source.Contexts.Game.UI.Typed.Panels;
 using Assets.Source.Contexts.Game.UI.Typed.Panels.ArmyPanel;
+using Assets.Source.Contexts.Game.UI.Typed.Panels.CityPanel;
 using Assets.Source.Contexts.Game.Views;
 using Assets.Source.Contexts.Game.Views.Army;
 using Assets.Source.Core.IoC;

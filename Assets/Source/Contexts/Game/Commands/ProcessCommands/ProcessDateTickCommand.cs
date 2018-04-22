@@ -55,8 +55,10 @@ namespace Assets.Source.Contexts.Game.Commands.ProcessCommands
             UpdateSignal.AddListener(OnUpdate);
             OnStart();
 
-            var thread = new Thread(ProcessMultithreaded);
-            thread.Start();
+            //var thread = new Thread(ProcessMultithreaded);
+            //thread.Start();
+
+            ProcessMultithreaded();
         }
 
         private void OnUpdate()
